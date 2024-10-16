@@ -1,0 +1,42 @@
+Go to github monaco-editor-main and download code .zip
+
+Extrae la carpeta monaco del zip al escritorio
+entra en la carpeta y en la barra de rutas inserta cmd y pulsa enter para abrir el cmd directamente en la carpeta del propyecto monaco
+
+Ejecuta el siguiente comando para instalar las dependencias necesarias:
+
+npm install
+
+
+Una vez instaladas las dependencias, compila el proyecto con:
+
+npm run build
+
+a continuacion debera aparecer la carpeta 
+
+node_modules
+
+El contenido necesario para produccion esta en 
+monaco-editor-main\node_modules\monaco-editor-core
+
+Copialo a tu carpeta de monaco-editor
+
+
+Para un entorno de producción, puedes eliminar varios archivos y carpetas que no son necesarios. Aquí te indico cuáles puedes mantener y cuáles puedes eliminar:
+
+Mantener:
+min/: Contiene los archivos compilados necesarios para usar Monaco Editor.
+min-maps/: Mapas de origen, útiles para depuración pero no necesarios para producción, de todas formas si no se suben, el navegador se queja de que no los encuentra
+LICENSE: Importante para cumplir con los términos de uso.
+ThirdPartyNotices.txt: Información sobre las licencias de terceros.
+
+Eliminar:
+dev/:         Carpeta de desarrollo, no necesaria para producción.
+esm/:         Módulos ES, generalmente no necesarios si usas los archivos compilados en min.
+monaco.d.ts:  Definiciones de TypeScript, no necesarias para producción.
+package.json: Información del paquete, no necesaria para producción.
+README.md:    Documentación, útil para referencia pero no necesaria para producción.
+version.txt:  Información de la versión, no necesaria para producción.
+Resumen:
+Mantén: min/, min-maps/,LICENSE, ThirdPartyNotices.txt
+Elimina: dev/, esm/, monaco.d.ts, package.json, README.md, version.txt

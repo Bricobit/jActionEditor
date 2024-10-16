@@ -1,0 +1,1 @@
+If you add new directories remember to add them inside ServerAPI.php
