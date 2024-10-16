@@ -1,5 +1,0 @@
-arial   = Arial Normal
-ariblk  = Arial Negra (Strong)
-arialbd = Arial Negrita (Bold)
-arialbi = Arial Cursiva(Italica) + Negrita
-ariali  = Arial Cursiva(Italica)
