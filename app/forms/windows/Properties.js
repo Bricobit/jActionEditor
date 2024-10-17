@@ -59,7 +59,8 @@ class Properties extends Form {
 		Event         -> Common event that will be fired when the component of the property changes to reflect that value in the component on the stage
 		EventListener -> Function that will be called when the event is fired.
 		*/
-		const p /*:Object*/ = {className               :['className'               ,Label      ,null        ,null                   ],
+		const p /*:Object*/ = {
+							   className               :['className'               ,Label      ,null        ,null                   ],
 							   name                    :['name'                    ,TextInput  ,Event.CHANGE,this.#B(this.#OnChange)],
 							   x                       :['x'                       ,TextInput  ,Event.CHANGE,this.#B(this.#OnChange)],
 							   y                       :['y'                       ,TextInput  ,Event.CHANGE,this.#B(this.#OnChange)],
