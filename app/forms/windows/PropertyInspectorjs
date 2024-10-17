@@ -15,10 +15,17 @@ You can freely use jActionEditor within MPL limitations. The default images that
 used by the jActionEditor they are copyrighted but can be used freely, as long as they are 
 used together to the jActionEditor.
 
+Package:      jActionEditor/app/forms/windows/PropertyInspector
+Class:        public class GetLayout
+Inheritance:  PropertyInspector > Form > BaseForm > Sprite > DisplayObjectContainer > InteractiveObject > DisplayObject > EventDispatcher >  _Object
+Version:
+0.0.2 - Last update 2024-10-17 -> Added font, size, bold and color for textFormat
+0.0.1 - Last update 2024-05-06 -> First version
+
 This class is responsible for creating a window where you can modify and display the properties and their 
 values ​​of the objects that are selected in the stage.
 */
-class Properties extends Form {
+class PropertyInspector extends Form {
 
 	/*private var*/ #_BINDINGS         /*:Object*/        = {};
 	/*private var*/ #_owner            /*:Form*/          = null;
@@ -31,7 +38,7 @@ class Properties extends Form {
 	/*public function*/ constructor(){
 		super();
 		/*inherit prop*/ this.width        = 310;
-		/*inherit prop*/ this.text         = 'Properties'; 
+		/*inherit prop*/ this.text         = 'PropertyInspector'; 
 		/*inherit prop*/ this.draggableBox = true;
 		/*inherit prop*/ this.headerHeight = 22;
 		/*inherit prop*/ this.anchor       = 'top | bottom';
@@ -43,81 +50,81 @@ class Properties extends Form {
 	*
 	*----------------------------------------------------------------------------------------------------------------------------------*/
 
-	/*public function*/ Properties(params/*:Array*/=null)/*:void*/{
+	/*public function*/ PropertyInspector(params/*:Array*/=null)/*:void*/{
 		this.#_owner = params[0];
 		this.#_owner.stageEditor.onSelectedItems = this.onSelectedItems.bind(this);
 
 		/*
 		The full list of properties supported at the moment
 
-		const p:Object = {propName:['propName', UIComponent  ,Event, EventListener], etc 
+		const p:Object = {propName:['propName', UIComponent  ,Event, EventListener], etc
 
-		propName      -> Key with the name of the property. 
-		'propName'    -> Property name as a string. 
+		propName      -> Key with the name of the property.
+		'propName'    -> Property name as a string.
 		UIComponent   -> Type of component that will be created in the inspector to display the value contained in that property of the component that is selected on the stage.
 		                 Only if the component selected in the stage has this property, otherwise it will not be created in the inspector. 
 		Event         -> Common event that will be fired when the component of the property changes to reflect that value in the component on the stage
 		EventListener -> Function that will be called when the event is fired.
 		*/
 		const p /*:Object*/ = {
-							   className               :['className'               ,Label      ,null        ,null                   ],
-							   name                    :['name'                    ,TextInput  ,Event.CHANGE,this.#B(this.#OnChange)],
-							   x                       :['x'                       ,TextInput  ,Event.CHANGE,this.#B(this.#OnChange)],
-							   y                       :['y'                       ,TextInput  ,Event.CHANGE,this.#B(this.#OnChange)],
-							   width                   :['width'                   ,TextInput  ,Event.CHANGE,this.#B(this.#OnChange)],
-							   height                  :['height'                  ,TextInput  ,Event.CHANGE,this.#B(this.#OnChange)],
-							   prompt                  :['prompt'                  ,TextInput  ,Event.CHANGE,this.#B(this.#OnChange)],
-							   restrict                :['restrict'                ,TextInput  ,Event.CHANGE,this.#B(this.#OnChange)],
-							   rowCount                :['rowCount'                ,TextInput  ,Event.CHANGE,this.#B(this.#OnChange)],
-							   emphasized              :['emphasized'              ,CheckBox   ,Event.CHANGE,this.#B(this.#OnChange)],
-							   enabled                 :['enabled'                 ,CheckBox   ,Event.CHANGE,this.#B(this.#OnChange)],
-							   label                   :['label'                   ,TextInput  ,Event.CHANGE,this.#B(this.#OnChange)],
-							   labelPlacement          :['labelPlacement'          ,ComboBox   ,Event.CHANGE,this.#B(this.#OnChange)],
-							   selected                :['selected'                ,CheckBox   ,Event.CHANGE,this.#B(this.#OnChange)],
-							   editable                :['editable'                ,CheckBox   ,Event.CHANGE,this.#B(this.#OnChange)],
-							   toggle                  :['toggle'                  ,CheckBox   ,Event.CHANGE,this.#B(this.#OnChange)],
-							   visible                 :['visible'                 ,CheckBox   ,Event.CHANGE,this.#B(this.#OnChange)],
-							   dataProvider            :['dataProvider'            ,Button     ,null        ,null                   ],
-							   selectedColor           :['selectedColor'           ,ColorPicker,Event.CHANGE,this.#B(this.#OnChange)],
-							   showTextField           :['showTextField'           ,CheckBox   ,Event.CHANGE,this.#B(this.#OnChange)],
-							   allowMultipleSelection  :['allowMultipleSelection'  ,CheckBox   ,Event.CHANGE,this.#B(this.#OnChange)],
-							   headerHeight            :['headerHeight'            ,TextInput  ,Event.CHANGE,this.#B(this.#OnChange)],
-							   horizontalLineScrollSize:['horizontalLineScrollSize',TextInput  ,Event.CHANGE,this.#B(this.#OnChange)],
-							   horizontalPageScrollSize:['horizontalPageScrollSize',TextInput  ,Event.CHANGE,this.#B(this.#OnChange)],
-							   horizontalScrollPolicy  :['horizontalScrollPolicy'  ,ComboBox   ,Event.CHANGE,this.#B(this.#OnChange)],
-							   resizableColumns        :['resizableColumns'        ,CheckBox   ,Event.CHANGE,this.#B(this.#OnChange)],
-							   rowHeight               :['rowHeight'               ,TextInput  ,Event.CHANGE,this.#B(this.#OnChange)],
-							   showHeaders             :['showHeaders'             ,CheckBox   ,Event.CHANGE,this.#B(this.#OnChange)],
-							   sortableColumns         :['sortableColumns'         ,CheckBox   ,Event.CHANGE,this.#B(this.#OnChange)],
-							   verticalLineScrollSize  :['verticalLineScrollSize'  ,TextInput  ,Event.CHANGE,this.#B(this.#OnChange)],
-							   verticalPageScrollSize  :['verticalPageScrollSize'  ,TextInput  ,Event.CHANGE,this.#B(this.#OnChange)],
-							   verticalScrollPolicy    :['verticalScrollPolicy'    ,ComboBox   ,Event.CHANGE,this.#B(this.#OnChange)],
-							   autoSize                :['autoSize'                ,ComboBox   ,Event.CHANGE,this.#B(this.#OnChange)],
-							   condenseWhite           :['condenseWhite'           ,CheckBox   ,Event.CHANGE,this.#B(this.#OnChange)],
-							   htmlText                :['htmlText'                ,TextInput  ,Event.CHANGE,this.#B(this.#OnChange)],
-							   selectable              :['selectable'              ,CheckBox   ,Event.CHANGE,this.#B(this.#OnChange)],
-							   text                    :['text'                    ,TextInput  ,Event.CHANGE,this.#B(this.#OnChange)],
-							   wordWrap                :['wordWrap'                ,CheckBox   ,Event.CHANGE,this.#B(this.#OnChange)],
-							   maximum                 :['maximum'                 ,TextInput  ,Event.CHANGE,this.#B(this.#OnChange)],
-							   minimum                 :['minimum'                 ,TextInput  ,Event.CHANGE,this.#B(this.#OnChange)],
-							   stepSize                :['stepSize'                ,TextInput  ,Event.CHANGE,this.#B(this.#OnChange)],
-							   value                   :['value'                   ,TextInput  ,Event.CHANGE,this.#B(this.#OnChange)],
-							   direction               :['direction'               ,ComboBox   ,Event.CHANGE,this.#B(this.#OnChange)],
-							   mode                    :['mode'                    ,ComboBox   ,Event.CHANGE,this.#B(this.#OnChange)],
-							   source                  :['source'                  ,TextInput  ,Event.CHANGE,this.#B(this.#OnChange)],
-							   groupName               :['groupName'               ,TextInput  ,Event.CHANGE,this.#B(this.#OnChange)],
-							   liveDragging            :['liveDragging'            ,CheckBox   ,Event.CHANGE,this.#B(this.#OnChange)],
-							   snapInterval            :['snapInterval'            ,TextInput  ,Event.CHANGE,this.#B(this.#OnChange)],
-							   tickInterval            :['tickInterval'            ,TextInput  ,Event.CHANGE,this.#B(this.#OnChange)],
-							   maxChars                :['maxChars'                ,TextInput  ,Event.CHANGE,this.#B(this.#OnChange)],
-							   displayAsPassword       :['displayAsPassword'       ,CheckBox   ,Event.CHANGE,this.#B(this.#OnChange)],
-							   //font, size, bold and color should be grouped under TextFormat and displayed as a group associated 
-							   //with TextFormat, at the moment I put them here the same as the others but it can change
-							   font                    :['font'                    ,TextInput  ,Event.CHANGE,this.#B(this.#OnChange)],
-							   size                    :['size'                    ,TextInput  ,Event.CHANGE,this.#B(this.#OnChange)],
-							   bold                    :['bold'                    ,CheckBox   ,Event.CHANGE,this.#B(this.#OnChange)],
-							   color                   :['color'                   ,ColorPicker,Event.CHANGE,this.#B(this.#OnChange)],
-							   fontColor               :['fontColor'                   ,ColorPicker,Event.CHANGE,this.#B(this.#OnChange)]};
+			className               :['className'               ,Label      ,null        ,null                   ],
+			name                    :['name'                    ,TextInput  ,Event.CHANGE,this.#B(this.#OnChange)],
+			x                       :['x'                       ,TextInput  ,Event.CHANGE,this.#B(this.#OnChange)],
+			y                       :['y'                       ,TextInput  ,Event.CHANGE,this.#B(this.#OnChange)],
+			width                   :['width'                   ,TextInput  ,Event.CHANGE,this.#B(this.#OnChange)],
+			height                  :['height'                  ,TextInput  ,Event.CHANGE,this.#B(this.#OnChange)],
+			prompt                  :['prompt'                  ,TextInput  ,Event.CHANGE,this.#B(this.#OnChange)],
+			restrict                :['restrict'                ,TextInput  ,Event.CHANGE,this.#B(this.#OnChange)],
+			rowCount                :['rowCount'                ,TextInput  ,Event.CHANGE,this.#B(this.#OnChange)],
+			emphasized              :['emphasized'              ,CheckBox   ,Event.CHANGE,this.#B(this.#OnChange)],
+			enabled                 :['enabled'                 ,CheckBox   ,Event.CHANGE,this.#B(this.#OnChange)],
+			label                   :['label'                   ,TextInput  ,Event.CHANGE,this.#B(this.#OnChange)],
+			labelPlacement          :['labelPlacement'          ,ComboBox   ,Event.CHANGE,this.#B(this.#OnChange)],
+			selected                :['selected'                ,CheckBox   ,Event.CHANGE,this.#B(this.#OnChange)],
+			editable                :['editable'                ,CheckBox   ,Event.CHANGE,this.#B(this.#OnChange)],
+			toggle                  :['toggle'                  ,CheckBox   ,Event.CHANGE,this.#B(this.#OnChange)],
+			visible                 :['visible'                 ,CheckBox   ,Event.CHANGE,this.#B(this.#OnChange)],
+			dataProvider            :['dataProvider'            ,Button     ,null        ,null                   ],
+			selectedColor           :['selectedColor'           ,ColorPicker,Event.CHANGE,this.#B(this.#OnChange)],
+			showTextField           :['showTextField'           ,CheckBox   ,Event.CHANGE,this.#B(this.#OnChange)],
+			allowMultipleSelection  :['allowMultipleSelection'  ,CheckBox   ,Event.CHANGE,this.#B(this.#OnChange)],
+			headerHeight            :['headerHeight'            ,TextInput  ,Event.CHANGE,this.#B(this.#OnChange)],
+			horizontalLineScrollSize:['horizontalLineScrollSize',TextInput  ,Event.CHANGE,this.#B(this.#OnChange)],
+			horizontalPageScrollSize:['horizontalPageScrollSize',TextInput  ,Event.CHANGE,this.#B(this.#OnChange)],
+			horizontalScrollPolicy  :['horizontalScrollPolicy'  ,ComboBox   ,Event.CHANGE,this.#B(this.#OnChange)],
+			resizableColumns        :['resizableColumns'        ,CheckBox   ,Event.CHANGE,this.#B(this.#OnChange)],
+			rowHeight               :['rowHeight'               ,TextInput  ,Event.CHANGE,this.#B(this.#OnChange)],
+			showHeaders             :['showHeaders'             ,CheckBox   ,Event.CHANGE,this.#B(this.#OnChange)],
+			sortableColumns         :['sortableColumns'         ,CheckBox   ,Event.CHANGE,this.#B(this.#OnChange)],
+			verticalLineScrollSize  :['verticalLineScrollSize'  ,TextInput  ,Event.CHANGE,this.#B(this.#OnChange)],
+			verticalPageScrollSize  :['verticalPageScrollSize'  ,TextInput  ,Event.CHANGE,this.#B(this.#OnChange)],
+			verticalScrollPolicy    :['verticalScrollPolicy'    ,ComboBox   ,Event.CHANGE,this.#B(this.#OnChange)],
+			autoSize                :['autoSize'                ,ComboBox   ,Event.CHANGE,this.#B(this.#OnChange)],
+			condenseWhite           :['condenseWhite'           ,CheckBox   ,Event.CHANGE,this.#B(this.#OnChange)],
+			htmlText                :['htmlText'                ,TextInput  ,Event.CHANGE,this.#B(this.#OnChange)],
+			selectable              :['selectable'              ,CheckBox   ,Event.CHANGE,this.#B(this.#OnChange)],
+			text                    :['text'                    ,TextInput  ,Event.CHANGE,this.#B(this.#OnChange)],
+			wordWrap                :['wordWrap'                ,CheckBox   ,Event.CHANGE,this.#B(this.#OnChange)],
+			maximum                 :['maximum'                 ,TextInput  ,Event.CHANGE,this.#B(this.#OnChange)],
+			minimum                 :['minimum'                 ,TextInput  ,Event.CHANGE,this.#B(this.#OnChange)],
+			stepSize                :['stepSize'                ,TextInput  ,Event.CHANGE,this.#B(this.#OnChange)],
+			value                   :['value'                   ,TextInput  ,Event.CHANGE,this.#B(this.#OnChange)],
+			direction               :['direction'               ,ComboBox   ,Event.CHANGE,this.#B(this.#OnChange)],
+			mode                    :['mode'                    ,ComboBox   ,Event.CHANGE,this.#B(this.#OnChange)],
+			source                  :['source'                  ,TextInput  ,Event.CHANGE,this.#B(this.#OnChange)],
+			groupName               :['groupName'               ,TextInput  ,Event.CHANGE,this.#B(this.#OnChange)],
+			liveDragging            :['liveDragging'            ,CheckBox   ,Event.CHANGE,this.#B(this.#OnChange)],
+			snapInterval            :['snapInterval'            ,TextInput  ,Event.CHANGE,this.#B(this.#OnChange)],
+			tickInterval            :['tickInterval'            ,TextInput  ,Event.CHANGE,this.#B(this.#OnChange)],
+			maxChars                :['maxChars'                ,TextInput  ,Event.CHANGE,this.#B(this.#OnChange)],
+			displayAsPassword       :['displayAsPassword'       ,CheckBox   ,Event.CHANGE,this.#B(this.#OnChange)],
+			//font, size, bold and color should be grouped under TextFormat and displayed as a group associated 
+			//with TextFormat, at the moment I put them here the same as the others but it can change
+			font                    :['font'                    ,TextInput  ,Event.CHANGE,this.#B(this.#OnChange)],
+			size                    :['size'                    ,TextInput  ,Event.CHANGE,this.#B(this.#OnChange)],
+			bold                    :['bold'                    ,CheckBox   ,Event.CHANGE,this.#B(this.#OnChange)],
+			color                   :['color'                   ,ColorPicker,Event.CHANGE,this.#B(this.#OnChange)],
+			fontColor               :['fontColor'                   ,ColorPicker,Event.CHANGE,this.#B(this.#OnChange)]};
 
 		//Assignment of the common and specific properties supported by the different components that can be selected in the stage
 		this.#_params.cmn = [p.className,p.name, p.x, p.y, p.width, p.height];
