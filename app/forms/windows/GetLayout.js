@@ -1,5 +1,5 @@
 /*
-Sample: Based on Free (MPL) {jAction Lib} && {jAction FrameWork}
+GetLayout: Based on Free (MPL) {jAction Lib} && {jAction FrameWork}
 Author: Javier Vicente Medina - giskard2010@hotmail.com
 
 @license
@@ -14,6 +14,23 @@ used by the library and the framework they are copyrighted but can be used freel
 used together to the library and the framework. The images and example codes that are not part of the 
 library or the framework are copyrighted and their use is not allowed outside the learning objective, 
 visual sample and library development testing of the collaborators.
+
+GetLayout port from FormDesigner.as
+
+Package:      jActionEditor/app/forms/windows/GetLayout 
+Class:	      public class GetLayout
+Inheritance:  GetLayout > Form > BaseForm > Sprite > DisplayObjectContainer > InteractiveObject > DisplayObject > EventDispatcher >  _Object
+Version:
+0.0.2 - Last update 2024-10-14 -> Revision
+0.0.1 - Last update 2024-05-06 -> First version
+
+This class allows you to not depend on the FormDesigner.as class or the Flash Animate CC editor to design the layouts of the forms
+
+Therefore the objective of this class is to go through all the objects of the pseudo scenario in javascript and collect the 
+properties of each object and store everything in a text buffer.
+
+The resulting text can then be used to pass it to the formCreate property of the FormUtils class and this will be responsible 
+for recreating the same layout again in any desired container.
 */
 class GetLayout extends Form {
 
@@ -32,6 +49,22 @@ class GetLayout extends Form {
         this.#_toolHand_btn.label          = 'Get';
 	}
 
+    /**-----------------------------------------------------------------------------------------------------------------------------------
+	 *
+	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *                   * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * PUBLIC PROPERTIES * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *                   * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+	 *
+	 *----------------------------------------------------------------------------------------------------------------------------------*/
+
+    /**-----------------------------------------------------------------------------------------------------------------------------------
+	 *
+	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *                   * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *   PUBLIC METHODS  * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *                   * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+	 *
+	 *----------------------------------------------------------------------------------------------------------------------------------*/
+
 	/*public function*/ GetLayout(params/*:Array*/=null)/*:void*/{
         this.#_owner           = params[0];
         this.addControl(this.#_text_txa);
@@ -40,304 +73,282 @@ class GetLayout extends Form {
         this.#_text_txa.height = this.controls.height - this.#_toolHand_btn.height;
         this.#_toolHand_btn.y  = this.#_text_txa.height;
         this.#_toolHand_btn.addEventListener(MouseEvent.CLICK,this.#OnHandClick.bind(this));
-        this.addEventListener(Event.ADDED_TO_STAGE, this.ON_ADDED.bind(this));
+        this.addEventListener(Event.ADDED_TO_STAGE, this.#OnAdded.bind(this));
     }
 
-    /*private function*/ #OnHandClick(e/*:Event*/)/*:void*/{
-       this.generateAuto(this.#_owner.stageEditor.stageCanvas);
-    }
-    
-
-    /*
-    *
-    */
-     /*private function*/ onResize(e/*:Event*/=null)/*:void*/   {
-        this.#_text_txa.width = stage.stageWidth;
-        this.#_text_txa.height =stage.stageHeight;
-     }
-    /*
-    *
-    */
-     /*public function*/ ON_ADDED(e/*:Event*/)/*:void*/{
-        stage.scaleMode = StageScaleMode.NO_SCALE;
-        stage.align     = StageAlign.TOP_LEFT;
-        stage.removeEventListener(Event.ADDED_TO_STAGE, this.ON_ADDED);
-        stage.addEventListener(Event.RESIZE, this.onResize);
-        this.onResize();
-    }
-    /*
+     /*
     *
     */
     /*public function*/ generateAuto(objectContainer/*:Object*/,nullList/*:Boolean*/=false,stageW/*:Number*/=-1,stageH/*:Number*/=-1)/*:String*/{
         this.#_nullList = nullList;
-        return this.generate(null,objectContainer,stageW,stageH);
+        return this.#Generate(null,objectContainer,stageW,stageH);
     }
+
     /*
     *
     */
-    /*public function*/ generateMan(c/*:Array*/,nullList/*:Boolean*/=false)/*:String*/{
+    /*public function*/ generateMan(childrens/*:Array*/,nullList/*:Boolean*/=false)/*:String*/{
         this.#_nullList = nullList;
-        return this.generate(c);
+        return this.#Generate(childrens);
     }
+
+    /**-----------------------------------------------------------------------------------------------------------------------------------
+	 *
+	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *                   * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *  PRIVATE METHODS  * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *                   * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+	 *
+	 *----------------------------------------------------------------------------------------------------------------------------------*/
+    /*
+    *
+    */
+    /*private function*/ #OnHandClick(e/*:Event*/)/*:void*/{
+       this.generateAuto(this.#_owner.stageEditor.stageCanvas);
+    }
+    
+    /*
+    *
+    */
+     /*private function*/ #OnResize(e/*:Event*/=null)/*:void*/   {
+        this.#_text_txa.width = stage.stageWidth;
+        this.#_text_txa.height =stage.stageHeight;
+     }
+
+    /*
+    *
+    */
+     /*public function*/ #OnAdded(e/*:Event*/)/*:void*/{
+        stage.scaleMode = StageScaleMode.NO_SCALE;
+        stage.align     = StageAlign.TOP_LEFT;
+        stage.removeEventListener(Event.ADDED_TO_STAGE, this.#OnAdded);
+        stage.addEventListener(Event.RESIZE, this.#OnResize);
+        this.#OnResize();
+    }
+
+   
+
     /*
     * Need backtick if have new lines?
     */
-    /*private function*/ backTick(str/*:String*/)/*:String*/ {
-        str = this.trim(str);
-        if((str.match(/\r/g).length)>0){
-            //return str.replace(/(?:\r\n|\r|\n)/g, "<br>");
-            return '"'+str.replace(/\r/g, '\\n')+'"';
-            //return "`"+str+"`";
-        }else{
-            return '"'+str+'"';
-        }
+    /*private function*/ #BackTick(str/*:String*/)/*:String*/ {
+        str = this.#Trim(str);
+        const matches /*:Array|null*/ = str.match(/\r/g);//No match returns null, otherwise returns an array
+        return matches ? '"'+str.replace(/\r/g, '\\n')+'"' : '"'+str+'"';
     }
 
-/*public function*/ isHtmlText(str/*:String*/)/*:String*/ {
-    let tempTextField/*:TextField*/ = new TextField();
-    tempTextField.htmlText = str;
-    if(tempTextField.text == str){
-        return '"'+str+'"';
-    }else{
-        return "'"+str+"'";
-    }
-}
     
-    /*private function*/ trim(str/*:String*/)/*:String*/ {
+    
+    /*private function*/ #Trim(str/*:String*/)/*:String*/ {
         return str.replace(/^\s+|\s+$/g, "");
     }
 
-    /*private function*/ generate(c/*:Array*/=null,objectContainer/*:Object*/=null,stageW/*:Number*/=-1,stageH/*:Number*/=-1)/*:String*/{
-        //Si el array llega bacio recorremos todos los objetos DisplayObject del objeto objectContainer pasado por parametro
-        if(c==null){
-            c = new Array();
-            for( var i/*:int*/ = objectContainer.numChildren - 1; i>=0; i-- ) {
+    /*private function*/ #IsHtmlText(str/*:String*/)/*:String*/ {
+        const tempTextField/*:TextField*/ = new TextField();
+        tempTextField.htmlText = str;
+        return tempTextField.text == str ? '"'+str+'"' : "'"+str+"'";
+    }
+    
+
+    /*private function*/ #Generate(childrens/*:Array<DisplayObject>*/=null,objectContainer/*:Object*/=null,stageW/*:Number*/=-1,stageH/*:Number*/=-1)/*:String*/{
+        //Si el array llega vacío recorremos todos los objetos DisplayObject del objeto objectContainer pasado por parámetro
+        if(childrens==null){
+
+            childrens                  = [];
+            const nc /*:uint*/ = objectContainer.numChildren - 1;
+
+            for(let i/*:int*/ = nc; i>=0; i--) {
                 
-                //trace('getQualifiedClassName: '+getQualifiedClassName(c[n])+' getQualifiedSuperclassName: '+ getQualifiedSuperclassName(c[n]) +' typeof: '+typeof(c[n]));
+                //trace('getQualifiedClassName: '+getQualifiedClassName(childrens[n])+' getQualifiedSuperclassName: '+ getQualifiedSuperclassName(childrens[n]) +' typeof: '+typeof(childrens[n]));
 
                 
-                var obj/*:Object*/      = objectContainer.getChildAt(i);
-                var instance/*:String*/ = obj.name.substr(0,8); //Cuando un componente no tiene nombre se asigna como nombre "instance_1"
-                var __id/*:String*/     = instance.substr(0,4);
-                //var qscn:String     =    getQualifiedSuperclassName(obj);
-                //trace(getQualifiedSuperclassName(obj));
-                //trace(obj);
-                if(instance =="instance" || __id =="__id"){
-                    if(obj=="[object NumericStepper]" ||
-                    obj=="[object Image]" ||
-                    obj=="[object Sprite]" ||
-                    obj=="[object TextInput]" ||
-                    obj=="[object TextField]"||
-                    obj=="[object TextArea"||
-                    obj=="[object TextAreaHtml"||
-                    obj=="[object Label]"||
-                    obj=="[object Button]"||
-                    obj=="[object RadioButton]"||
-                    obj=="[object CheckBox]"||
-                    obj=="[object SimpleButton]"||
-                    obj=="[object MovieClip]"||
-                    obj=="[object List]"||
-                    obj=="[object Slider]"||
-                    obj=="[object DataGrid]"||
-                    obj=="[object ColorPicker]"||
-                    obj=="[object DatePicker]"||
-                    obj=="[object TimePicker]"||
-                    obj=="[object ProgressBar]"||
-                     getQualifiedSuperclassName(obj)=="flash.display::MovieClip"
-                    ){
-                    instance=''; //dejamos pasar el componente con nombre instanciaxx
-                    __id='';
-                    }
+                let obj      /*:Object*/ = objectContainer.getChildAt(i);
+                let instance /*:String*/ = obj.name.substr(0,8); //Cuando un componente no tiene nombre se asigna como nombre "instance_1"
+                let __id     /*:String*/ = instance.substr(0,4);
+            
+                // if(instance =="instance" || __id =="__id"){
+                //     if(obj=="[object NumericStepper]" ||
+                //        obj=="[object Image]" ||
+                //        obj=="[object Sprite]" ||
+                //        obj=="[object TextInput]" ||
+                //        obj=="[object TextField]"||
+                //        obj=="[object TextArea"||
+                //        obj=="[object TextAreaHtml"||
+                //        obj=="[object Label]"||
+                //        obj=="[object Button]"||
+                //        obj=="[object RadioButton]"||
+                //        obj=="[object CheckBox]"||
+                //        obj=="[object SimpleButton]"||
+                //        obj=="[object MovieClip]"||
+                //        obj=="[object List]"||
+                //        obj=="[object Slider]"||
+                //        obj=="[object DataGrid]"||
+                //        obj=="[object ColorPicker]"||
+                //        obj=="[object DatePicker]"||
+                //        obj=="[object TimePicker]"||
+                //        obj=="[object ProgressBar]"||
+                //      getQualifiedSuperclassName(obj)=="flash.display::MovieClip"
+                //     ){
+                //     instance=''; //dejamos pasar el componente con nombre instanciaxx
+                //     __id='';
+                //     }
                     
-                }
+                // }
                     
-                if( obj instanceof DisplayObject && obj.name !="" && instance !="instance" && __id !="__id") {
-                
-                    c.push(obj);
-                }
+                 if( obj instanceof DisplayObject && obj.name !="" && instance !="instance" && __id !="__id") {
+                     childrens.push(obj);
+                 }
                 
                 
             }
         }
         
         
-        
-        c.reverse();//Invertimos el array para que al ser añadidos desde javascript se añadan en orden de apilamiento, el ultimo es el primero.
-        //Manual, Need c array objects
-        var release/*:Array*/ = new Array(); 
-        var f/*:Array*/ = new Array();
+        /*
+        Invertimos el array para que al ser añadidos desde javascript se 
+        añadan en orden de apilamiento, el ultimo es el primero.
+        */
+        childrens.reverse();
+
+      
+        const release /*:Array*/ = []; 
+        const buffer       /*:Array*/ = [];
+
         /*
         It doesn't return the correct size in certain situations (I don't know why but it seems to happen when the stage has specific lower dimensions)
         Added as parameters stageW and stageH to assign the stage size manually and fixed to avoid the issue when it arises
         */
         if(objectContainer=="[object MainTimeline]"){
-            f.push('["stage_stg","",0,0,'+(stageW == -1 ? stage.stageWidth:stageW)+','+(stageH == -1 ? stage.stageHeight:stageH)+',-1]');		
+            buffer.push('["stage_stg","",0,0,'+(stageW == -1 ? stage.stageWidth:stageW)+','+(stageH == -1 ? stage.stageHeight:stageH)+',-1]');		
         }else{
-            f.push('["stage_stg","",0,0,'+(stageW == -1 ? objectContainer.width:stageW)+','+(stageH == -1 ? objectContainer.height:stageH)+',-1]');		
+            buffer.push('["stage_stg","",0,0,'+(stageW == -1 ? objectContainer.width:stageW)+','+(stageH == -1 ? objectContainer.height:stageH)+',-1]');		
         }
-            
-        for(var n/*:int*/=0; n<c.length;n++){
-            var nom/*:String*/ = c[n].name;
-            var instance2/*:String*/ = nom.substr(0,8);
-            var __id2/*:String*/     = instance2.substr(0,4);
-            
-            var value/*:**/;
-            var ext/*:String*/ = '';
-            
-                  if(c[n]=="[object NumericStepper]"){value = c[n].value;            ext = '_nms';
-            }else if(c[n]=="[object Image]"         ){value = "null";                ext = '_img'; 
-            }else if(c[n]=="[object Sprite]"        ){value = '""';                  ext = '_spt';
-            }else if(c[n]=="[object TextInput]"     ){value = this.isHtmlText(c[n].text);     ext = '_txi';  
-            }else if(c[n]=="[object TextField]"     ){value = this.backTick(c[n].text);   ext = '_txf';
-            }else if(c[n]=="[object TextArea]"      ){value = this.backTick(c[n].text);   ext = '_txa';
-            }else if(c[n]=="[object TextAreaHtml]"  ){value = this.backTick(c[n].t.text); ext = '_txh';
-            }else if(c[n]=="[object HtmlEditor]"    ){value = "null";                ext = '_hed';
-            }else if(c[n]=="[object Label]"         ){value = '"'+c[n].text+'"';     ext = '_lbl';
-            }else if(c[n]=="[object Button]"        ){value = '"'+c[n].label+'"';    ext = '_btn';
-            }else if(c[n]=="[object RadioButton]"   ){value = '"'+c[n].label+'"';    ext = '_rdb';
-            }else if(c[n]=="[object CheckBox]"      ){value = '"'+c[n].label+'"';    ext = '_chk';
-            }else if(c[n]=="[object SimpleButton]"  ){value = '""';                  ext = '_sbt';            
-            }else if(c[n]=="[object MovieClip]"     ){value = '""';                  ext = '_mvc';      
-            }else if(c[n]=="[object List]"          ){value = '""';                  ext = '_lst'; 
-            }else if(c[n]=="[object Slider]"        ){value = '""';                  ext = '_sld';    
-            }else if(c[n]=="[object DataGrid]"      ){value = "null";                ext = '_dtg'; 
-            }else if(c[n]=="[object ColorPicker]"   ){value = "null";                ext = '_clp'; 
-            }else if(c[n]=="[object DatePicker]"    ){value = "null";                ext = '_dtp'; 
-            }else if(c[n]=="[object TimePicker]"    ){value = "null";                ext = '_tmp'; 
-            }else if(c[n]=="[object ProgressBar]"   ){value = '""';                  ext = '_pgb';       
-            }else if(c[n]=="[object ComboBox]"      ){value = "null";                ext = '_cmb';
-            }else{
-                value = '""';
-                ext = '_mvc'; 
-            }   
-            
-            if(instance2=='instance' || __id2=='__id'){
-                
-                nom = ext+n+ext;
-                
-            }else{
-                    var haveExt/*:String*/  = nom.slice(nom.lastIndexOf("_"));
-                    if(ext!==haveExt){
-                        if(nom =='_new'){
-                            nom = nom+ext;
-                        }else{
-                            nom = '_'+nom+ext;
-                        }
-                        
-                    }else{
-                        if(nom !=='_new'){
-                            nom = '_'+nom;
-                        }
-                    }
-            }
-            //redondeamos al numero mas cercano y aseguramos que sea divisble entre 2 para evitar problemas de borrosidad con translate3d en EDGE y CHROME
-            //Se ha arreglado directamente en el metodo trans de DisplayObject
-            // var _x:Number = Math.round(c[n].x/2)*2;
-            // var _y:Number = Math.round(c[n].y/2)*2;
-            // var _w:Number = Math.round(c[n].width/2)*2;
-            // var _h:Number = Math.round(c[n].height/2)*2;
+           
+        const ol /*:uint*/ =  childrens.length;
 
-            //CAMBIO DE IDE APLICAR SOLO A LSO CAMPOS DE TEXTO EN LA PROPIEDAD X DE LA CLASE tEXTFIELD RECUERDALO
+        for(let n/*:int*/=0; n<ol;n++){
 
-            var _x/*:Number*/ = Math.floor(c[n].x);
-            var _y/*:Number*/ = Math.floor(c[n].y);
-            var _w/*:Number*/ = Math.floor(c[n].width);
-            var _h/*:Number*/ = Math.floor(c[n].height);
-            var _t/*:Number*/ = c[n].tabIndex;//tabIndex
-            var _e/*:int*/    = 1;
-            var _s/*:int*/    = 0;
-            var _v/*:int*/    = int(c[n].visible);
-            var _r/*:Number*/    = c[n].rotation;
-                        
-            if(c[n] != "[object TextField]"){
-                //trace('c[n]: '+c[n]+' getQualifiedClassName: '+getQualifiedClassName(c[n])+' getQualifiedSuperclassName: '+ getQualifiedSuperclassName(c[n]) +' typeof: '+typeof(c[n]));
-                _e = int(c[n].enabled);//enabled
-            }
-            if(c[n] == "[object CheckBox]"){
-                _s = int(c[n].selected);//selected
-            }
-            var  myTextFormat/*:TextFormat*/;
-            var tfo/*:Object*/ = new Object();
-            var _c/*:uint*/ = 0;
-            //SimpleButton y MovieClip no tienen el metodo getStyle y intentamos acceder dara error
-            //trace('Class(getDefinitionByName(getQualifiedClassName(c[n]))): '+Class(getDefinitionByName(getQualifiedClassName(c[n]))));
-            //trace('getQualifiedClassName(c[n]): '+getQualifiedClassName(c[n]));
-            //trace(c[n] is MovieClip);
+            let child     /*:DisplayObject*/ = childrens[n];
+            let name      /*:String*/        = child.name.startsWith('_') ? child.name.substring(1) : child.name; //If it starts with _ it is removed, then added again
+            let className /*:String*/        = child.className;
+            //let instance2 /*:String*/        = name.substr(0,8);
+            //let __id2     /*:String*/        = instance2.substr(0,4);
+            let ext       /*:String*/        = '';
+            let value     /*:**/;
+           
+
+                  if(className=="NumericStepper"){value = child.value;                 ext = '_nms';
+            }else if(className=="Image"         ){value = "null";                      ext = '_img'; 
+            }else if(className=="Sprite"        ){value = '""';                        ext = '_spt';
+            }else if(className=="TextInput"     ){value = this.#IsHtmlText(child.text); ext = '_txi';  
+            }else if(className=="TextField"     ){value = this.#BackTick(child.text);   ext = '_txf';
+            }else if(className=="TextArea"      ){value = this.#BackTick(child.text);   ext = '_txa';
+            }else if(className=="TextAreaHtml"  ){value = this.#BackTick(child.t.text); ext = '_txh';
+            }else if(className=="HtmlEditor"    ){value = "null";                      ext = '_hed';
+            }else if(className=="Label"         ){value = '"'+child.text+'"';          ext = '_lbl';
+            }else if(className=="Button"        ){value = '"'+child.label+'"';         ext = '_btn';
+            }else if(className=="RadioButton"   ){value = '"'+child.label+'"';         ext = '_rdb';
+            }else if(className=="CheckBox"      ){value = '"'+child.label+'"';         ext = '_chk';
+            }else if(className=="SimpleButton"  ){value = '""';                        ext = '_sbt';            
+            }else if(className=="MovieClip"     ){value = '""';                        ext = '_mvc';      
+            }else if(className=="List"          ){value = '""';                        ext = '_lst'; 
+            }else if(className=="Slider"        ){value = '""';                        ext = '_sld';    
+            }else if(className=="DataGrid"      ){value = "null";                      ext = '_dtg'; 
+            }else if(className=="ColorPicker"   ){value = "null";                      ext = '_clp'; 
+            }else if(className=="DatePicker"    ){value = "null";                      ext = '_dtp'; 
+            }else if(className=="TimePicker"    ){value = "null";                      ext = '_tmp'; 
+            }else if(className=="ProgressBar"   ){value = '""';                        ext = '_pgb';       
+            }else if(className=="ComboBox"      ){value = "null";                      ext = '_cmb';
+            }else{                                value = '""';                        ext = '_mvc';}   
             
-            if(c[n] == "[object SimpleButton]" || c[n] == "[object MovieClip]" || c[n] instanceof MovieClip || c[n] == "[object Sprite]" || c[n] instanceof Sprite){
-                tfo = null;
-                //_c =c[n].transform.colorTransform.color;
-                _c =c[n].backgroundColor;						
+          
+            /*
+            We add the underscore _ again and also
+            We check if the instance name already contains the component extension, if it does not, we concatenate it
+            */
+            name = '_'+ (ext==name.slice(name.lastIndexOf("_")) ? name : name+ext);
+            
+          
+
+            //Output props
+            let _x  /*:Number*/ = Math.floor(child.x);      // x
+            let _y  /*:Number*/ = Math.floor(child.y);      // y
+            let _w  /*:Number*/ = Math.floor(child.width);  // width
+            let _h  /*:Number*/ = Math.floor(child.height); // height
+            let _i  /*:Number*/ = child.tabIndex;           // tabIndex
+            let _e  /*:int*/    = 1;                        // enabled #ffffff
+            let _s  /*:int*/    = 0;                        // selected
+            let _v  /*:int*/    = int(child.visible);       // visible
+            let _r  /*:Number*/ = child.rotation;           // rotation
+            let _c  /*:uint*/   = 0;                        // color
+            let _t  /*:String*/ = JSON.stringify('');       // string of properties and values ​​for the target TextFormat object
+
+            let tfo /*:Object*/ = null;                     // object with properties and values ​​that will be converted to a string inside _t
+            
+            if(className !== "TextField"){_e = int(childrens[n].enabled);}
+            if(className == "CheckBox"){_s = int(childrens[n].selected);}
+            
+            if((className == "SimpleButton" || className == "MovieClip" || className instanceof MovieClip || 
+                className == "Sprite"       || className instanceof Sprite) && child.backgroundColor !==''){
+                _c  = child.backgroundColor;			
             }else{
                 //El acceso al formato de TextField es diferente
-                if(c[n] instanceof TextField){
-                //if(c[n] == "[object TextField]"){
-                    //tfo.f = c[n].defaultTextFormat.font.split("_")[0];
-                    tfo.f = c[n].defaultTextFormat.font;
-                    tfo.s = c[n].defaultTextFormat.size;
-                    tfo.c = c[n].defaultTextFormat.color;
-                    if(c[n].defaultTextFormat.bold){tfo.b = c[n].defaultTextFormat.bold;}
+                if(child instanceof TextField){   
+                    tfo   = {};    
+                    tfo.f = child.defaultTextFormat.font;
+                    tfo.s = child.defaultTextFormat.size;
+                    tfo.c = child.defaultTextFormat.color;
+                    if(child.defaultTextFormat.bold){tfo.b = child.defaultTextFormat.bold;}
                 }else{
-                    trace(c[n].name);
                     //Para el resto de objetos recuperamos el textFormat con getStyle, si el resultado es null aplicamos null
-                    if(c[n].getStyle("textFormat") !== null ){
-                        myTextFormat = c[n].getStyle("textFormat");
-                        tfo.f = myTextFormat.font;
-                        tfo.s = myTextFormat.size;
-                        tfo.c = myTextFormat.color;
-                        if(myTextFormat.bold){tfo.b = myTextFormat.bold;}
+                    //ColorPicker no dispone de getStyle
+                    if(child.getStyle){
+                        const tf /*:TextFormat*/ = child.getStyle("textFormat");
+                        //ComboBox devuelve undefined
+                        if(tf !== undefined ){ //en as3 se compara con null, js undefined
                         
-                    }else if(c[n] == "[object Label]"){
-                        // tfo.f = "Arial";
-                        // tfo.s = 11;
-                        if(c[n] == "[object Label]" && c[n].transform.colorTransform.color !==0){
-                            tfo.c =c[n].transform.colorTransform.color;
-                        }else{
-                            tfo = null;	
+                        
+                            tfo                      = {}; 
+                            tfo.f                    = tf.font;
+                            tfo.s                    = tf.size;
+                            tfo.c                    = tf.color;
+                            if(tf.bold){tfo.b = tf.bold;}
+                            
+                        }else if(className == "Label" && child.transform.colorTransform.color !==0){
+                            tfo = {}; 
+                            tfo.c =child.transform.colorTransform.color;
                         }
-                    }else{
-                        tfo = null;
                     }
                 }
             }				
-            /*
-            Otros posibles formatos que podemos implementar autoamticamente al crear el formulario en javascript
-            myTextFormat.bold = true;
-            myTextFormat.italic = true;
-            myTextFormat.underline = true;
-            */
-            var _f/*:String*/ = "";
-            if(tfo==null){
-                _f = JSON.stringify('');//textFormat
-            }else{
-                    if(tfo.f =='Arial' && tfo.s == 11 && tfo.c == undefined && tfo.b == undefined){
-                    _f = JSON.stringify('');
-                    //_f = "''";
-                }else{
-                    //_f = "'"+JSON.stringify(tfo)+"'";//textFormat
-                    _f = JSON.stringify(tfo);//textFormat
-                }
-            }
-            
-            f.push('["'+nom+'",'+value+','+_x+','+_y+','+_w+','+_h+','+_t+','+_f+','+_c+','+_e+','+_s+','+_v+','+_r+']');
-            release.push('this.'+nom+'=null;');
+           
+            if(tfo!==null && (tfo.f !=='Arial' || tfo.s !== 11 || tfo.c !== undefined || tfo.b !== undefined)){_t = JSON.stringify(tfo);}
+            buffer.push('["'+name+'",'+value+','+_x+','+_y+','+_w+','+_h+','+_i+','+_t+','+_c+','+_e+','+_s+','+_v+','+_r+']');
+            release.push('this.'+name+'=null;');
         }
+
         if(this.#_nullList){
-            this.#_text_txa.text = f.join(",") +" "+release.join(" ");
+            this.#_text_txa.text = buffer.join(",") +" "+release.join(" ");
         }else{
             if(this.#_text_txa.text==''){
-                this.#_text_txa.text = f.join(",");
+                this.#_text_txa.text = buffer.join(",");
             }else{
-                this.#_text_txa.text = this.#_text_txa.text +'],['+ f.join(",");
+                this.#_text_txa.text = this.#_text_txa.text +'],['+ buffer.join(",");
             }
             
         }
-        //return f.join(",");
         return '';
     }
-
-
-
-
-
 }
+/*
+				[["stage_stg","",0,0,594,353,-1],["_apa_lbl","Apariencia: ( Formatos admitidos .jpg, .png )",11,11,244,22,-1,{"f":"Arial","s":11,"c":"#009900"},0,1,0,1,0]]
+				tf puede contener una cadena en blanco "" cuando las propiedades de font, size, bold y color son por defecto
+				tf puede contener una cadena de objeto, {"f":"Arial","s":11,"c":"#009900"}
+				tfm.color = tf.c === 'string' && color.startsWith('#') ? tf.c : '#'+Color.uintToHex(tf.c);
+
+
+                [["stage_stg","",0,0,594,353,-1],["_apa_lbl","Apariencia: ( Formatos admitidos .jpg, .png )",11,11,244,22,-1,{"f":"Arial","s":11,"c":"#009900"},0,1,0,1,0],["_avt_mvc","",11,55,66,66,-1,"",,0,0,1,0],["_lbl2_lbl","Avatar",11,33,100,22,-1,{"f":"Arial","s":11,"c":"#ffffff"},0,1,0,1,0],["_hed_mvc","",283,55,301,32,-1,"",,0,0,1,0],["_bdy_mvc","",11,165,331,177,-1,"",,0,0,1,0],["_lbl5_lbl","Imagen de cabecera",283,33,130,22,-1,{"f":"Arial","s":11,"c":"#ffffff"},0,1,0,1,0],["_lbl6_lbl","Imagen central",11,143,125,22,-1,{"f":"Arial","s":11,"c":"#ffffff"},0,1,0,1,0],["_hedUpl_btn","Subir",283,99,80,22,3,{"f":"Arial","s":11,"c":"#ffffff"},0,1,0,1,0],["_hedDel_btn","Borrar",385,99,78,22,4,{"f":"Arial","s":11,"c":"#ffffff"},0,1,0,1,0],["_bdyUpl_btn","Subir",352,165,66,22,6,{"f":"Arial","s":11,"c":"#ffffff"},0,1,0,1,0],["_avtUpl_btn","Subir",88,66,99,22,1,{"f":"Arial","s":11,"c":"#ffffff"},0,1,0,1,0],["_avtDef_btn","Por defecto",88,99,100,22,2,{"f":"Arial","s":11,"c":"#ffffff"},0,1,0,1,0],["_hedDef_btn","Por defecto",484,99,100,22,5,{"f":"Arial","s":11,"c":"#ffffff"},0,1,0,1,0],["_bdyDef_btn","Por defecto",489,165,95,22,11,{"f":"Arial","s":11,"c":"#ffffff"},0,1,0,1,0],["_lbl14_lbl","Color solido",377,231,72,22,-1,{"f":"Arial","s":11,"c":"#ffffff"},0,1,0,1,0],["_colDes_txf","Si ha subido una imagen sin transparencias que ocupa todo el fondo, este color quedara oculto.",452,225,131,44,-1,{"f":"Arial","s":8,"c":"#666666"},0,1,0,1,0],["_bdyDel_btn","Borrar",421,165,66,22,7,{"f":"Arial","s":11,"c":"#ffffff"},0,1,0,1,0],["_txf17_txf","Imagenes a 3840x2160 (Puede relentizar la carga)",457,275,126,25,-1,{"f":"Arial","s":8,"c":"#666666"},0,1,0,1,0],["_tem_cmb",null,352,319,100,22,10,"",0,1,0,1,0],["_bdyPla_cmb",null,352,275,100,22,9,"",0,1,0,1,0],["_col_clp",null,352,231,22,22,10,"",0,1,0,1,0]]
+				*/
+
+
+//["stage_stg","",0,0,594,353,-1],["_apa_lbl","Apariencia: ( Formatos admitidos .jpg, .png )",11,11,244,22,-1,"",39168,1,0,1,0],["_avt_mvc","",11,55,66,66,-1,"",0,1,0,1,0],["_lbl2_lbl","Avatar",11,33,100,22,-1,"",0,1,0,1,0],["_hed_mvc","",283,55,301,32,-1,"",0,1,0,1,0],["_bdy_mvc","",11,165,331,177,-1,"",0,1,0,1,0],["_lbl5_lbl","Imagen de cabecera",283,33,130,22,-1,"",0,1,0,1,0],["_lbl6_lbl","Imagen central",11,143,125,22,-1,"",0,1,0,1,0],["_hedUpl_btn","Subir",283,99,80,22,3,"",0,1,0,1,0],["_hedDel_btn","Borrar",385,99,78,22,4,"",0,1,0,1,0],["_bdyUpl_btn","Subir",352,165,66,22,6,"",0,1,0,1,0],["_avtUpl_btn","Subir",88,66,99,22,1,"",0,1,0,1,0],["_avtDef_btn","Por defecto",88,99,100,22,2,"",0,1,0,1,0],["_hedDef_btn","Por defecto",484,99,100,22,5,"",0,1,0,1,0],["_bdyDef_btn","Por defecto",489,165,95,22,11,"",0,1,0,1,0],["_lbl14_lbl","Color solido",377,231,72,22,-1,"",0,1,0,1,0],["_colDes_txf","Si ha subido una imagen sin transparencias que ocupa todo el fondo, este color quedara oculto.",452,225,131,44,-1,{"s":8,"f":"Arial","c":6710886},0,1,0,1,0],["_bdyDel_btn","Borrar",421,165,66,22,7,"",0,1,0,1,0],["_txf17_txf","Imagenes a 3840x2160 (Puede relentizar la carga)",457,275,126,25,-1,{"s":8,"f":"Arial","c":6710886},0,1,0,1,0],["_tem_cmb",null,352,319,100,22,10,"",0,1,0,1,0],["_bdyPla_cmb",null,352,275,100,22,9,"",0,1,0,1,0],["_col_clp",null,352,231,22,22,10,"",0,1,0,1,0]]
+//["stage_stg","",0,0,594,353,-1],["_apa_lbl","Apariencia: ( Formatos admitidos .jpg, .png )",11,11,244,22,-1,{"f":"Arial","s":11,"c":"#009900"},0,1,0,1,0],["_avt_mvc","",11,55,66,66,-1,"",,0,0,1,0],["_lbl2_lbl","Avatar",11,33,100,22,-1,{"f":"Arial","s":11,"c":"#ffffff"},0,1,0,1,0],["_hed_mvc","",283,55,301,32,-1,"",,0,0,1,0],["_bdy_mvc","",11,165,331,177,-1,"",,0,0,1,0],["_lbl5_lbl","Imagen de cabecera",283,33,130,22,-1,{"f":"Arial","s":11,"c":"#ffffff"},0,1,0,1,0],["_lbl6_lbl","Imagen central",11,143,125,22,-1,{"f":"Arial","s":11,"c":"#ffffff"},0,1,0,1,0],["_hedUpl_btn","Subir",283,99,80,22,3,{"f":"Arial","s":11,"c":"#ffffff"},0,1,0,1,0],["_hedDel_btn","Borrar",385,99,78,22,4,{"f":"Arial","s":11,"c":"#ffffff"},0,1,0,1,0],["_bdyUpl_btn","Subir",352,165,66,22,6,{"f":"Arial","s":11,"c":"#ffffff"},0,1,0,1,0],["_avtUpl_btn","Subir",88,66,99,22,1,{"f":"Arial","s":11,"c":"#ffffff"},0,1,0,1,0],["_avtDef_btn","Por defecto",88,99,100,22,2,{"f":"Arial","s":11,"c":"#ffffff"},0,1,0,1,0],["_hedDef_btn","Por defecto",484,99,100,22,5,{"f":"Arial","s":11,"c":"#ffffff"},0,1,0,1,0],["_bdyDef_btn","Por defecto",489,165,95,22,11,{"f":"Arial","s":11,"c":"#ffffff"},0,1,0,1,0],["_lbl14_lbl","Color solido",377,231,72,22,-1,{"f":"Arial","s":11,"c":"#ffffff"},0,1,0,1,0],["_colDes_txf","Si ha subido una imagen sin transparencias que ocupa todo el fondo, este color quedara oculto.",452,225,131,44,-1,{"f":"Arial","s":8,"c":"#666666"},0,1,0,1,0],["_bdyDel_btn","Borrar",421,165,66,22,7,{"f":"Arial","s":11,"c":"#ffffff"},0,1,0,1,0],["_txf17_txf","Imagenes a 3840x2160 (Puede relentizar la carga)",457,275,126,25,-1,{"f":"Arial","s":8,"c":"#666666"},0,1,0,1,0],["_tem_cmb",null,352,319,100,22,10,"",0,1,0,1,0],["_bdyPla_cmb",null,352,275,100,22,9,"",0,1,0,1,0],["_col_clp",null,352,231,22,22,10,"",0,1,0,1,0]

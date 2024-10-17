@@ -1,6 +1,6 @@
 {
-    "jActionPath"   :"https://jaction.org/jADev/jaction", 
-    "jActionFwPath" :"https://jaction.org/jADev/jaction-framework",
+    "jActionPath"   :"https://jaction.org/jActionDev/jaction", 
+    "jActionFwPath" :"https://jaction.org/jActionDev/jaction-framework",
     "rootPath"      :"",
     "absRootPath"   :"https://jaction.org/jActionEditorDev",
     "gatewayPath"   :"jaction-api-rpc-php/",
