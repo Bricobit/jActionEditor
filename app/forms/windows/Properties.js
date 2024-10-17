@@ -59,57 +59,57 @@ class Properties extends Form {
 		Event         -> Common event that will be fired when the component of the property changes to reflect that value in the component on the stage
 		EventListener -> Function that will be called when the event is fired.
 		*/
-		const p /*:Object*/ = {className	           :['className'               ,Label      ,null,null], 
-							   name                    :['name'                    ,TextInput  ,Event.CHANGE,this.#B(this.#OnChange)], 
-							   x  	                   :['x'                       ,TextInput  ,Event.CHANGE,this.#B(this.#OnChange)], 
-							   y                       :['y'                       ,TextInput  ,Event.CHANGE,this.#B(this.#OnChange)], 
-							   width  	               :['width'                   ,TextInput  ,Event.CHANGE,this.#B(this.#OnChange)], 
-							   height                  :['height'                  ,TextInput  ,Event.CHANGE,this.#B(this.#OnChange)], 
-							   prompt                  :['prompt'                  ,TextInput  ,Event.CHANGE,this.#B(this.#OnChange)], 
-							   restrict                :['restrict'                ,TextInput  ,Event.CHANGE,this.#B(this.#OnChange)], 
-							   rowCount                :['rowCount'                ,TextInput  ,Event.CHANGE,this.#B(this.#OnChange)],  
-							   emphasized              :['emphasized'              ,CheckBox   ,Event.CHANGE,this.#B(this.#OnChange)], 
-							   enabled                 :['enabled'                 ,CheckBox   ,Event.CHANGE,this.#B(this.#OnChange)],  
-							   label                   :['label'                   ,TextInput  ,Event.CHANGE,this.#B(this.#OnChange)], 
-							   labelPlacement          :['labelPlacement'          ,ComboBox   ,Event.CHANGE,this.#B(this.#OnChange)], 
+		const p /*:Object*/ = {className               :['className'               ,Label      ,null        ,null                   ],
+							   name                    :['name'                    ,TextInput  ,Event.CHANGE,this.#B(this.#OnChange)],
+							   x                       :['x'                       ,TextInput  ,Event.CHANGE,this.#B(this.#OnChange)],
+							   y                       :['y'                       ,TextInput  ,Event.CHANGE,this.#B(this.#OnChange)],
+							   width                   :['width'                   ,TextInput  ,Event.CHANGE,this.#B(this.#OnChange)],
+							   height                  :['height'                  ,TextInput  ,Event.CHANGE,this.#B(this.#OnChange)],
+							   prompt                  :['prompt'                  ,TextInput  ,Event.CHANGE,this.#B(this.#OnChange)],
+							   restrict                :['restrict'                ,TextInput  ,Event.CHANGE,this.#B(this.#OnChange)],
+							   rowCount                :['rowCount'                ,TextInput  ,Event.CHANGE,this.#B(this.#OnChange)],
+							   emphasized              :['emphasized'              ,CheckBox   ,Event.CHANGE,this.#B(this.#OnChange)],
+							   enabled                 :['enabled'                 ,CheckBox   ,Event.CHANGE,this.#B(this.#OnChange)],
+							   label                   :['label'                   ,TextInput  ,Event.CHANGE,this.#B(this.#OnChange)],
+							   labelPlacement          :['labelPlacement'          ,ComboBox   ,Event.CHANGE,this.#B(this.#OnChange)],
 							   selected                :['selected'                ,CheckBox   ,Event.CHANGE,this.#B(this.#OnChange)],
-							   editable                :['editable'                ,CheckBox   ,Event.CHANGE,this.#B(this.#OnChange)], 
+							   editable                :['editable'                ,CheckBox   ,Event.CHANGE,this.#B(this.#OnChange)],
 							   toggle                  :['toggle'                  ,CheckBox   ,Event.CHANGE,this.#B(this.#OnChange)],
-							   visible                 :['visible'                 ,CheckBox   ,Event.CHANGE,this.#B(this.#OnChange)], 
-							   dataProvider            :['dataProvider'            ,Button     ,null,null],
-							   selectedColor           :['selectedColor'           ,ColorPicker,Event.CHANGE,this.#B(this.#OnChange)], 
-							   showTextField           :['showTextField'           ,CheckBox   ,Event.CHANGE,this.#B(this.#OnChange)], 
-							   allowMultipleSelection  :['allowMultipleSelection'  ,CheckBox   ,Event.CHANGE,this.#B(this.#OnChange)],  
-							   headerHeight            :['headerHeight'            ,TextInput  ,Event.CHANGE,this.#B(this.#OnChange)], 
-							   horizontalLineScrollSize:['horizontalLineScrollSize',TextInput  ,Event.CHANGE,this.#B(this.#OnChange)],  
-							   horizontalPageScrollSize:['horizontalPageScrollSize',TextInput  ,Event.CHANGE,this.#B(this.#OnChange)], 
-							   horizontalScrollPolicy  :['horizontalScrollPolicy'  ,ComboBox   ,Event.CHANGE,this.#B(this.#OnChange)],  
-							   resizableColumns        :['resizableColumns'        ,CheckBox   ,Event.CHANGE,this.#B(this.#OnChange)], 
-							   rowHeight               :['rowHeight'               ,TextInput  ,Event.CHANGE,this.#B(this.#OnChange)],  
-							   showHeaders             :['showHeaders'             ,CheckBox   ,Event.CHANGE,this.#B(this.#OnChange)], 
-							   sortableColumns         :['sortableColumns'         ,CheckBox   ,Event.CHANGE,this.#B(this.#OnChange)],  
-							   verticalLineScrollSize  :['verticalLineScrollSize'  ,TextInput  ,Event.CHANGE,this.#B(this.#OnChange)], 
-							   verticalPageScrollSize  :['verticalPageScrollSize'  ,TextInput  ,Event.CHANGE,this.#B(this.#OnChange)],  
-							   verticalScrollPolicy    :['verticalScrollPolicy'    ,ComboBox   ,Event.CHANGE,this.#B(this.#OnChange)], 
-							   autoSize                :['autoSize'                ,ComboBox   ,Event.CHANGE,this.#B(this.#OnChange)],  
-							   condenseWhite           :['condenseWhite'           ,CheckBox   ,Event.CHANGE,this.#B(this.#OnChange)], 
-							   htmlText                :['htmlText'                ,TextInput  ,Event.CHANGE,this.#B(this.#OnChange)],  
-							   selectable              :['selectable'              ,CheckBox   ,Event.CHANGE,this.#B(this.#OnChange)], 
-							   text                    :['text'                    ,TextInput  ,Event.CHANGE,this.#B(this.#OnChange)],  
-							   wordWrap                :['wordWrap'                ,CheckBox   ,Event.CHANGE,this.#B(this.#OnChange)], 
-							   maximum                 :['maximum'                 ,TextInput  ,Event.CHANGE,this.#B(this.#OnChange)],  
-							   minimum                 :['minimum'                 ,TextInput  ,Event.CHANGE,this.#B(this.#OnChange)], 
-							   stepSize                :['stepSize'                ,TextInput  ,Event.CHANGE,this.#B(this.#OnChange)],  
-							   value                   :['value'                   ,TextInput  ,Event.CHANGE,this.#B(this.#OnChange)], 
-							   direction               :['direction'               ,ComboBox   ,Event.CHANGE,this.#B(this.#OnChange)],  
-							   mode                    :['mode'                    ,ComboBox   ,Event.CHANGE,this.#B(this.#OnChange)], 
-							   source                  :['source'                  ,TextInput  ,Event.CHANGE,this.#B(this.#OnChange)],  
-							   groupName               :['groupName'               ,TextInput  ,Event.CHANGE,this.#B(this.#OnChange)], 
-							   liveDragging            :['liveDragging'            ,CheckBox   ,Event.CHANGE,this.#B(this.#OnChange)],  
-							   snapInterval            :['snapInterval'            ,TextInput  ,Event.CHANGE,this.#B(this.#OnChange)], 
-							   tickInterval            :['tickInterval'            ,TextInput  ,Event.CHANGE,this.#B(this.#OnChange)],  
-							   maxChars                :['maxChars'                ,TextInput  ,Event.CHANGE,this.#B(this.#OnChange)], 
-							   displayAsPassword       :['displayAsPassword'       ,CheckBox   ,Event.CHANGE,this.#B(this.#OnChange)],  
+							   visible                 :['visible'                 ,CheckBox   ,Event.CHANGE,this.#B(this.#OnChange)],
+							   dataProvider            :['dataProvider'            ,Button     ,null        ,null                   ],
+							   selectedColor           :['selectedColor'           ,ColorPicker,Event.CHANGE,this.#B(this.#OnChange)],
+							   showTextField           :['showTextField'           ,CheckBox   ,Event.CHANGE,this.#B(this.#OnChange)],
+							   allowMultipleSelection  :['allowMultipleSelection'  ,CheckBox   ,Event.CHANGE,this.#B(this.#OnChange)],
+							   headerHeight            :['headerHeight'            ,TextInput  ,Event.CHANGE,this.#B(this.#OnChange)],
+							   horizontalLineScrollSize:['horizontalLineScrollSize',TextInput  ,Event.CHANGE,this.#B(this.#OnChange)],
+							   horizontalPageScrollSize:['horizontalPageScrollSize',TextInput  ,Event.CHANGE,this.#B(this.#OnChange)],
+							   horizontalScrollPolicy  :['horizontalScrollPolicy'  ,ComboBox   ,Event.CHANGE,this.#B(this.#OnChange)],
+							   resizableColumns        :['resizableColumns'        ,CheckBox   ,Event.CHANGE,this.#B(this.#OnChange)],
+							   rowHeight               :['rowHeight'               ,TextInput  ,Event.CHANGE,this.#B(this.#OnChange)],
+							   showHeaders             :['showHeaders'             ,CheckBox   ,Event.CHANGE,this.#B(this.#OnChange)],
+							   sortableColumns         :['sortableColumns'         ,CheckBox   ,Event.CHANGE,this.#B(this.#OnChange)],
+							   verticalLineScrollSize  :['verticalLineScrollSize'  ,TextInput  ,Event.CHANGE,this.#B(this.#OnChange)],
+							   verticalPageScrollSize  :['verticalPageScrollSize'  ,TextInput  ,Event.CHANGE,this.#B(this.#OnChange)],
+							   verticalScrollPolicy    :['verticalScrollPolicy'    ,ComboBox   ,Event.CHANGE,this.#B(this.#OnChange)],
+							   autoSize                :['autoSize'                ,ComboBox   ,Event.CHANGE,this.#B(this.#OnChange)],
+							   condenseWhite           :['condenseWhite'           ,CheckBox   ,Event.CHANGE,this.#B(this.#OnChange)],
+							   htmlText                :['htmlText'                ,TextInput  ,Event.CHANGE,this.#B(this.#OnChange)],
+							   selectable              :['selectable'              ,CheckBox   ,Event.CHANGE,this.#B(this.#OnChange)],
+							   text                    :['text'                    ,TextInput  ,Event.CHANGE,this.#B(this.#OnChange)],
+							   wordWrap                :['wordWrap'                ,CheckBox   ,Event.CHANGE,this.#B(this.#OnChange)],
+							   maximum                 :['maximum'                 ,TextInput  ,Event.CHANGE,this.#B(this.#OnChange)],
+							   minimum                 :['minimum'                 ,TextInput  ,Event.CHANGE,this.#B(this.#OnChange)],
+							   stepSize                :['stepSize'                ,TextInput  ,Event.CHANGE,this.#B(this.#OnChange)],
+							   value                   :['value'                   ,TextInput  ,Event.CHANGE,this.#B(this.#OnChange)],
+							   direction               :['direction'               ,ComboBox   ,Event.CHANGE,this.#B(this.#OnChange)],
+							   mode                    :['mode'                    ,ComboBox   ,Event.CHANGE,this.#B(this.#OnChange)],
+							   source                  :['source'                  ,TextInput  ,Event.CHANGE,this.#B(this.#OnChange)],
+							   groupName               :['groupName'               ,TextInput  ,Event.CHANGE,this.#B(this.#OnChange)],
+							   liveDragging            :['liveDragging'            ,CheckBox   ,Event.CHANGE,this.#B(this.#OnChange)],
+							   snapInterval            :['snapInterval'            ,TextInput  ,Event.CHANGE,this.#B(this.#OnChange)],
+							   tickInterval            :['tickInterval'            ,TextInput  ,Event.CHANGE,this.#B(this.#OnChange)],
+							   maxChars                :['maxChars'                ,TextInput  ,Event.CHANGE,this.#B(this.#OnChange)],
+							   displayAsPassword       :['displayAsPassword'       ,CheckBox   ,Event.CHANGE,this.#B(this.#OnChange)],
 							   //font, size, bold and color should be grouped under TextFormat and displayed as a group associated 
 							   //with TextFormat, at the moment I put them here the same as the others but it can change
 							   font                    :['font'                    ,TextInput  ,Event.CHANGE,this.#B(this.#OnChange)],
@@ -135,8 +135,8 @@ class Properties extends Form {
 		this.#_params.chk = [...this.#_params.cmn, p.enabled, p.label, p.labelPlacement, p.visible, p.selected,p.font, p.size, p.bold, p.fontColor];
 		this.#_params.btn = [...this.#_params.cmn, p.emphasized, p.enabled, p.label, p.labelPlacement, p.toggle, p.visible,p.font, p.size, p.bold, p.fontColor];
 		this.#_params.txf = [...this.#_params.cmn, p.condenseWhite, p.horizontalScrollPolicy, p.htmlText, p.maxChars, p.restrict, p.text, p.verticalScrollPolicy, p.visible, p.wordWrap,p.font, p.size, p.bold, p.fontColor];
-		this.#_params.spt = this.#_params.cmn;	
-		this.#_params.mvc = this.#_params.cmn;	
+		this.#_params.spt = this.#_params.cmn;
+		this.#_params.mvc = this.#_params.cmn;
 
 		//When starting, we select the stage itself by default to display its dimensions and background color in the properties.
 		this.onSelectedItems(this.#_owner.stageEditor.stageCanvas);
@@ -204,7 +204,7 @@ class Properties extends Form {
 		}else{
 			if(this.#_selectedItem !== item && this.#_selectedItem.className !== item.className){
 				this.#RemoveAll();
-				this.#AddInspectionComponents(params); 
+				this.#AddInspectionComponents(params);
 			}
 		}
 		this.#ReflectProps(item,params);
@@ -390,7 +390,7 @@ class Properties extends Form {
 		let item /*:DisplayObject*/ = this.#_selectedItem;
 		let itemTriggered = e.currentTarget;
 		let property      = e.currentTarget.dynamicProperty;
-		          if(property == 'className'               ){item[property]=itemTriggered.text;
+				  if(property == 'className'               ){item[property]=itemTriggered.text;
 			}else if(property == 'name'                    ){item[property]=itemTriggered.text;
 			}else if(property == 'x'                       ){item[property]=int(itemTriggered.text);
 			}else if(property == 'y'                       ){item[property]=int(itemTriggered.text);
@@ -445,16 +445,16 @@ class Properties extends Form {
 			}else if(property == 'font'                    ){
 
 				const tf /*:TextFormat*/ = item.getStyle("textFormat");
-				tf.font = itemTriggered.text; 
+				tf.font = itemTriggered.text;
 				item.setStyle("textFormat",tf);
 
 			}else if(property == 'size'                    ){
 				const tf /*:TextFormat*/ = item.getStyle("textFormat");
-				tf.size = int(itemTriggered.text); 
+				tf.size = int(itemTriggered.text);
 				item.setStyle("textFormat",tf);
 			}else if(property == 'bold'                    ){
 				const tf /*:TextFormat*/ = item.getStyle("textFormat");
-				tf.bold = itemTriggered.selected; 
+				tf.bold = itemTriggered.selected;
 				item.setStyle("textFormat",tf);
 			}else if(property == 'fontColor'               ){
 				const tf /*:TextFormat*/ = item.getStyle("textFormat");
@@ -483,9 +483,9 @@ class Properties extends Form {
 	// 	}
 	// }
 
-    //*private function*/ #OnHandClick(e/*:Event*/)/*:void*/{
-      //this.#_owner.selectedItem[property] = propertyChange; Not yet implemented
-    //}
+	//*private function*/ #OnHandClick(e/*:Event*/)/*:void*/{
+		//this.#_owner.selectedItem[property] = propertyChange; Not yet implemented
+	//}
 
 	// /*private function*/ #Reset()/*:void*/{
 	// 	for (const key in this.#_INSP) {
