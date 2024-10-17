@@ -275,7 +275,7 @@ class GetLayout extends Form {
             let _w  /*:Number*/ = Math.floor(child.width);  // width
             let _h  /*:Number*/ = Math.floor(child.height); // height
             let _i  /*:Number*/ = child.tabIndex;           // tabIndex
-            let _e  /*:int*/    = 1;                        // enabled
+            let _e  /*:int*/    = 1;                        // enabled #ffffff
             let _s  /*:int*/    = 0;                        // selected
             let _v  /*:int*/    = int(child.visible);       // visible
             let _r  /*:Number*/ = child.rotation;           // rotation
@@ -287,8 +287,9 @@ class GetLayout extends Form {
             if(className !== "TextField"){_e = int(childrens[n].enabled);}
             if(className == "CheckBox"){_s = int(childrens[n].selected);}
             
-            if(className == "SimpleButton" || className == "MovieClip" || className instanceof MovieClip || className == "Sprite" || className instanceof Sprite){
-                _c  = child.backgroundColor;						
+            if((className == "SimpleButton" || className == "MovieClip" || className instanceof MovieClip || 
+                className == "Sprite"       || className instanceof Sprite) && child.backgroundColor !==''){
+                _c  = child.backgroundColor;			
             }else{
                 //El acceso al formato de TextField es diferente
                 if(child instanceof TextField){   

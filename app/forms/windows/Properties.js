@@ -1,6 +1,8 @@
 /*
-Sample: Based on Free (MPL) {jAction Lib} && {jAction FrameWork}
+PropertyInspector: Based on Free (MPL) {jAction Lib} && {jAction FrameWork}
 Author: Javier Vicente Medina - giskard2010@hotmail.com
+May contain mixed comments in English and Spanish, sorry. 
+For production minify this class to remove comments with the jActionMinifyAndMergeManual.bat script.
 
 @license
 This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. If a copy of the MPL 
@@ -9,20 +11,22 @@ Unless required by applicable law or agreed to in writing, software distributed 
 distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and limitations under the License.
 
-You can freely use jActionLib and jActionFramework within MPL limitations. The default images that are 
-used by the library and the framework they are copyrighted but can be used freely, as long as they are 
-used together to the library and the framework. The images and example codes that are not part of the 
-library or the framework are copyrighted and their use is not allowed outside the learning objective, 
-visual sample and library development testing of the collaborators.
+You can freely use jActionEditor within MPL limitations. The default images that are 
+used by the jActionEditor they are copyrighted but can be used freely, as long as they are 
+used together to the jActionEditor.
+
+This class is responsible for creating a window where you can modify and display the properties and their 
+values ​​of the objects that are selected in the stage.
 */
 class Properties extends Form {
 
-	/*private var*/ #_BINDINGS     /*:Object*/        = {};
-    /*private var*/ #_owner        /*:Form*/          = null;
-    /*private var*/ #_INSP         /*:Object*/        = {};
-	/*private var*/ #_params       /*:Object*/        = {};
-	/*private var*/ #_selectedItem /*:DisplayObject*/ = null;
+	/*private var*/ #_BINDINGS         /*:Object*/        = {};
+    /*private var*/ #_owner            /*:Form*/          = null;
+    /*private var*/ #_INSP             /*:Object*/        = {};
+	/*private var*/ #_params           /*:Object*/        = {};
+	/*private var*/ #_selectedItem     /*:DisplayObject*/ = null;
 	/*private var*/ #_dpLabelPlacement /*:DataProvider*/  = new DataProvider(['left','right','top','bottom']);
+	/*private var*/ #_dpAutoSize       /*:DataProvider*/  = new DataProvider(['left','center','right','none']);
 
 	/*public function*/ constructor(){
         super();     
@@ -35,13 +39,26 @@ class Properties extends Form {
 
 	/**-----------------------------------------------------------------------------------------------------------------------------------
 	 * 
-	 * Segundo constructor, es llamado automáticamente por FormLoader justo después de haber sido cargado
+	 * Second constructor, it is called automatically by FormLoader right after it has been loaded
 	 * 
 	 *----------------------------------------------------------------------------------------------------------------------------------*/
 
 	/*public function*/ Properties(params/*:Array*/=null)/*:void*/{
         this.#_owner = params[0];
         this.#_owner.stageEditor.onSelectedItems = this.onSelectedItems.bind(this);
+
+		/*
+		The full list of properties supported at the moment
+
+		const p:Object = {propName:['propName', UIComponent  ,Event, EventListener], etc 
+
+		propName      -> Key with the name of the property. 
+		'propName'    -> Property name as a string. 
+		UIComponent   -> Type of component that will be created in the inspector to display the value contained in that property of the component that is selected on the stage.
+		                 Only if the component selected in the stage has this property, otherwise it will not be created in the inspector. 
+		Event         -> Common event that will be fired when the component of the property changes to reflect that value in the component on the stage
+		EventListener -> Function that will be called when the event is fired.
+		*/
 		const p /*:Object*/ = {className	           :['className'               ,Label      ,null,null], 
 							   name                    :['name'                    ,TextInput  ,Event.CHANGE,this.#B(this.#OnChange)], 
 							   x  	                   :['x'                       ,TextInput  ,Event.CHANGE,this.#B(this.#OnChange)], 
@@ -93,27 +110,35 @@ class Properties extends Form {
 							   tickInterval            :['tickInterval'            ,TextInput  ,Event.CHANGE,this.#B(this.#OnChange)],  
 							   maxChars                :['maxChars'                ,TextInput  ,Event.CHANGE,this.#B(this.#OnChange)], 
 							   displayAsPassword       :['displayAsPassword'       ,CheckBox   ,Event.CHANGE,this.#B(this.#OnChange)],  
-							   color                   :['color'                   ,ColorPicker,Event.CHANGE,this.#B(this.#OnChange)]};
+							   //font, size, bold and color should be grouped under TextFormat and displayed as a group associated 
+							   //with TextFormat, at the moment I put them here the same as the others but it can change
+							   font                    :['font'                    ,TextInput  ,Event.CHANGE,this.#B(this.#OnChange)],
+							   size                    :['size'                    ,TextInput  ,Event.CHANGE,this.#B(this.#OnChange)],
+							   bold                    :['bold'                    ,CheckBox   ,Event.CHANGE,this.#B(this.#OnChange)],
+							   color                   :['color'                   ,ColorPicker,Event.CHANGE,this.#B(this.#OnChange)],
+							   fontColor               :['fontColor'                   ,ColorPicker,Event.CHANGE,this.#B(this.#OnChange)]};
 
+		//Assignment of the common and specific properties supported by the different components that can be selected in the stage
 		this.#_params.cmn = [p.className,p.name, p.x, p.y, p.width, p.height];
-		this.#_params.txa = [...this.#_params.cmn, p.condenseWhite, p.editable, p.enabled, p.horizontalScrollPolicy, p.htmlText, p.maxChars, p.restrict, p.text, p.verticalScrollPolicy, p.visible, p.wordWrap];
-		this.#_params.txi = [...this.#_params.cmn, p.displayAsPassword, p.editable, p.enabled, p.maxChars, p.restrict, p.text, p.visible];
+		this.#_params.txa = [...this.#_params.cmn, p.condenseWhite, p.editable, p.enabled, p.horizontalScrollPolicy, p.htmlText, p.maxChars, p.restrict, p.text, p.verticalScrollPolicy, p.visible, p.wordWrap,p.font, p.size, p.bold, p.fontColor];
+		this.#_params.txi = [...this.#_params.cmn, p.displayAsPassword, p.editable, p.enabled, p.maxChars, p.restrict, p.text, p.visible,p.font, p.size, p.bold, p.fontColor];
 		this.#_params.stg = [p.className,p.width, p.height, p.color];
 		this.#_params.sld = [...this.#_params.cmn, p.direction, p.enabled, p.liveDragging, p.maximum, p.minimum, p.snapInterval, p.tickInterval, p.value, p.visible];
 		this.#_params.rdb = [...this.#_params.cmn, p.enabled, p.groupName, p.label, p.labelPlacement, p.selected, p.value, p.visible];
 		this.#_params.pgb = [...this.#_params.cmn, p.direction, p.mode, p.source, p.visible];
 		this.#_params.nms = [...this.#_params.cmn, p.enabled, p.maximum, p.minimum, p.stepSize, p.value, p.visible];
 		this.#_params.lst = [...this.#_params.cmn, p.allowMultipleSelection, p.dataProvider, p.enabled, p.horizontalLineScrollSize, p.horizontalPageScrollSize, p.horizontalScrollPolicy, p.verticalLineScrollSize, p.verticalPageScrollSize, p.verticalScrollPolicy, p.visible];
-		this.#_params.lbl = [...this.#_params.cmn, p.autoSize, p.condenseWhite, p.enabled, p.htmlText, p.selectable, p.text, p.visible, p.wordWrap];
+		this.#_params.lbl = [...this.#_params.cmn, p.autoSize, p.condenseWhite, p.enabled, p.htmlText, p.selectable, p.text, p.visible, p.wordWrap, p.font, p.size, p.bold, p.fontColor];
 		this.#_params.dtg = [...this.#_params.cmn, p.allowMultipleSelection, p.editable, p.headerHeight, p.horizontalLineScrollSize, p.horizontalPageScrollSize, p.horizontalScrollPolicy, p.resizableColumns, p.rowHeight, p.showHeaders, p.sortableColumns, p.verticalLineScrollSize, p.verticalPageScrollSize, p.verticalScrollPolicy];
 		this.#_params.cmb = [...this.#_params.cmn, p.dataProvider, p.editable, p.enabled, p.prompt, p.restrict, p.rowCount, p.visible];
 		this.#_params.clp = [...this.#_params.cmn, p.enabled, p.selectedColor, p.showTextField, p.visible];
-		this.#_params.chk = [...this.#_params.cmn, p.enabled, p.label, p.labelPlacement, p.visible, p.selected];
-		this.#_params.btn = [...this.#_params.cmn, p.emphasized, p.enabled, p.label, p.labelPlacement, p.toggle, p.visible];
+		this.#_params.chk = [...this.#_params.cmn, p.enabled, p.label, p.labelPlacement, p.visible, p.selected,p.font, p.size, p.bold, p.fontColor];
+		this.#_params.btn = [...this.#_params.cmn, p.emphasized, p.enabled, p.label, p.labelPlacement, p.toggle, p.visible,p.font, p.size, p.bold, p.fontColor];
+		this.#_params.txf = [...this.#_params.cmn, p.condenseWhite, p.horizontalScrollPolicy, p.htmlText, p.maxChars, p.restrict, p.text, p.verticalScrollPolicy, p.visible, p.wordWrap,p.font, p.size, p.bold, p.fontColor];
 		this.#_params.spt = this.#_params.cmn;	
 		this.#_params.mvc = this.#_params.cmn;	
 
-		//Selected emulated stage on init
+		//When starting, we select the stage itself by default to display its dimensions and background color in the properties.
 		this.onSelectedItems(this.#_owner.stageEditor.stageCanvas);
     }
 
@@ -136,9 +161,18 @@ class Properties extends Form {
 	*----------------------------------------------------------------------------------------------------------------------------------*/	
 
 	/**-----------------------------------------------------------------------------------------------------------------------------------
+	 * [en]
+	 * When selecting an item from the stage this function is executed and receives the selected item, then determines what type of 
+	 * components will be created in the property inspector in order to display the values ​​of the properties of the selected item.
+	 *
+	 * It also determines whether components should be removed from the inspector and created again depending on whether the previous item
+	 * is of the same class or the same item so as not to have to unnecessarily recreate components in the property inspector
+	 * when the selected items share the same inspector properties.
 	 * 
-	 * Al seleccionarse un item determina que tipo de componentes se crearan en el inspector de propiedades para poder visualizar
-	 * los valores de las propiedades del item seleccionado.
+	 * [es]
+	 * Al seleccionar un item del escenario esta funcion se ejecuta y recibe el item seleccionado, a continuación determina que tipo de 
+	 * componentes se crearan en el inspector de propiedades para poder visualizar los valores de las propiedades del item seleccionado.
+	 * 
 	 * También determina si deben eliminarse los componentes del inspector y crearlos de nuevo dependiendo de si el item anterior
 	 * es de la misma clase o el mismo item para no tener que recrear innecesariamente componentes en el inspector de propiedades
 	 * cuando los items que se seleccionan comparten las mismas propiedades del inspector.
@@ -160,6 +194,7 @@ class Properties extends Form {
 		}else if(item instanceof Slider               ){params = this.#_params.sld;
 		}else if(item instanceof TextArea             ){params = this.#_params.txa;
 		}else if(item instanceof TextInput            ){params = this.#_params.txi;
+		}else if(item instanceof TextField            ){params = this.#_params.txf;
 		}else if(item.name.startsWith('EmulatedStage')){params = this.#_params.stg;
 		}else if(item instanceof Sprite               ){params = this.#_params.spt;
 		}else if(item instanceof MovieClip            ){params = this.#_params.mvc;}
@@ -185,15 +220,19 @@ class Properties extends Form {
     *----------------------------------------------------------------------------------------------------------------------------------*/
 
 	/**-----------------------------------------------------------------------------------------------------------------------------------
+	 * [en]
+	 * Adds the components indicated in the array to the property inspector to be able to view the property values
+	 * of the selected items
 	 * 
+	 * [es]
 	 * Añade al inspector de propiedades los componentes indicados en el array para poder visualizar los valores de las propiedades
 	 * de los items seleccionados
 	 * 
 	 *----------------------------------------------------------------------------------------------------------------------------------*/
 
 	/*public function*/ #AddInspectionComponents(params/*:Array*/=null)/*:void*/{
-		const pLen /*:uint*/ = params.length;
-		const CMB /*:Array*/ = [];
+		const pLen /*:uint*/  = params.length;
+		const CMB  /*:Array*/ = [];
 		for(let i = 0;i<pLen; i++){
 			const property  /*:String*/        = params[i][0];
 			const classRef  /*:Class*/         = params[i][1];
@@ -214,6 +253,8 @@ class Properties extends Form {
 
 			if(property=='labelPlacement'){
 				component.dataProvider = this.#_dpLabelPlacement;
+			}else if(property=='autoSize'){
+				component.dataProvider = this.#_dpAutoSize;
 			}
 			component.tabIndex = i+1;
 			component.dynamicProperty = property;
@@ -227,6 +268,7 @@ class Properties extends Form {
 			this.#_INSP[property] = {lbl:lbl,com:component,evt:event,callback:callback};
         }
 
+	   //We relocate the ComboBox above
        //Reubicamos los ComboBox por encima
 		for(let i2 = CMB.length;i2>0; i2--){
             CMB[i2-1].bringMeToFront();
@@ -236,39 +278,89 @@ class Properties extends Form {
 
 	/**-----------------------------------------------------------------------------------------------------------------------------------
 	 * 
+	 * [en]
+	 * Reflects the values ​​of the selected item's properties in their respective fields in the Property Inspector
+	 * 
+	 * [es]
 	 * Refleja los valores de las propiedades del item seleccionado en sus respectivos campos del inspector de propiedades
+	 * 
+	 * 
+	 * @param {DisplayObject} stageCom Reference to the instance of the component currently selected on the stage
+	 * @param {Array} props Array with the supported properties to be inspected for the selected component
 	 * 
 	 *----------------------------------------------------------------------------------------------------------------------------------*/
 
-	/*private function*/ #ReflectProps(item/*:DisplayObject*/,props)/*:void*/{
-		const pl = props.length;
-		for (let i = 0; i < pl; i++) {
-			const prop = props[i][0];
-			const com  = this.#_INSP[prop].com;//this.#_INSP[params[i][0]] = {lbl:lbl,com:d,data:null};
+	/*private function*/ #ReflectProps(stageCom/*:DisplayObject*/,props/*:Array*/)/*:void*/{
+		const pl /*:int*/ = props.length;
+		for (let i /*:int*/ = 0; i < pl; i++) {
+			const prop         /*:String*/        = props[i][0];
+			const inspCom  /*:DisplayObject*/ = this.#_INSP[prop].com;//this.#_INSP['width'] = {lbl:Label,com:Component,data:null};
 
+			//If the selected stage item has the labelPlacement property then we look for its value in the ComboBox of the inspector 
+			//to select it and display it
 			if(prop=='labelPlacement'){
-				com.selectedIndex = com.searchIndexFromProp('label',item.labelPlacement);
+				inspCom.selectedIndex = inspCom.searchIndexFromProp('label',stageCom.labelPlacement);
 				continue;
 			}
-				  if(com instanceof CheckBox ){
-						com.selected = item[prop];
-			}else if(com instanceof TextField || com instanceof TextInput || com instanceof TextArea || com instanceof Label){
-				if(item instanceof Sprite && item.name.startsWith('EmulatedStage') && prop =='className'){
-					com.text = 'Stage';
+
+			//Same logic for the rest
+			if(inspCom instanceof CheckBox ){
+				if(prop=='bold'){
+					if(stageCom.getStyle){
+						const tf /*:TextFormat*/ = stageCom.getStyle("textFormat");
+						inspCom.selected = tf.bold; 
+					}
 				}else{
-					com.text = item[prop] == null ? '':item[prop];
+					inspCom.selected = stageCom[prop];
 				}
-			}else if(com instanceof ColorPicker){
-				/*
-				Since two instances of stage cannot be created, stage is emulated with a Sprite and sprite 
-				does not have the color property, that is why backgroundColor is used, although really to be 
-				more exact to as3 the colorTransform object should be used but it is not implemented.
-				*/
-				com.selectedColor = prop=='color' ? '#'+Color.rgbStrTo(item.backgroundColor) : item[prop];
 				
-			}else if(com instanceof Button || com instanceof ComboBox){
-					com.label = item[prop].toString(); 
-					com.data = item[prop];
+			}else if(inspCom instanceof TextField || inspCom instanceof TextInput || inspCom instanceof TextArea || inspCom instanceof Label){
+				
+				if(stageCom instanceof Sprite && stageCom.name.startsWith('EmulatedStage') && prop =='className'){
+					inspCom.text = 'Stage';
+				}else{
+					if(prop=='font'){
+						if(stageCom.getStyle){
+							const tf /*:TextFormat*/ = stageCom.getStyle("textFormat");
+							inspCom.text = tf.font; 
+							//inspCom.className=='Label' ? inspCom.setStyle('textFormat',tf) : inspCom.defaultTextFormat = tf;
+						}
+					}else if(prop=='size'){
+						if(stageCom.getStyle){
+							const tf /*:TextFormat*/ = stageCom.getStyle("textFormat");
+							inspCom.text = tf.size; 
+						}
+					}else{
+						inspCom.text = stageCom[prop] == null ? '':stageCom[prop];
+					}
+					
+				}
+			}else if(inspCom instanceof ColorPicker){
+				/*
+				You can create two instances of the Stage class, but this was problematic, as I did not take it into account in the 
+				foundations of the library development and would have to make some rather deep changes.
+
+				Because you cannot create two instances of Stage, because the editor itself is already inside the main Stage, then 
+				the editor emulates its own Stage with a Sprite.
+
+				The Sprite does not have the color property, that is why backgroundColor is used, although actually to be more exact 
+				with as3 the colorTransform object should be used, but it is not implemented.
+				*/
+				if(prop=='fontColor'){
+					if(stageCom.getStyle){
+						const tf /*:TextFormat*/ = stageCom.getStyle("textFormat");
+						//inspCom.selectedColor = tf.color;
+						inspCom.selectedColor = typeof tf.color === 'string' && tf.color.startsWith('#') ? tf.color : '#'+Color.uintToHex(tf.color);
+						
+					}
+				}else{
+					inspCom.selectedColor = prop=='color' ? '#'+Color.rgbStrTo(stageCom.backgroundColor) : stageCom[prop];
+				}
+				
+				
+			}else if(inspCom instanceof Button || inspCom instanceof ComboBox){
+					inspCom.label = stageCom[prop].toString(); 
+					inspCom.data = stageCom[prop];
 			}
 		}
 	}
@@ -349,7 +441,26 @@ class Properties extends Form {
 			}else if(property == 'tickInterval'            ){item[property]=int(itemTriggered.text);
 			}else if(property == 'maxChars'                ){item[property]=int(itemTriggered.text);
 			}else if(property == 'displayAsPassword'       ){item[property]=itemTriggered.selected;
-			}else if(property == 'color'                   ){item.backgroundColor = itemTriggered.selectedColor;}
+			}else if(property == 'color'                   ){item.backgroundColor = itemTriggered.selectedColor;
+			}else if(property == 'font'                    ){
+
+				const tf /*:TextFormat*/ = item.getStyle("textFormat");
+				tf.font = itemTriggered.text; 
+				item.setStyle("textFormat",tf);
+
+			}else if(property == 'size'                    ){
+				const tf /*:TextFormat*/ = item.getStyle("textFormat");
+				tf.size = int(itemTriggered.text); 
+				item.setStyle("textFormat",tf);
+			}else if(property == 'bold'                    ){
+				const tf /*:TextFormat*/ = item.getStyle("textFormat");
+				tf.bold = itemTriggered.selected; 
+				item.setStyle("textFormat",tf);
+			}else if(property == 'fontColor'               ){
+				const tf /*:TextFormat*/ = item.getStyle("textFormat");
+				tf.color = itemTriggered.selectedColor; 
+				item.setStyle("textFormat",tf);
+			}
 
 
 
