@@ -1,6 +1,8 @@
 /*
-Editor: Based on Free (MPL) {jAction Lib} && {jAction FrameWork}
+MainMenu: Based on Free (MPL) {jAction Lib} && {jAction FrameWork}
 Author: Javier Vicente Medina - giskard2010@hotmail.com
+May contain mixed comments in English and Spanish, sorry. 
+For production minify this class to remove comments with the jActionMinifyAndMergeManual.bat script.
 
 @license
 This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. If a copy of the MPL 
@@ -15,8 +17,15 @@ used together to the library and the framework. The images and example codes tha
 library or the framework are copyrighted and their use is not allowed outside the learning objective, 
 visual sample and library development testing of the collaborators.
   
-Package	   forms/menus/MainMenu.js
-Class	   public class MainMenu.js
+Package:      jActionEditor/app/forms/menu/MainMenu
+Class:        public class MainMenu
+Inheritance:  MainMenu > Form > BaseForm > Sprite > DisplayObjectContainer > InteractiveObject > DisplayObject > EventDispatcher >  _Object
+Version:
+0.0.2 - Last update 2024-10-17 -> Change path Property.js with PropertyInspector.js
+0.0.1 - Last update 2024-05-06 -> First version
+
+This class is responsible for creating the menu and loading the different windows by default. At the moment everything is sample, some 
+things work, others don't. There are still many things to implement and determine menu actions.
 */
 class MainMenu extends Form {
 	
@@ -32,13 +41,13 @@ class MainMenu extends Form {
    //*private var*/ #_outBind      /*:Function*/      = this.#OnOut.bind(this);
 	/*private var*/ #_windowRefs   /*:Object<Forms>*/ = {};
 	/*private var*/ #_windowIndex  /*:int*/           = 0;
-	/*private var*/ #_defWorkSpace /*:Array<String>*/ = [{path:"app/forms/windows/StageEditor.js", target:this.controls              , f:'StageEditor',x:-1  , y:10 },
-														 {path:"app/forms/windows/Elements.js"   , target:this.#_leftBox_frm.controls, f:'Elements'   ,x:0   , y:0  },
-														 {path:"app/forms/windows/Tools.js"      , target:this.#_leftBox_frm.controls, f:'Tools'      ,x:175 , y:0  },
-														 {path:"app/forms/windows/SetLayout.js"  , target:this.controls              , f:'SetLayout'  ,x:300 , y:10 },
-														 {path:"app/forms/windows/GetLayout.js"  , target:this.controls              , f:'GetLayout'  ,x:300 , y:400},
-														 {path:"app/forms/windows/Actions.js"    , target:this.controls              , f:'Actions'    ,x:350 , y:450},
-														 {path:"app/forms/windows/Properties.js" , target:this.controls              , f:'Properties' ,x:1750, y:10 }];
+	/*private var*/ #_defWorkSpace /*:Array<Object>*/ = [{path:"app/forms/windows/StageEditor.js"       , target:this.controls              , f:'StageEditor',x:-1  , y:10 },
+														 {path:"app/forms/windows/Elements.js"          , target:this.#_leftBox_frm.controls, f:'Elements'   ,x:0   , y:0  },
+														 {path:"app/forms/windows/Tools.js"             , target:this.#_leftBox_frm.controls, f:'Tools'      ,x:175 , y:0  },
+														 {path:"app/forms/windows/SetLayout.js"         , target:this.controls              , f:'SetLayout'  ,x:300 , y:10 },
+														 {path:"app/forms/windows/GetLayout.js"         , target:this.controls              , f:'GetLayout'  ,x:300 , y:400},
+														 {path:"app/forms/windows/Actions.js"           , target:this.controls              , f:'Actions'    ,x:350 , y:450},
+														 {path:"app/forms/windows/PropertyInspector.js" , target:this.controls              , f:'Properties' ,x:1750, y:10 }];
 
 	/*public function*/ constructor(){
 		super();
@@ -87,7 +96,7 @@ class MainMenu extends Form {
 		this.#_MMU.startMenu(this.#OnMenuComplete.bind(this));
 	}
 
-	/*public function*/ #OnMenuComplete(e/*:Event*/)/*:void*/ {
+	/*private function*/ #OnMenuComplete(e/*:Event*/)/*:void*/ {
 		this.addControl(this.#_MMU    ,'headerLeft');
 		//this.#LoadDefWorkSpace();
 		G.FLoader.loadInline(this.controls,this.#_leftBox_frm,this.#LoadDefWorkSpace.bind(this),null,[this],0,0);
@@ -101,7 +110,7 @@ class MainMenu extends Form {
 		this.#_leftBox_frm.anchor = 'top | bottom';
 	}
 
-	/*public function*/ #OnEvt(e/*:Event*/)/*:void*/ {
+	/*private function*/ #OnEvt(e/*:Event*/)/*:void*/ {
 		const data   /*:String*/ = e.currentTarget.path;
 		const name   /*:String*/ = e.currentTarget.name;
 		const label  /*:String*/ = e.currentTarget.label
@@ -115,12 +124,12 @@ class MainMenu extends Form {
 		}
 	}
 
-	/*public function*/ #LoadDefWorkSpace()/*:void*/ {
+	/*private function*/ #LoadDefWorkSpace()/*:void*/ {
 		let item = this.#_defWorkSpace[this.#_windowIndex];
 		G.FLoader.load(item.target,item.path,this.#OnLoadForm.bind(this),null,[this],item.x,item.y);
 	}
 
-	/*public function*/ #OnLoadForm()/*:void*/ {
+	/*private function*/ #OnLoadForm()/*:void*/ {
 		let item = this.#_defWorkSpace[this.#_windowIndex];
 		this.#_windowRefs[item.f] = G.FLoader.content;
 		if(this.#_windowIndex <this.#_defWorkSpace.length-1){
