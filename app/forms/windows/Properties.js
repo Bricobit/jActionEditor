@@ -21,31 +21,31 @@ values ​​of the objects that are selected in the stage.
 class Properties extends Form {
 
 	/*private var*/ #_BINDINGS         /*:Object*/        = {};
-    /*private var*/ #_owner            /*:Form*/          = null;
-    /*private var*/ #_INSP             /*:Object*/        = {};
+	/*private var*/ #_owner            /*:Form*/          = null;
+	/*private var*/ #_INSP             /*:Object*/        = {};
 	/*private var*/ #_params           /*:Object*/        = {};
 	/*private var*/ #_selectedItem     /*:DisplayObject*/ = null;
 	/*private var*/ #_dpLabelPlacement /*:DataProvider*/  = new DataProvider(['left','right','top','bottom']);
 	/*private var*/ #_dpAutoSize       /*:DataProvider*/  = new DataProvider(['left','center','right','none']);
 
 	/*public function*/ constructor(){
-        super();     
-        /*inherit prop*/ this.width        = 310;
-        /*inherit prop*/ this.text         = 'Properties'; 
-        /*inherit prop*/ this.draggableBox = true;
-        /*inherit prop*/ this.headerHeight = 22;
+		super();
+		/*inherit prop*/ this.width        = 310;
+		/*inherit prop*/ this.text         = 'Properties'; 
+		/*inherit prop*/ this.draggableBox = true;
+		/*inherit prop*/ this.headerHeight = 22;
 		/*inherit prop*/ this.anchor       = 'top | bottom';
 	}
 
 	/**-----------------------------------------------------------------------------------------------------------------------------------
-	 * 
-	 * Second constructor, it is called automatically by FormLoader right after it has been loaded
-	 * 
-	 *----------------------------------------------------------------------------------------------------------------------------------*/
+	*
+	* Second constructor, it is called automatically by FormLoader right after it has been loaded
+	*
+	*----------------------------------------------------------------------------------------------------------------------------------*/
 
 	/*public function*/ Properties(params/*:Array*/=null)/*:void*/{
-        this.#_owner = params[0];
-        this.#_owner.stageEditor.onSelectedItems = this.onSelectedItems.bind(this);
+		this.#_owner = params[0];
+		this.#_owner.stageEditor.onSelectedItems = this.onSelectedItems.bind(this);
 
 		/*
 		The full list of properties supported at the moment
@@ -140,44 +140,44 @@ class Properties extends Form {
 
 		//When starting, we select the stage itself by default to display its dimensions and background color in the properties.
 		this.onSelectedItems(this.#_owner.stageEditor.stageCanvas);
-    }
+	}
 
 	/**-----------------------------------------------------------------------------------------------------------------------------------
-    * 
-    * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *                   * * * * * * * * * * * * * * * * * * * * * * * * * * * *  
-    * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * PUBLIC PROPERTIES * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-    * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *                   * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
-    *
-    *----------------------------------------------------------------------------------------------------------------------------------*/
-
-	 //...
-
-	/**-----------------------------------------------------------------------------------------------------------------------------------
-	* 
-	* * * * * * * * * * * * * * * * * * * * * * * * * * * * * *                   * * * * * * * * * * * * * * * * * * * * * * * * * * * *  
-	* * * * * * * * * * * * * * * * * * * * * * * * * * * * * *  PUBLIC METHODS   * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-	* * * * * * * * * * * * * * * * * * * * * * * * * * * * * *                   * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
 	*
-	*----------------------------------------------------------------------------------------------------------------------------------*/	
+	* * * * * * * * * * * * * * * * * * * * * * * * * * * * * *                   * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+	* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * PUBLIC PROPERTIES * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+	* * * * * * * * * * * * * * * * * * * * * * * * * * * * * *                   * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+	*
+	*----------------------------------------------------------------------------------------------------------------------------------*/
+
+	//...
 
 	/**-----------------------------------------------------------------------------------------------------------------------------------
-	 * [en]
-	 * When selecting an item from the stage this function is executed and receives the selected item, then determines what type of 
-	 * components will be created in the property inspector in order to display the values ​​of the properties of the selected item.
-	 *
-	 * It also determines whether components should be removed from the inspector and created again depending on whether the previous item
-	 * is of the same class or the same item so as not to have to unnecessarily recreate components in the property inspector
-	 * when the selected items share the same inspector properties.
-	 * 
-	 * [es]
-	 * Al seleccionar un item del escenario esta funcion se ejecuta y recibe el item seleccionado, a continuación determina que tipo de 
-	 * componentes se crearan en el inspector de propiedades para poder visualizar los valores de las propiedades del item seleccionado.
-	 * 
-	 * También determina si deben eliminarse los componentes del inspector y crearlos de nuevo dependiendo de si el item anterior
-	 * es de la misma clase o el mismo item para no tener que recrear innecesariamente componentes en el inspector de propiedades
-	 * cuando los items que se seleccionan comparten las mismas propiedades del inspector.
-	 * 
-	 *----------------------------------------------------------------------------------------------------------------------------------*/
+	*
+	* * * * * * * * * * * * * * * * * * * * * * * * * * * * * *                   * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+	* * * * * * * * * * * * * * * * * * * * * * * * * * * * * *  PUBLIC METHODS   * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+	* * * * * * * * * * * * * * * * * * * * * * * * * * * * * *                   * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+	*
+	*----------------------------------------------------------------------------------------------------------------------------------*/
+
+	/**-----------------------------------------------------------------------------------------------------------------------------------
+	* [en]
+	* When selecting an item from the stage this function is executed and receives the selected item, then determines what type of 
+	* components will be created in the property inspector in order to display the values ​​of the properties of the selected item.
+	*
+	* It also determines whether components should be removed from the inspector and created again depending on whether the previous item
+	* is of the same class or the same item so as not to have to unnecessarily recreate components in the property inspector
+	* when the selected items share the same inspector properties.
+	*
+	* [es]
+	* Al seleccionar un item del escenario esta funcion se ejecuta y recibe el item seleccionado, a continuación determina que tipo de 
+	* componentes se crearan en el inspector de propiedades para poder visualizar los valores de las propiedades del item seleccionado.
+	*
+	* También determina si deben eliminarse los componentes del inspector y crearlos de nuevo dependiendo de si el item anterior
+	* es de la misma clase o el mismo item para no tener que recrear innecesariamente componentes en el inspector de propiedades
+	* cuando los items que se seleccionan comparten las mismas propiedades del inspector.
+	*
+	*----------------------------------------------------------------------------------------------------------------------------------*/
 
 	/*public function*/ onSelectedItems(item/*:UIComponent*/)/*:void*/{
 		let params /*:Array*/ = null;
@@ -212,22 +212,22 @@ class Properties extends Form {
 	}
 
 	/**-----------------------------------------------------------------------------------------------------------------------------------
-    * 
-    * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *                   * * * * * * * * * * * * * * * * * * * * * * * * * * * *  
-    * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *  PRIVATE METHODS  * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-    * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *   Pascal Case     * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
-    *
-    *----------------------------------------------------------------------------------------------------------------------------------*/
+	*
+	* * * * * * * * * * * * * * * * * * * * * * * * * * * * * *                   * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+	* * * * * * * * * * * * * * * * * * * * * * * * * * * * * *  PRIVATE METHODS  * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+	* * * * * * * * * * * * * * * * * * * * * * * * * * * * * *   Pascal Case     * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+	*
+	*----------------------------------------------------------------------------------------------------------------------------------*/
 
 	/**-----------------------------------------------------------------------------------------------------------------------------------
 	 * [en]
 	 * Adds the components indicated in the array to the property inspector to be able to view the property values
 	 * of the selected items
-	 * 
+	 *
 	 * [es]
 	 * Añade al inspector de propiedades los componentes indicados en el array para poder visualizar los valores de las propiedades
 	 * de los items seleccionados
-	 * 
+	 *
 	 *----------------------------------------------------------------------------------------------------------------------------------*/
 
 	/*public function*/ #AddInspectionComponents(params/*:Array*/=null)/*:void*/{
@@ -238,16 +238,16 @@ class Properties extends Form {
 			const classRef  /*:Class*/         = params[i][1];
 			const event     /*:String*/        = params[i][2];
 			const callback  /*:Function*/      = params[i][3];
-            const lbl       /*:Label*/         = new Label();
+			const lbl       /*:Label*/         = new Label();
 			const component /*:DisplayObject*/ = new classRef();
-            lbl.text = property;
+			lbl.text = property;
 			if(lbl.text == 'dataProvider'){component.label = '[]✏️🖊️';}
 			lbl.move(5,5 + (lbl.height * i));
-            if(component instanceof CheckBox){component.label = '';}
+			if(component instanceof CheckBox){component.label = '';}
 			if(component instanceof ComboBox){CMB.push(component);}
 			if(component instanceof ColorPicker){
 				component.setSize(22,22);
-            }else{
+			}else{
 				component.width = 170;
 			}
 
@@ -266,29 +266,29 @@ class Properties extends Form {
 				component.addEventListener(event,callback);
 			}
 			this.#_INSP[property] = {lbl:lbl,com:component,evt:event,callback:callback};
-        }
+		}
 
-	   //We relocate the ComboBox above
-       //Reubicamos los ComboBox por encima
+		//We relocate the ComboBox above
+		//Reubicamos los ComboBox por encima
 		for(let i2 = CMB.length;i2>0; i2--){
-            CMB[i2-1].bringMeToFront();
+			CMB[i2-1].bringMeToFront();
 		}
 	}
 
 
 	/**-----------------------------------------------------------------------------------------------------------------------------------
-	 * 
-	 * [en]
-	 * Reflects the values ​​of the selected item's properties in their respective fields in the Property Inspector
-	 * 
-	 * [es]
-	 * Refleja los valores de las propiedades del item seleccionado en sus respectivos campos del inspector de propiedades
-	 * 
-	 * 
-	 * @param {DisplayObject} stageCom Reference to the instance of the component currently selected on the stage
-	 * @param {Array} props Array with the supported properties to be inspected for the selected component
-	 * 
-	 *----------------------------------------------------------------------------------------------------------------------------------*/
+	*
+	* [en]
+	* Reflects the values ​​of the selected item's properties in their respective fields in the Property Inspector
+	*
+	* [es]
+	* Refleja los valores de las propiedades del item seleccionado en sus respectivos campos del inspector de propiedades
+	*
+	*
+	* @param {DisplayObject} stageCom Reference to the instance of the component currently selected on the stage
+	* @param {Array} props Array with the supported properties to be inspected for the selected component
+	*
+	*----------------------------------------------------------------------------------------------------------------------------------*/
 
 	/*private function*/ #ReflectProps(stageCom/*:DisplayObject*/,props/*:Array*/)/*:void*/{
 		const pl /*:int*/ = props.length;
@@ -366,10 +366,10 @@ class Properties extends Form {
 	}
 
 	/**-----------------------------------------------------------------------------------------------------------------------------------
-	 * 
-	 * Elimina todas las etiquetas y componentes del inspector de propiedades
-	 * 
-	 *----------------------------------------------------------------------------------------------------------------------------------*/
+	* 
+	* Elimina todas las etiquetas y componentes del inspector de propiedades
+	* 
+	*----------------------------------------------------------------------------------------------------------------------------------*/
 
 	/*private function*/ #RemoveAll()/*:void*/{
 		for (const key in this.#_INSP) {
@@ -464,8 +464,8 @@ class Properties extends Form {
 
 
 
-	    //       if(item instanceof TextInput            ){params = this.#_params.txi;
-	 	// }else if(item instanceof ColorPicker          ){item.selectedColor = e.currentTarget.selectedColor;
+		//       if(item instanceof TextInput            ){params = this.#_params.txi;
+		// }else if(item instanceof ColorPicker          ){item.selectedColor = e.currentTarget.selectedColor;
 		// }else if(item.name.startsWith('EmulatedStage')){item.backgroundColor = e.currentTarget.selectedColor;}
 	}
 
