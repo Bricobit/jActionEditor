@@ -21,33 +21,34 @@ Package:      jActionEditor/app/forms/menu/MainMenu
 Class:        public class MainMenu
 Inheritance:  MainMenu > Form > BaseForm > Sprite > DisplayObjectContainer > InteractiveObject > DisplayObject > EventDispatcher >  _Object
 Version:
+0.0.3 - Last update 2024-10-27 -> Add contextMenu
 0.0.2 - Last update 2024-10-17 -> Change path Property.js with PropertyInspector.js
 0.0.1 - Last update 2024-05-06 -> First version
 
 This class is responsible for creating the menu and loading the different windows by default. At the moment everything is sample, some 
 things work, others don't. There are still many things to implement and determine menu actions.
 */
+
 class MainMenu extends Form {
 	
+	/*private var*/ #_BINDINGS     /*:Array*/         = [];
 	/*private var*/ #_MMU          /*:MenuBar*/       = new MenuBar("MASTER","MainMenu");
 	/*private var*/ #_FIL          /*:MenuBar*/       = new MenuBar("SLAVE" ,"File");
 	/*private var*/ #_VIE          /*:MenuBar*/       = new MenuBar("SLAVE" ,"View");
 	/*private var*/ #_WIN          /*:MenuBar*/       = new MenuBar("SLAVE" ,"Windows");
-	/*private var*/ #_evtBind      /*:Function*/      = this.#OnEvt.bind(this);
-	/*private var*/ #_button1      /*:Button*/        = new Button();
 	/*private var*/ #_leftBox_frm  /*:Form*/          = new Form('BoxSide1');
-	/*private var*/ #_button2      /*:Button*/        = new Button();
-   //*private var*/ #_ovrBind      /*:Function*/      = this.#OnOver.bind(this);
-   //*private var*/ #_outBind      /*:Function*/      = this.#OnOut.bind(this);
+	/*private var*/ #_CTX_MENU     /*:String*/        = 'ContextMenu';
 	/*private var*/ #_windowRefs   /*:Object<Forms>*/ = {};
 	/*private var*/ #_windowIndex  /*:int*/           = 0;
-	/*private var*/ #_defWorkSpace /*:Array<Object>*/ = [{path:"app/forms/windows/StageEditor.js"       , target:this.controls              , f:'StageEditor',x:-1  , y:10 },
-														 {path:"app/forms/windows/Elements.js"          , target:this.#_leftBox_frm.controls, f:'Elements'   ,x:0   , y:0  },
-														 {path:"app/forms/windows/Tools.js"             , target:this.#_leftBox_frm.controls, f:'Tools'      ,x:175 , y:0  },
-														 {path:"app/forms/windows/SetLayout.js"         , target:this.controls              , f:'SetLayout'  ,x:300 , y:10 },
-														 {path:"app/forms/windows/GetLayout.js"         , target:this.controls              , f:'GetLayout'  ,x:300 , y:400},
-														 {path:"app/forms/windows/Actions.js"           , target:this.controls              , f:'Actions'    ,x:350 , y:450},
-														 {path:"app/forms/windows/PropertyInspector.js" , target:this.controls              , f:'Properties' ,x:1750, y:10 }];
+	/*private var*/ #_defWorkSpace /*:Array<Object>*/ = [
+		{path:"app/forms/windows/StageEditor.js"       , target:this.controls              , f:'StageEditor',x:-1  , y:10 },
+		{path:"app/forms/windows/Elements.js"          , target:this.#_leftBox_frm.controls, f:'Elements'   ,x:0   , y:0  },
+		{path:"app/forms/windows/Tools.js"             , target:this.#_leftBox_frm.controls, f:'Tools'      ,x:175 , y:0  },
+		{path:"app/forms/windows/SetLayout.js"         , target:this.controls              , f:'SetLayout'  ,x:300 , y:10 },
+		{path:"app/forms/windows/GetLayout.js"         , target:this.controls              , f:'GetLayout'  ,x:300 , y:400},
+		{path:"app/forms/windows/Actions.js"           , target:this.controls              , f:'Actions'    ,x:350 , y:450},
+		{path:"app/forms/windows/PropertyInspector.js" , target:this.controls              , f:'Properties' ,x:1750, y:10 }
+	];
 
 	/*public function*/ constructor(){
 		super();
@@ -57,29 +58,32 @@ class MainMenu extends Form {
 		/*inherit prop*/ this.headerHeight = 36;
 		/*inherit prop*/ this.tabOnlyFront = true;
 		/*inherit prop*/ this.closeBox     = false; 
-		this.#_button1.label               = '1 userRight';
-		this.#_button2.label               = '2 userCenter';
 	}
+
+	/**-----------------------------------------------------------------------------------------------------------------------------------
+	*
+	* @param {Array<Any>} params
+	*
+	*-----------------------------------------------------------------------------------------------------------------------------------*/
 
 	/*public function*/ MainMenu(params/*:Array*/=null)/*:void*/{
 	
 		this.#_WIN.setConfig("V","L",true,false,"L",false,10,3,0,false);
-		this.#_WIN.setButton("Editor"    , "edi", this.#_evtBind , '', null, this.#_defWorkSpace[0]);
-		this.#_WIN.setButton("Components", "com", this.#_evtBind , '', null, this.#_defWorkSpace[1]);
-		this.#_WIN.setButton("Tools"     , "too", this.#_evtBind , '', null, this.#_defWorkSpace[2]);
-		this.#_WIN.setButton("SetLayout" , "stl", this.#_evtBind , '', null, this.#_defWorkSpace[3]);
-		this.#_WIN.setButton("GetLayout" , "gtl", this.#_evtBind , '', null, this.#_defWorkSpace[4]);
-		this.#_WIN.setButton("Actions"   , "act", this.#_evtBind , '', null, this.#_defWorkSpace[5]);
-		this.#_WIN.setButton("Properties", "pro", this.#_evtBind , '', null, this.#_defWorkSpace[6]);
+		this.#_WIN.setButton("Editor"    , "edi", this.#B(this.#OnEvt) , '', null, this.#_defWorkSpace[0]);
+		this.#_WIN.setButton("Components", "com", this.#B(this.#OnEvt) , '', null, this.#_defWorkSpace[1]);
+		this.#_WIN.setButton("Tools"     , "too", this.#B(this.#OnEvt) , '', null, this.#_defWorkSpace[2]);
+		this.#_WIN.setButton("SetLayout" , "stl", this.#B(this.#OnEvt) , '', null, this.#_defWorkSpace[3]);
+		this.#_WIN.setButton("GetLayout" , "gtl", this.#B(this.#OnEvt) , '', null, this.#_defWorkSpace[4]);
+		this.#_WIN.setButton("Actions"   , "act", this.#B(this.#OnEvt) , '', null, this.#_defWorkSpace[5]);
+		this.#_WIN.setButton("Properties", "pro", this.#B(this.#OnEvt) , '', null, this.#_defWorkSpace[6]);
 		
-
 		this.#_FIL.setConfig("V","L",true,false,"L",false,10,3,0,false);
-		this.#_FIL.setButton("New"    , "new", this.#_evtBind , '', null, {path:''});
-		this.#_FIL.setButton("Open"   , "ope", this.#_evtBind , '', null, {path:''});
-		this.#_FIL.setButton("Save"   , "sav", this.#_evtBind , '', null, {path:''});
+		this.#_FIL.setButton("New"    , "new", this.#B(this.#OnEvt), '', null, {path:''});
+		this.#_FIL.setButton("Open"   , "ope", this.#B(this.#OnEvt), '', null, {path:''});
+		this.#_FIL.setButton("Save"   , "sav", this.#B(this.#OnEvt), '', null, {path:''});
 
 		this.#_VIE.setConfig("V","L",true,false,"L",false,10,3,0,false);
-		this.#_VIE.setButton("Rules"    , "rul", this.#_evtBind , '', null, {path:''});
+		this.#_VIE.setButton("Rules"    , "rul", this.#B(this.#OnEvt) , '', null, {path:''});
 
 		this.#_MMU.setConfig("H","L",false,false,"L",false,10,3,0,false);
 		this.#_MMU.setButton("File"   , "fil", null           , '', this.#_FIL, {path:''});
@@ -89,12 +93,44 @@ class MainMenu extends Form {
 		this.#_MMU.setButton("Modify" , "mod", null           , '', null      , {path:''});
 		this.#_MMU.setButton("Text"   , "tex", null           , '', null      , {path:''});
 		this.#_MMU.setButton("Window" , "win", null           , '', this.#_WIN, {path:''});
-		//this.#_MMU.addEventListener(MouseEvent.ROLL_OVER, this.#_ovrBind);
-		//this.#_MMU.addEventListener(MouseEvent.ROLL_OUT, this.#_outBind);
+	
 		this.controls.multiForm = true;
 		this.#_leftBox_frm.controls.multiForm = true;
 		this.#_MMU.startMenu(this.#OnMenuComplete.bind(this));
 	}
+
+	/**-----------------------------------------------------------------------------------------------------------------------------------
+	*
+	* * * * * * * * * * * * * * * * * * * * * * * * * * * * * *                   * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+	* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * PUBLIC PROPERTIES * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+	* * * * * * * * * * * * * * * * * * * * * * * * * * * * * *                   * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+	*
+	*-----------------------------------------------------------------------------------------------------------------------------------*/
+
+	/*public function*/ get stageEditor()/*:void*/ {return this.#_windowRefs.StageEditor;}
+	/*public function*/ get tools()/*:void*/ {return this.#_windowRefs.Tools;}
+
+	/**-----------------------------------------------------------------------------------------------------------------------------------
+	*
+	* * * * * * * * * * * * * * * * * * * * * * * * * * * * * *                   * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+	* * * * * * * * * * * * * * * * * * * * * * * * * * * * * *  PUBLIC METHODS   * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+	* * * * * * * * * * * * * * * * * * * * * * * * * * * * * *                   * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+	*
+	*-----------------------------------------------------------------------------------------------------------------------------------*/
+
+	/**-----------------------------------------------------------------------------------------------------------------------------------
+	*
+	* * * * * * * * * * * * * * * * * * * * * * * * * * * * * *                   * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+	* * * * * * * * * * * * * * * * * * * * * * * * * * * * * *  PRIVATE METHODS  * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+	* * * * * * * * * * * * * * * * * * * * * * * * * * * * * *   Pascal Case     * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+	*
+	*-----------------------------------------------------------------------------------------------------------------------------------*/
+
+	/**-----------------------------------------------------------------------------------------------------------------------------------
+	*
+	* @param {Event} e 
+	*
+	*-----------------------------------------------------------------------------------------------------------------------------------*/
 
 	/*private function*/ #OnMenuComplete(e/*:Event*/)/*:void*/ {
 		this.addControl(this.#_MMU    ,'headerLeft');
@@ -108,7 +144,66 @@ class MainMenu extends Form {
 		this.#_leftBox_frm.closeBox = false;
 		this.#_leftBox_frm.anchorsMargins = {bottom:-30};
 		this.#_leftBox_frm.anchor = 'top | bottom';
+		stage.addEventListener('contextmenu', this.#OnContextMenu.bind(this));//This event is not intercepted by the EventDispatcher class
+		stage.addEventListener(MouseEvent.MOUSE_DOWN, this.#OnStageMouseDown.bind(this));
 	}
+
+	/**-----------------------------------------------------------------------------------------------------------------------------------
+	*
+	* @param {Event} e 
+	*
+	*-----------------------------------------------------------------------------------------------------------------------------------*/
+
+	/*private function*/ #OnContextMenu(e/*:Event*/)/*:void*/{
+		e.preventDefault();
+	}
+
+	/**-----------------------------------------------------------------------------------------------------------------------------------
+	 *
+	 * @param {Event} e 
+	 *
+	 *-----------------------------------------------------------------------------------------------------------------------------------*/
+
+	/*private function*/ #OnStageMouseDown(e/*:Event*/)/*:void*/{
+		if(e.nativeEvent.button==2){
+			if(!this.#_windowRefs[this.#_CTX_MENU]){	
+				G.FLoader.load(this.controls,'app/forms/windows/ContextMenu.js',this.#OnLoadCtxMenu.bind(this),
+				this.#OnCloseCtxMenu.bind(this),[this]);
+			}else{
+				this.#_windowRefs[this.#_CTX_MENU].moveToMousePointer();
+			}
+		}else{
+			if(this.#_windowRefs[this.#_CTX_MENU]){
+				this.#_windowRefs[this.#_CTX_MENU].checkClickOut();
+			}
+		}
+	}	
+
+	/**-----------------------------------------------------------------------------------------------------------------------------------
+	*
+	* #OnLoadCtxMenu()
+	*
+	*-----------------------------------------------------------------------------------------------------------------------------------*/
+
+	/*private function*/ #OnLoadCtxMenu()/*:void*/ {
+		this.#_windowRefs[this.#_CTX_MENU] = G.FLoader.content;
+	}
+	
+	/**-----------------------------------------------------------------------------------------------------------------------------------
+	*
+	* #OnCloseCtxMenu()
+	*
+	*-----------------------------------------------------------------------------------------------------------------------------------*/
+
+	/*private function*/ #OnCloseCtxMenu()/*:void*/ {
+		delete this.#_windowRefs[this.#_CTX_MENU];
+	}
+
+	/**-----------------------------------------------------------------------------------------------------------------------------------
+	*
+	* @param {Event} e
+	*
+	*-----------------------------------------------------------------------------------------------------------------------------------*/
 
 	/*private function*/ #OnEvt(e/*:Event*/)/*:void*/ {
 		const data   /*:String*/ = e.currentTarget.path;
@@ -124,43 +219,41 @@ class MainMenu extends Form {
 		}
 	}
 
+	/**-----------------------------------------------------------------------------------------------------------------------------------
+	*
+	* #LoadDefWorkSpace()
+	*
+	*-----------------------------------------------------------------------------------------------------------------------------------*/
+
 	/*private function*/ #LoadDefWorkSpace()/*:void*/ {
-		let item = this.#_defWorkSpace[this.#_windowIndex];
+		const item /*:Object*/ = this.#_defWorkSpace[this.#_windowIndex];
 		G.FLoader.load(item.target,item.path,this.#OnLoadForm.bind(this),null,[this],item.x,item.y);
 	}
 
+
+	/**-----------------------------------------------------------------------------------------------------------------------------------
+	*
+	* #OnLoadForm()
+	*
+	*-----------------------------------------------------------------------------------------------------------------------------------*/
+
 	/*private function*/ #OnLoadForm()/*:void*/ {
-		let item = this.#_defWorkSpace[this.#_windowIndex];
+		const item /*:Object*/ = this.#_defWorkSpace[this.#_windowIndex];
 		this.#_windowRefs[item.f] = G.FLoader.content;
 		if(this.#_windowIndex <this.#_defWorkSpace.length-1){
 			this.#_windowIndex++;
 			this.#LoadDefWorkSpace();
 		}
 	}
+	
+	/**-----------------------------------------------------------------------------------------------------------------------------------
+	*
+	* @param {Function} cb 
+	* @returns Function
+	*
+	*-----------------------------------------------------------------------------------------------------------------------------------*/
 
-
-	/*public function*/ get stageEditor()/*:void*/ {return this.#_windowRefs.StageEditor;}
-	/*public function*/ get tools()/*:void*/ {return this.#_windowRefs.Tools;}
-
-	//*private function*/ #OnOver(e/*:Event*/)/*:void*/{this.controls.bringToFront(this.#_MMU);}
-	//*private function*/ #OnOut(e/*:Event*/ )/*:void*/{this.controls.sendToBack(this.#_MMU);  }
-
-
-	/*
-
-let baseNameMatch = G.FLoader.content.name.match(/(\w+)_instance_\d+/);
-  if (baseNameMatch) {
-    let baseName = baseNameMatch[1];
-    // Crea una copia del array original para la comprobación
-    let originalDefWorkSpace = [...this.#_defWorkSpace];
-    // Comprueba si el nombre base está en la copia del array original
-    if (originalDefWorkSpace.includes(baseName)) {
-      // Actualiza el objeto #_windowRefs solo si el formulario está definido
-      this.#_windowRefs[baseName] = {
-        instance: G.FLoader.content,
-        uniqueId: G.FLoader.content.name
-      };
-    }
-  }
-	*/
+	/*private function*/ #B(cb/*:Function/callback*/)/*:Function*/ {
+		return this.#_BINDINGS[cb.name] ? this.#_BINDINGS[cb.name]:this.#_BINDINGS[cb.name] = cb.bind(this);
+	}
 }

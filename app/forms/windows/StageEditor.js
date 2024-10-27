@@ -30,6 +30,8 @@ class StageEditor extends Form {
 		/*inherit prop*/ this.minimizeBox       = true;
         /*inherit prop*/ this.headerHeight      = 22;
         this.#_stageEditor  = new StageEditorSPT(1024,768);
+        this.addTypeEvent(EditorEvent.EDITOR_ITEMS_CHANGE);
+		this.addTypeEvent(EditorEvent.EDITOR_ITEMS_SELECT);
 	}
 
 	/*public function*/ StageEditor(params/*:Array*/=null)/*:void*/{
@@ -49,6 +51,13 @@ class StageEditor extends Form {
         return this.#_stageEditor.onSelectedItems;
     }
 
+    /*public function*/ set onMoveSelectedItems(callback/*:Function*/)/*:Number*/{
+        this.#_stageEditor.onMoveSelectedItems = callback;
+
+    }
+    /*public function*/ get onMoveSelectedItems()/*:Function*/{
+        return this.#_stageEditor.onMoveSelectedItems;
+    }
     /**-----------------------------------------------------------------------------------------------------------------------------------
      * 
      * selectedItems

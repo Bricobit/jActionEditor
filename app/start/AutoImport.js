@@ -173,6 +173,7 @@ class AutoImport {
             <script src ='dependencies/third-parties/security/utf8_encode.js'       ></script>
             <link   rel ='stylesheet' href='dependencies/third-parties/monaco-editor/min/vs/editor/editor.main.css'>
             <script src ='dependencies/third-parties/monaco-editor/min/vs/loader.js'></script>
+            <script src ='`+appPath+`/core/events/EditorEvent.js'                   ></script>
             <script src ='`+appPath+`/start/ProxySeal.js'                           ></script>
             <script src ='`+appPath+`/start/Index.js'                               ></script>
             <script src ='`+appPath+`/start/AppStart.js'                            ></script>

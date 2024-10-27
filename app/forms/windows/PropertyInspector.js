@@ -5,14 +5,14 @@ May contain mixed comments in English and Spanish, sorry.
 For production minify this class to remove comments with the jActionMinifyAndMergeManual.bat script.
 
 @license
-This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. If a copy of the MPL 
+This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. If a copy of the MPL
 was not distributed with this file, You can obtain one at https://mozilla.org/MPL/2.0/.
-Unless required by applicable law or agreed to in writing, software distributed under the License is 
+Unless required by applicable law or agreed to in writing, software distributed under the License is
 distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and limitations under the License.
 
-You can freely use jActionEditor within MPL limitations. The default images that are 
-used by the jActionEditor they are copyrighted but can be used freely, as long as they are 
+You can freely use jActionEditor within MPL limitations. The default images that are
+used by the jActionEditor they are copyrighted but can be used freely, as long as they are
 used together to the jActionEditor.
 
 Package:      jActionEditor/app/forms/windows/PropertyInspector
@@ -22,7 +22,7 @@ Version:
 0.0.2 - Last update 2024-10-17 -> Added font, size, bold and color for textFormat
 0.0.1 - Last update 2024-05-06 -> First version
 
-This class is responsible for creating a window where you can modify and display the properties and their 
+This class is responsible for creating a window where you can modify and display the properties and their
 values ​​of the objects that are selected in the stage.
 */
 class PropertyInspector extends Form {
@@ -34,6 +34,8 @@ class PropertyInspector extends Form {
 	/*private var*/ #_selectedItem     /*:DisplayObject*/ = null;
 	/*private var*/ #_dpLabelPlacement /*:DataProvider*/  = new DataProvider(['left','right','top','bottom']);
 	/*private var*/ #_dpAutoSize       /*:DataProvider*/  = new DataProvider(['left','center','right','none']);
+	/*private var*/ #_dpHVSPolicy      /*:DataProvider*/  = new DataProvider(['auto','on','of']);
+	/*private var*/ #_PREPARED         /*:Array*/         = [];
 
 	/*public function*/ constructor(){
 		super();
@@ -53,6 +55,9 @@ class PropertyInspector extends Form {
 	/*public function*/ PropertyInspector(params/*:Array*/=null)/*:void*/{
 		this.#_owner = params[0];
 		this.#_owner.stageEditor.onSelectedItems = this.onSelectedItems.bind(this);
+		//this.#_owner.stageEditor.onMoveSelectedItems = this.onMoveSelectedItems.bind(this);
+		this.#_PREPARED  = G.FU.lst([[this                    , 'formClose'                    , this.#B(this.#Clean)                ],
+									 [this.#_owner.stageEditor, EditorEvent.EDITOR_ITEMS_CHANGE, this.#B(this.#OnChangeSelectedItems)]]);
 
 		/*
 		The full list of properties supported at the moment
@@ -62,7 +67,7 @@ class PropertyInspector extends Form {
 		propName      -> Key with the name of the property.
 		'propName'    -> Property name as a string.
 		UIComponent   -> Type of component that will be created in the inspector to display the value contained in that property of the component that is selected on the stage.
-		                 Only if the component selected in the stage has this property, otherwise it will not be created in the inspector. 
+		                 Only if the component selected in the stage has this property, otherwise it will not be created in the inspector.
 		Event         -> Common event that will be fired when the component of the property changes to reflect that value in the component on the stage
 		EventListener -> Function that will be called when the event is fired.
 		*/
@@ -228,6 +233,20 @@ class PropertyInspector extends Form {
 	*----------------------------------------------------------------------------------------------------------------------------------*/
 
 	/**-----------------------------------------------------------------------------------------------------------------------------------
+	*
+	*	#OnChangeSelectedItems
+	*
+	*----------------------------------------------------------------------------------------------------------------------------------*/
+
+	/*private function*/ #OnChangeSelectedItems(e/*:EditorEvent*/)/*:void*/{
+
+		const inspComX  /*:DisplayObject*/ = this.#_INSP['x'].com;
+		const inspComY  /*:DisplayObject*/ = this.#_INSP['y'].com;
+		inspComX.text = e.itemsChange[0].x;
+		inspComY.text = e.itemsChange[0].y;
+	}
+
+	/**-----------------------------------------------------------------------------------------------------------------------------------
 	 * [en]
 	 * Adds the components indicated in the array to the property inspector to be able to view the property values
 	 * of the selected items
@@ -263,7 +282,12 @@ class PropertyInspector extends Form {
 				component.dataProvider = this.#_dpLabelPlacement;
 			}else if(property=='autoSize'){
 				component.dataProvider = this.#_dpAutoSize;
+			}else if(property=='verticalScrollPolicy' || property=='horizontalScrollPolicy'){
+
+				component.dataProvider = this.#_dpHVSPolicy;
 			}
+
+			
 			component.tabIndex = i+1;
 			component.dynamicProperty = property;
 
@@ -314,10 +338,15 @@ class PropertyInspector extends Form {
 			//Same logic for the rest
 			if(inspCom instanceof CheckBox ){
 				if(prop=='bold'){
-					if(stageCom.getStyle){
-						const tf /*:TextFormat*/ = stageCom.getStyle("textFormat");
-						inspCom.selected = tf.bold; 
+					if(stageCom instanceof TextField){
+						inspCom.selected = stageCom.defaultTextFormat[prop]; 
+					}else{
+						if(stageCom.getStyle){
+							const tf /*:TextFormat*/ = stageCom.getStyle("textFormat");
+							inspCom.selected = tf.bold; 
+						}
 					}
+					
 				}else{
 					inspCom.selected = stageCom[prop];
 				}
@@ -327,18 +356,20 @@ class PropertyInspector extends Form {
 				if(stageCom instanceof Sprite && stageCom.name.startsWith('EmulatedStage') && prop =='className'){
 					inspCom.text = 'Stage';
 				}else{
-					if(prop=='font'){
-						if(stageCom.getStyle){
-							const tf /*:TextFormat*/ = stageCom.getStyle("textFormat");
-							inspCom.text = tf.font; 
-							//inspCom.className=='Label' ? inspCom.setStyle('textFormat',tf) : inspCom.defaultTextFormat = tf;
+
+					if(prop=='font' || prop=='size'){
+
+						if(stageCom instanceof TextField){
+							inspCom.text = stageCom.defaultTextFormat[prop]; 
+						}else{
+							if(stageCom.getStyle){
+								const tf /*:TextFormat*/ = stageCom.getStyle("textFormat");
+								inspCom.text = tf[prop]; 
+							}
 						}
-					}else if(prop=='size'){
-						if(stageCom.getStyle){
-							const tf /*:TextFormat*/ = stageCom.getStyle("textFormat");
-							inspCom.text = tf.size; 
-						}
+						
 					}else{
+						trace('stageCom.name: '+ stageCom.name+' prop: '+ prop+' value: '+ stageCom[prop]);
 						inspCom.text = stageCom[prop] == null ? '':stageCom[prop];
 					}
 					
@@ -355,11 +386,14 @@ class PropertyInspector extends Form {
 				with as3 the colorTransform object should be used, but it is not implemented.
 				*/
 				if(prop=='fontColor'){
-					if(stageCom.getStyle){
-						const tf /*:TextFormat*/ = stageCom.getStyle("textFormat");
-						//inspCom.selectedColor = tf.color;
-						inspCom.selectedColor = typeof tf.color === 'string' && tf.color.startsWith('#') ? tf.color : '#'+Color.uintToHex(tf.color);
-						
+					if(stageCom instanceof TextField){
+						inspCom.selectedColor = stageCom.defaultTextFormat.color; 
+					}else{
+						if(stageCom.getStyle){
+							const tf /*:TextFormat*/ = stageCom.getStyle("textFormat");
+							//inspCom.selectedColor = tf.color;
+							inspCom.selectedColor = typeof tf.color === 'string' && tf.color.startsWith('#') ? tf.color : '#'+Color.uintToHex(tf.color);
+						}
 					}
 				}else{
 					inspCom.selectedColor = prop=='color' ? '#'+Color.rgbStrTo(stageCom.backgroundColor) : stageCom[prop];
@@ -375,7 +409,7 @@ class PropertyInspector extends Form {
 
 	/**-----------------------------------------------------------------------------------------------------------------------------------
 	* 
-	* Elimina todas las etiquetas y componentes del inspector de propiedades
+	*	Elimina todas las etiquetas y componentes del inspector de propiedades
 	* 
 	*----------------------------------------------------------------------------------------------------------------------------------*/
 
@@ -393,92 +427,118 @@ class PropertyInspector extends Form {
 		this.#_INSP = {};
 	}
 
+	/**-----------------------------------------------------------------------------------------------------------------------------------
+	* 
+	*	#OnChange
+	* 
+	*----------------------------------------------------------------------------------------------------------------------------------*/
+
 	/*private function*/ #OnChange(e/*:Event*/)/*:void*/{
 		
-		let item /*:DisplayObject*/ = this.#_selectedItem;
+		let stageCom /*:DisplayObject*/ = this.#_selectedItem;
 		let itemTriggered = e.currentTarget;
 		let property      = e.currentTarget.dynamicProperty;
-				  if(property == 'className'               ){item[property]=itemTriggered.text;
-			}else if(property == 'name'                    ){item[property]=itemTriggered.text;
-			}else if(property == 'x'                       ){item[property]=int(itemTriggered.text);
-			}else if(property == 'y'                       ){item[property]=int(itemTriggered.text);
-			}else if(property == 'width'                   ){item[property]=int(itemTriggered.text);
-			}else if(property == 'height'                  ){item[property]=int(itemTriggered.text);
-			}else if(property == 'prompt'                  ){item[property]=itemTriggered.text;
-			}else if(property == 'restrict'                ){item[property]=itemTriggered.text;
-			}else if(property == 'rowCount'                ){item[property]=int(itemTriggered.text);
-			}else if(property == 'emphasized'              ){item[property]=itemTriggered.selected;
-			}else if(property == 'enabled'                 ){item[property]=itemTriggered.selected;
-			}else if(property == 'label'                   ){item[property]=itemTriggered.text;
-			}else if(property == 'labelPlacement'          ){item[property]=itemTriggered.selectedItem.label;
-			}else if(property == 'selected'                ){item[property]=itemTriggered.selected;
-			}else if(property == 'editable'                ){item[property]=itemTriggered.selected;
-			}else if(property == 'toggle'                  ){item[property]=itemTriggered.selected;
-			}else if(property == 'visible'                 ){item[property]=itemTriggered.selected;
-			//}else if(property == 'dataProvider'            ){item[property]=itemTriggered.text;
-			}else if(property == 'selectedColor'           ){item[property]= itemTriggered[property];
-			}else if(property == 'showTextField'           ){item[property]=itemTriggered.selected;
-			}else if(property == 'allowMultipleSelection'  ){item[property]=itemTriggered.selected;
-			}else if(property == 'headerHeight'            ){item[property]=int(itemTriggered.text);
-			}else if(property == 'horizontalLineScrollSize'){item[property]=int(itemTriggered.text);
-			}else if(property == 'horizontalPageScrollSize'){item[property]=int(itemTriggered.text);
-			//}else if(property == 'horizontalScrollPolicy'  ){item[property]=itemTriggered.text;
-			}else if(property == 'resizableColumns'        ){item[property]=itemTriggered.selected;
-			}else if(property == 'rowHeight'               ){item[property]=int(itemTriggered.text);
-			}else if(property == 'showHeaders'             ){item[property]=itemTriggered.selected;
-			}else if(property == 'sortableColumns'         ){item[property]=itemTriggered.selected;
-			}else if(property == 'verticalLineScrollSize'  ){item[property]=int(itemTriggered.text);
-			}else if(property == 'verticalPageScrollSize'  ){item[property]=int(itemTriggered.text);
-			//}else if(property == 'verticalScrollPolicy'    ){item[property]=itemTriggered.text;
-			}else if(property == 'autoSize'                ){item[property]=itemTriggered.selected;
-			}else if(property == 'condenseWhite'           ){item[property]=itemTriggered.selected;
-			}else if(property == 'htmlText'                ){item[property]=itemTriggered.text;
-			}else if(property == 'selectable'              ){item[property]=itemTriggered.selected;
-			}else if(property == 'text'                    ){item[property]=itemTriggered.text;
-			}else if(property == 'wordWrap'                ){item[property]=itemTriggered.selected;
-			}else if(property == 'maximum'                 ){item[property]=int(itemTriggered.text);
-			}else if(property == 'minimum'                 ){item[property]=int(itemTriggered.text);
-			}else if(property == 'stepSize'                ){item[property]=int(itemTriggered.text);
-			}else if(property == 'value'                   ){item[property]=itemTriggered.text;
-			//}else if(property == 'direction'               ){item[property]=itemTriggered.text;
-			//}else if(property == 'mode'                    ){item[property]=itemTriggered.text;
-			//}else if(property == 'source'                  ){item[property]=itemTriggered.text;
-			}else if(property == 'groupName'               ){item[property]=itemTriggered.text;
-			}else if(property == 'liveDragging'            ){item[property]=itemTriggered.selected;
-			}else if(property == 'snapInterval'            ){item[property]=int(itemTriggered.text);
-			}else if(property == 'tickInterval'            ){item[property]=int(itemTriggered.text);
-			}else if(property == 'maxChars'                ){item[property]=int(itemTriggered.text);
-			}else if(property == 'displayAsPassword'       ){item[property]=itemTriggered.selected;
-			}else if(property == 'color'                   ){item.backgroundColor = itemTriggered.selectedColor;
+				  if(property == 'className'               ){stageCom[property]=itemTriggered.text;
+			}else if(property == 'name'                    ){stageCom[property]=itemTriggered.text;
+			}else if(property == 'x'                       ){stageCom[property]=int(itemTriggered.text);
+			}else if(property == 'y'                       ){stageCom[property]=int(itemTriggered.text);
+			}else if(property == 'width'                   ){stageCom[property]=int(itemTriggered.text);
+			}else if(property == 'height'                  ){stageCom[property]=int(itemTriggered.text);
+			}else if(property == 'prompt'                  ){stageCom[property]=itemTriggered.text;
+			}else if(property == 'restrict'                ){stageCom[property]=itemTriggered.text;
+			}else if(property == 'rowCount'                ){stageCom[property]=int(itemTriggered.text);
+			}else if(property == 'emphasized'              ){stageCom[property]=itemTriggered.selected;
+			}else if(property == 'enabled'                 ){stageCom[property]=itemTriggered.selected;
+			}else if(property == 'label'                   ){stageCom[property]=itemTriggered.text;
+			}else if(property == 'labelPlacement'          ){stageCom[property]=itemTriggered.selectedItem.label;
+			}else if(property == 'selected'                ){stageCom[property]=itemTriggered.selected;
+			}else if(property == 'editable'                ){stageCom[property]=itemTriggered.selected;
+			}else if(property == 'toggle'                  ){stageCom[property]=itemTriggered.selected;
+			}else if(property == 'visible'                 ){stageCom[property]=itemTriggered.selected;
+			//}else if(property == 'dataProvider'            ){stageCom[property]=itemTriggered.text;
+			}else if(property == 'selectedColor'           ){stageCom[property]= itemTriggered[property];
+			}else if(property == 'showTextField'           ){stageCom[property]=itemTriggered.selected;
+			}else if(property == 'allowMultipleSelection'  ){stageCom[property]=itemTriggered.selected;
+			}else if(property == 'headerHeight'            ){stageCom[property]=int(itemTriggered.text);
+			}else if(property == 'horizontalLineScrollSize'){stageCom[property]=int(itemTriggered.text);
+			}else if(property == 'horizontalPageScrollSize'){stageCom[property]=int(itemTriggered.text);
+			//}else if(property == 'horizontalScrollPolicy'  ){stageCom[property]=itemTriggered.text;
+			}else if(property == 'resizableColumns'        ){stageCom[property]=itemTriggered.selected;
+			}else if(property == 'rowHeight'               ){stageCom[property]=int(itemTriggered.text);
+			}else if(property == 'showHeaders'             ){stageCom[property]=itemTriggered.selected;
+			}else if(property == 'sortableColumns'         ){stageCom[property]=itemTriggered.selected;
+			}else if(property == 'verticalLineScrollSize'  ){stageCom[property]=int(itemTriggered.text);
+			}else if(property == 'verticalPageScrollSize'  ){stageCom[property]=int(itemTriggered.text);
+			//}else if(property == 'verticalScrollPolicy'    ){stageCom[property]=itemTriggered.text;
+			}else if(property == 'autoSize'                ){stageCom[property]=itemTriggered.selected;
+			}else if(property == 'condenseWhite'           ){stageCom[property]=itemTriggered.selected;
+			}else if(property == 'htmlText'                ){stageCom[property]=itemTriggered.text;
+			}else if(property == 'selectable'              ){stageCom[property]=itemTriggered.selected;
+			}else if(property == 'text'                    ){stageCom[property]=itemTriggered.text;
+			}else if(property == 'wordWrap'                ){stageCom[property]=itemTriggered.selected;
+			}else if(property == 'maximum'                 ){stageCom[property]=int(itemTriggered.text);
+			}else if(property == 'minimum'                 ){stageCom[property]=int(itemTriggered.text);
+			}else if(property == 'stepSize'                ){stageCom[property]=int(itemTriggered.text);
+			}else if(property == 'value'                   ){stageCom[property]=itemTriggered.text;
+			//}else if(property == 'direction'               ){stageCom[property]=itemTriggered.text;
+			//}else if(property == 'mode'                    ){stageCom[property]=itemTriggered.text;
+			//}else if(property == 'source'                  ){stageCom[property]=itemTriggered.text;
+			}else if(property == 'groupName'               ){stageCom[property]=itemTriggered.text;
+			}else if(property == 'liveDragging'            ){stageCom[property]=itemTriggered.selected;
+			}else if(property == 'snapInterval'            ){stageCom[property]=int(itemTriggered.text);
+			}else if(property == 'tickInterval'            ){stageCom[property]=int(itemTriggered.text);
+			}else if(property == 'maxChars'                ){stageCom[property]=int(itemTriggered.text);
+			}else if(property == 'displayAsPassword'       ){stageCom[property]=itemTriggered.selected;
+			}else if(property == 'color'                   ){stageCom.backgroundColor = itemTriggered.selectedColor;
 			}else if(property == 'font'                    ){
 
-				const tf /*:TextFormat*/ = item.getStyle("textFormat");
-				tf.font = itemTriggered.text;
-				item.setStyle("textFormat",tf);
+				
+				if(stageCom instanceof TextField){
+					stageCom.updateTextFormat(property,itemTriggered.text);
+				}else{
+					const tf /*:TextFormat*/ = stageCom.getStyle("textFormat");
+					tf.font = itemTriggered.text;
+					stageCom.setStyle("textFormat",tf);
+				}
+				
 
 			}else if(property == 'size'                    ){
-				const tf /*:TextFormat*/ = item.getStyle("textFormat");
-				tf.size = int(itemTriggered.text);
-				item.setStyle("textFormat",tf);
+
+				if(stageCom instanceof TextField){
+					stageCom.updateTextFormat(property,int(itemTriggered.text));
+				}else{
+					const tf /*:TextFormat*/ = stageCom.getStyle("textFormat");
+					tf.size = int(itemTriggered.text);
+					stageCom.setStyle("textFormat",tf);
+				}
 			}else if(property == 'bold'                    ){
-				const tf /*:TextFormat*/ = item.getStyle("textFormat");
-				tf.bold = itemTriggered.selected;
-				item.setStyle("textFormat",tf);
+				if(stageCom instanceof TextField){
+					stageCom.updateTextFormat(property,itemTriggered.selected);
+				}else{
+					const tf /*:TextFormat*/ = stageCom.getStyle("textFormat");
+					tf.bold = itemTriggered.selected;
+					stageCom.setStyle("textFormat",tf);
+				}
 			}else if(property == 'fontColor'               ){
-				const tf /*:TextFormat*/ = item.getStyle("textFormat");
-				tf.color = itemTriggered.selectedColor; 
-				item.setStyle("textFormat",tf);
+				if(stageCom instanceof TextField){
+					stageCom.updateTextFormat('color',itemTriggered.selectedColor);
+				}else{
+					const tf /*:TextFormat*/ = stageCom.getStyle("textFormat");
+					tf.color = itemTriggered.selectedColor; 
+					stageCom.setStyle("textFormat",tf);
+				}
 			}
 
 
 
-		//       if(item instanceof TextInput            ){params = this.#_params.txi;
-		// }else if(item instanceof ColorPicker          ){item.selectedColor = e.currentTarget.selectedColor;
-		// }else if(item.name.startsWith('EmulatedStage')){item.backgroundColor = e.currentTarget.selectedColor;}
+		//       if(stageCom instanceof TextInput            ){params = this.#_params.txi;
+		// }else if(stageCom instanceof ColorPicker          ){stageCom.selectedColor = e.currentTarget.selectedColor;
+		// }else if(stageCom.name.startsWith('EmulatedStage')){stageCom.backgroundColor = e.currentTarget.selectedColor;}
 	}
 
+	/*private function*/ #Clean(e/*:Event*/)/*:void*/{FormUtils.prepareComponents(this.#_PREPARED,'remove');}
 	/*private function*/ #B(cb/*:Function/callback*/,bind/*:Object*/=this)/*:Function*/ {return this.#_BINDINGS[cb.name] ? this.#_BINDINGS[cb.name]:this.#_BINDINGS[cb.name] = cb.bind(bind);}
-
+	///*private function*/ #B(cb/*:Function/callback*/)/*:Function*/ {return this.#_BINDS[cb.name] ? this.#_BINDS[cb.name]:this.#_BINDS[cb.name] = cb.bind(this);}
 	
 
 	// /*private function*/ #Enabled(array,props)/*:void*/{

@@ -1,0 +1,318 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/24.7.17 Chrome/128.0.6613.36 Electron/32.0.1 Safari/537.36" version="24.7.17">
+  <diagram id="C5RBs43oDa-KdzZeNtuy" name="Page-1">
+    <mxGraphModel dx="1970" dy="1245" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="WIyWlLk6GJQsqaUBKTNV-0" />
+        <mxCell id="WIyWlLk6GJQsqaUBKTNV-1" parent="WIyWlLk6GJQsqaUBKTNV-0" />
+        <mxCell id="zkfFHV4jXpPFQw0GAbJ--0" value="0) index.php&#xa;Editor&#39;s starting point" style="swimlane;fontStyle=2;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=45;horizontalStack=0;resizeParent=1;resizeLast=0;collapsible=1;marginBottom=0;rounded=0;shadow=0;strokeWidth=1;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
+          <mxGeometry width="250" height="130" as="geometry">
+            <mxRectangle x="220" y="120" width="160" height="26" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="zkfFHV4jXpPFQw0GAbJ--1" value="Step1: Load AutoImport.js" style="text;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="zkfFHV4jXpPFQw0GAbJ--0" vertex="1">
+          <mxGeometry y="45" width="250" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="zkfFHV4jXpPFQw0GAbJ--2" value="Step2: Instance ProxySeal.js&#xa;const G = new ProxySeal(new Index(..." style="text;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rounded=0;shadow=0;html=0;fillColor=#f8cecc;strokeColor=#b85450;" parent="zkfFHV4jXpPFQw0GAbJ--0" vertex="1">
+          <mxGeometry y="71" width="250" height="49" as="geometry" />
+        </mxCell>
+        <mxCell id="zkfFHV4jXpPFQw0GAbJ--17" value="2) app/start/ProxySeal.js" style="swimlane;fontStyle=0;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeLast=0;collapsible=1;marginBottom=0;rounded=0;shadow=0;strokeWidth=1;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
+          <mxGeometry x="10" y="160" width="200" height="200" as="geometry">
+            <mxRectangle x="550" y="140" width="160" height="26" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="zkfFHV4jXpPFQw0GAbJ--18" value="When ProxySeal is instantiated, the Index.js class is instantiated in turn, which then returns said sealed class/object so that properties cannot be added on the fly, but their values ​​are accessible from the global scope for the entire application by assigning the object to the variable G" style="text;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;" parent="zkfFHV4jXpPFQw0GAbJ--17" vertex="1">
+          <mxGeometry y="26" width="200" height="174" as="geometry" />
+        </mxCell>
+        <mxCell id="zkfFHV4jXpPFQw0GAbJ--26" value="" style="endArrow=open;shadow=0;strokeWidth=1;rounded=0;curved=0;endFill=1;edgeStyle=elbowEdgeStyle;elbow=vertical;" parent="WIyWlLk6GJQsqaUBKTNV-1" source="zkfFHV4jXpPFQw0GAbJ--2" target="zkfFHV4jXpPFQw0GAbJ--17" edge="1">
+          <mxGeometry x="0.5" y="41" relative="1" as="geometry">
+            <mxPoint x="380" y="192" as="sourcePoint" />
+            <mxPoint x="540" y="192" as="targetPoint" />
+            <mxPoint x="-40" y="32" as="offset" />
+            <Array as="points">
+              <mxPoint x="260" y="200" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="l2wsSnraBKrME0LePlul-1" value="&lt;div style=&quot;background-color: rgb(232, 232, 234); font-family: Consolas, &amp;quot;Courier New&amp;quot;, monospace; line-height: 19px; white-space: pre;&quot;&gt;&lt;font color=&quot;#330000&quot; style=&quot;font-size: 12px;&quot;&gt;1) app/start/AutoImport.js&lt;/font&gt;&lt;/div&gt;" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;align=center;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
+          <mxGeometry x="370" width="240" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="l2wsSnraBKrME0LePlul-2" value="&lt;span lang=&quot;en&quot; class=&quot;HwtZe&quot;&gt;Depending on whether the domain is production or development, it loads the minified and unified jAction library for production or each class separately for development, also loads the editor related classes and third-party dependencies&lt;/span&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" parent="l2wsSnraBKrME0LePlul-1" vertex="1">
+          <mxGeometry y="30" width="240" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="l2wsSnraBKrME0LePlul-0" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=-0.014;entryY=0.169;entryDx=0;entryDy=0;entryPerimeter=0;" parent="WIyWlLk6GJQsqaUBKTNV-1" source="zkfFHV4jXpPFQw0GAbJ--1" target="l2wsSnraBKrME0LePlul-1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="590" y="177.83333333333348" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="l2wsSnraBKrME0LePlul-13" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="WIyWlLk6GJQsqaUBKTNV-1" source="l2wsSnraBKrME0LePlul-6" target="l2wsSnraBKrME0LePlul-12" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="l2wsSnraBKrME0LePlul-6" value="&lt;span style=&quot;font-weight: normal;&quot;&gt;3) app/start/Index.js&lt;/span&gt;" style="swimlane;whiteSpace=wrap;html=1;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
+          <mxGeometry x="310" y="200" width="230" height="260" as="geometry" />
+        </mxCell>
+        <mxCell id="l2wsSnraBKrME0LePlul-7" value="Index.js is responsible for listening when the entire jAction library is loaded, then initializes predefined components of the library and its framework, the server, and other reusable ones that do not need to be reinstantiated, creates properties with reference to certain instances, so that they are accessible from the global variable G, stores some values ​​from the config.json file which is loaded by the library and finally Index.js instantiates AppStart.js this.AppStart = new AppStart();" style="text;align=left;verticalAlign=middle;resizable=1;points=[];autosize=0;strokeColor=none;fillColor=none;movable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;collapsible=0;container=0;overflow=visible;fixedWidth=0;whiteSpace=wrap;" parent="l2wsSnraBKrME0LePlul-6" vertex="1">
+          <mxGeometry x="9" y="30" width="190" height="220" as="geometry" />
+        </mxCell>
+        <mxCell id="l2wsSnraBKrME0LePlul-10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=-0.008;entryY=0.137;entryDx=0;entryDy=0;entryPerimeter=0;" parent="WIyWlLk6GJQsqaUBKTNV-1" source="zkfFHV4jXpPFQw0GAbJ--18" target="l2wsSnraBKrME0LePlul-7" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="l2wsSnraBKrME0LePlul-11" value="&lt;span style=&quot;font-weight: normal;&quot;&gt;4) app/start/AppStart.js&lt;/span&gt;" style="swimlane;whiteSpace=wrap;html=1;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
+          <mxGeometry x="620" y="460" width="600" height="320" as="geometry" />
+        </mxCell>
+        <mxCell id="l2wsSnraBKrME0LePlul-12" value="AppStart.js is the final part of the initialization, this file is in charge of listening every time the skin system has changed to reload the necessary files and styles, it also decides which graphical screen to show depending on the type of action and the programmed options, for example a previous login, a recovery screen, a registration screen, etc., this is still to be decided, at the moment the default graphical screen that is loaded as the final part of the project initialization and as a starting point for the UI is in principle the Login screen. From here on all UI screen loadings are done dynamically using LoadForm" style="text;align=left;verticalAlign=middle;resizable=1;points=[];autosize=0;strokeColor=none;fillColor=none;movable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;collapsible=0;container=0;overflow=visible;fixedWidth=0;whiteSpace=wrap;" parent="l2wsSnraBKrME0LePlul-11" vertex="1">
+          <mxGeometry x="9" y="30" width="581" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="l2wsSnraBKrME0LePlul-16" value="G.FLoader.load(stage, &#39;app/forms/Login.js&#39;);" style="text;align=center;verticalAlign=middle;resizable=1;points=[];autosize=0;strokeColor=#d6b656;fillColor=#fff2cc;movable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;collapsible=0;container=0;overflow=visible;fixedWidth=0;whiteSpace=wrap;" parent="l2wsSnraBKrME0LePlul-11" vertex="1">
+          <mxGeometry x="9.5" y="140" width="581" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="l2wsSnraBKrME0LePlul-18" value="G.FLoader.load(stage, &#39;app/forms/InitForm.js&#39;);" style="text;align=center;verticalAlign=middle;resizable=1;points=[];autosize=0;strokeColor=#d6b656;fillColor=#fff2cc;movable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;collapsible=0;container=0;overflow=visible;fixedWidth=0;whiteSpace=wrap;" parent="l2wsSnraBKrME0LePlul-11" vertex="1">
+          <mxGeometry x="9" y="250" width="581" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="l2wsSnraBKrME0LePlul-19" value="If the login was correct we AppStart load InitForm" style="text;align=left;verticalAlign=middle;resizable=1;points=[];autosize=0;strokeColor=none;fillColor=none;movable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;collapsible=0;container=0;overflow=visible;fixedWidth=0;whiteSpace=wrap;" parent="l2wsSnraBKrME0LePlul-11" vertex="1">
+          <mxGeometry x="19" y="200" width="581" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="l2wsSnraBKrME0LePlul-14" value="&lt;span style=&quot;font-weight: normal;&quot;&gt;5) app/forms/Login.js&lt;/span&gt;" style="swimlane;whiteSpace=wrap;html=1;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
+          <mxGeometry x="29" y="530" width="230" height="190" as="geometry" />
+        </mxCell>
+        <mxCell id="l2wsSnraBKrME0LePlul-15" value="Login" style="text;align=left;verticalAlign=middle;resizable=1;points=[];autosize=0;strokeColor=#b85450;fillColor=#f8cecc;movable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;collapsible=0;container=0;overflow=visible;fixedWidth=0;whiteSpace=wrap;" parent="l2wsSnraBKrME0LePlul-14" vertex="1">
+          <mxGeometry x="9" y="30" width="211" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="l2wsSnraBKrME0LePlul-21" value="If the login is correct, the screen closes and notifies AppStart." style="text;align=left;verticalAlign=middle;resizable=1;points=[];autosize=0;strokeColor=#d6b656;fillColor=#fff2cc;movable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;collapsible=0;container=0;overflow=visible;fixedWidth=0;whiteSpace=wrap;" parent="l2wsSnraBKrME0LePlul-14" vertex="1">
+          <mxGeometry x="9" y="100" width="211" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="l2wsSnraBKrME0LePlul-17" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="WIyWlLk6GJQsqaUBKTNV-1" source="l2wsSnraBKrME0LePlul-16" target="l2wsSnraBKrME0LePlul-15" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="l2wsSnraBKrME0LePlul-22" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="WIyWlLk6GJQsqaUBKTNV-1" source="l2wsSnraBKrME0LePlul-21" target="l2wsSnraBKrME0LePlul-19" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="l2wsSnraBKrME0LePlul-23" value="&lt;span style=&quot;font-weight: normal;&quot;&gt;6) app/forms/InitForm.js&lt;/span&gt;" style="swimlane;whiteSpace=wrap;html=1;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
+          <mxGeometry x="10" y="790" width="320" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="l2wsSnraBKrME0LePlul-24" value="InitForm auto load MainMenu.js&#xa;G.FLoader.load(stage, &#39;app/forms/MainMenu.js&#39;);&#xa;" style="text;align=left;verticalAlign=middle;resizable=1;points=[];autosize=0;strokeColor=#b85450;fillColor=#f8cecc;movable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;collapsible=0;container=0;overflow=visible;fixedWidth=0;whiteSpace=wrap;" parent="l2wsSnraBKrME0LePlul-23" vertex="1">
+          <mxGeometry x="9" y="30" width="301" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="l2wsSnraBKrME0LePlul-27" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" parent="WIyWlLk6GJQsqaUBKTNV-1" source="l2wsSnraBKrME0LePlul-18" target="l2wsSnraBKrME0LePlul-23" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="l2wsSnraBKrME0LePlul-28" value="&lt;span style=&quot;font-weight: normal;&quot;&gt;7) app/forms/menus/MainMenu.js&lt;/span&gt;" style="swimlane;whiteSpace=wrap;html=1;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
+          <mxGeometry x="10" y="950" width="1450" height="170" as="geometry" />
+        </mxCell>
+        <mxCell id="l2wsSnraBKrME0LePlul-29" value="MainMenu is responsible for loading other screens and loading certain screens by default.&#xa;&#xa;for example StageEditor, Elements/Components, Tools, SetLayout, GetLayout, Actions, PropertyInspector" style="text;align=left;verticalAlign=middle;resizable=1;points=[];autosize=0;strokeColor=#b85450;fillColor=#f8cecc;movable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;collapsible=0;container=0;overflow=visible;fixedWidth=0;whiteSpace=wrap;" parent="l2wsSnraBKrME0LePlul-28" vertex="1">
+          <mxGeometry x="9" y="30" width="1421" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="l2wsSnraBKrME0LePlul-76" value="File&#xa;Open&#xa;Save" style="text;align=left;verticalAlign=middle;resizable=1;points=[];autosize=0;strokeColor=#6c8ebf;fillColor=#dae8fc;movable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;collapsible=0;container=0;overflow=visible;fixedWidth=0;whiteSpace=wrap;" parent="l2wsSnraBKrME0LePlul-28" vertex="1">
+          <mxGeometry x="10" y="110" width="50" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="l2wsSnraBKrME0LePlul-77" value="Edit" style="text;align=left;verticalAlign=middle;resizable=1;points=[];autosize=0;strokeColor=#6c8ebf;fillColor=#dae8fc;movable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;collapsible=0;container=0;overflow=visible;fixedWidth=0;whiteSpace=wrap;" parent="l2wsSnraBKrME0LePlul-28" vertex="1">
+          <mxGeometry x="90" y="110" width="30" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="l2wsSnraBKrME0LePlul-81" value="View" style="text;align=left;verticalAlign=middle;resizable=1;points=[];autosize=0;strokeColor=#6c8ebf;fillColor=#dae8fc;movable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;collapsible=0;container=0;overflow=visible;fixedWidth=0;whiteSpace=wrap;" parent="l2wsSnraBKrME0LePlul-28" vertex="1">
+          <mxGeometry x="160" y="110" width="40" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="l2wsSnraBKrME0LePlul-90" value="Insert" style="text;align=left;verticalAlign=middle;resizable=1;points=[];autosize=0;strokeColor=#6c8ebf;fillColor=#dae8fc;movable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;collapsible=0;container=0;overflow=visible;fixedWidth=0;whiteSpace=wrap;" parent="l2wsSnraBKrME0LePlul-28" vertex="1">
+          <mxGeometry x="230" y="110" width="50" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="l2wsSnraBKrME0LePlul-91" value="Modify" style="text;align=left;verticalAlign=middle;resizable=1;points=[];autosize=0;strokeColor=#6c8ebf;fillColor=#dae8fc;movable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;collapsible=0;container=0;overflow=visible;fixedWidth=0;whiteSpace=wrap;" parent="l2wsSnraBKrME0LePlul-28" vertex="1">
+          <mxGeometry x="300" y="110" width="50" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="l2wsSnraBKrME0LePlul-92" value="Text" style="text;align=left;verticalAlign=middle;resizable=1;points=[];autosize=0;strokeColor=#6c8ebf;fillColor=#dae8fc;movable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;collapsible=0;container=0;overflow=visible;fixedWidth=0;whiteSpace=wrap;" parent="l2wsSnraBKrME0LePlul-28" vertex="1">
+          <mxGeometry x="370" y="110" width="50" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="l2wsSnraBKrME0LePlul-107" value="Windows" style="text;align=center;verticalAlign=middle;resizable=1;points=[];autosize=0;strokeColor=#6c8ebf;fillColor=#dae8fc;movable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;collapsible=0;container=0;overflow=visible;fixedWidth=0;whiteSpace=wrap;" parent="l2wsSnraBKrME0LePlul-28" vertex="1">
+          <mxGeometry x="470" y="110" width="80" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="l2wsSnraBKrME0LePlul-31" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.178;entryY=0.002;entryDx=0;entryDy=0;entryPerimeter=0;" parent="WIyWlLk6GJQsqaUBKTNV-1" source="l2wsSnraBKrME0LePlul-24" target="l2wsSnraBKrME0LePlul-28" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="l2wsSnraBKrME0LePlul-42" value="&lt;span style=&quot;font-weight: 400;&quot;&gt;\app\forms\windows\StageEditor.js StageEditor Extends Form Implements&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;background-color: rgb(232, 232, 234); font-family: Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-size: 14px; font-weight: normal; white-space: pre;&quot;&gt;StageEditorSPT&lt;/span&gt;" style="swimlane;whiteSpace=wrap;html=1;direction=east;fillColor=#E6E6E6;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
+          <mxGeometry x="10" y="1860" width="1060" height="830" as="geometry" />
+        </mxCell>
+        <mxCell id="l2wsSnraBKrME0LePlul-43" value="This is a draggable container form with a title and that inside instantiates the StageEditorSPT class that extends Sprite and implements or exposes some of its properties through composition.&#xa;" style="text;align=left;verticalAlign=middle;resizable=1;points=[];autosize=0;strokeColor=#b85450;fillColor=#f8cecc;movable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;collapsible=0;container=0;overflow=visible;fixedWidth=0;whiteSpace=wrap;" parent="l2wsSnraBKrME0LePlul-42" vertex="1">
+          <mxGeometry x="9" y="30" width="1031" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="l2wsSnraBKrME0LePlul-45" value="&lt;span style=&quot;font-weight: 400;&quot;&gt;\app\core\stage\StageEditorSPT.js Sprite&lt;/span&gt;" style="swimlane;whiteSpace=wrap;html=1;" parent="l2wsSnraBKrME0LePlul-42" vertex="1">
+          <mxGeometry x="18" y="81" width="1011" height="730" as="geometry" />
+        </mxCell>
+        <mxCell id="l2wsSnraBKrME0LePlul-46" value="this class instantiates Sprite(&#39;ScrollableContainer&#39;+_Object.incrementId());, Sprite(&#39;EmulatedStage&#39;+_Object.incrementId());&#xa; Sprite(&#39;BackStage&#39;+_Object.incrementId());&#xa;It is also responsible for:&#xa;Dragging or dropping the stage or a component&#xa;Selecting components&#xa;Activating rules&#xa;Communicating the selected component to the PropertyInspector form.&#xa;Among other things.&#xa;Everything is in the testing phase and the code can change logic or location at any time.&#xa;" style="text;align=left;verticalAlign=middle;resizable=1;points=[];autosize=0;strokeColor=#b85450;fillColor=#f8cecc;movable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;collapsible=0;container=0;overflow=visible;fixedWidth=0;whiteSpace=wrap;" parent="l2wsSnraBKrME0LePlul-45" vertex="1">
+          <mxGeometry x="42" y="53" width="671" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="l2wsSnraBKrME0LePlul-49" value="ScrollableContainer Sprite" style="swimlane;whiteSpace=wrap;html=1;" parent="l2wsSnraBKrME0LePlul-45" vertex="1">
+          <mxGeometry x="42" y="210" width="639" height="500" as="geometry" />
+        </mxCell>
+        <mxCell id="l2wsSnraBKrME0LePlul-50" value="BackStage Sprite" style="swimlane;whiteSpace=wrap;html=1;fillColor=#E6E6E6;fontColor=#333333;strokeColor=#666666;" parent="l2wsSnraBKrME0LePlul-49" vertex="1">
+          <mxGeometry x="15.870000000000001" y="89" width="608.25" height="351" as="geometry" />
+        </mxCell>
+        <mxCell id="l2wsSnraBKrME0LePlul-51" value="EmulatedStage Sprite" style="swimlane;whiteSpace=wrap;html=1;fillColor=default;backgroundOutline=0;perimeterSpacing=9;shadow=0;rounded=0;swimlaneLine=1;glass=0;labelBackgroundColor=none;" parent="l2wsSnraBKrME0LePlul-50" vertex="1">
+          <mxGeometry x="29.619999999999997" y="130" width="527" height="200" as="geometry">
+            <mxRectangle x="29.619999999999997" y="130" width="160" height="30" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="l2wsSnraBKrME0LePlul-52" value="Button" style="rounded=0;whiteSpace=wrap;html=1;" parent="l2wsSnraBKrME0LePlul-51" vertex="1">
+          <mxGeometry x="40" y="100" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="l2wsSnraBKrME0LePlul-54" value="EmulatedStage is the container where the components are actually inserted, when a layout is exported only the components inside it are taken into account." style="text;align=left;verticalAlign=middle;resizable=1;points=[];autosize=0;strokeColor=#b85450;fillColor=#f8cecc;movable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;collapsible=0;container=0;overflow=visible;fixedWidth=0;whiteSpace=wrap;" parent="l2wsSnraBKrME0LePlul-51" vertex="1">
+          <mxGeometry x="10" y="30" width="480" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="l2wsSnraBKrME0LePlul-55" value="Text" style="rounded=0;whiteSpace=wrap;html=1;" parent="l2wsSnraBKrME0LePlul-51" vertex="1">
+          <mxGeometry x="240" y="85" width="80" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="l2wsSnraBKrME0LePlul-56" value="ComboBox" style="rounded=0;whiteSpace=wrap;html=1;" parent="l2wsSnraBKrME0LePlul-51" vertex="1">
+          <mxGeometry x="294" y="130" width="80" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="l2wsSnraBKrME0LePlul-53" value="backStage is the EmulatedStage container, it is responsible for listening to events within itself and the EmulatedStage to know, for example, which component is selected or not. It must be sized depending on the size of EmulatedStage to allow, through scrolls, the complete displacement of the entire stage when it is larger than its parent container StageEditorSPT." style="text;align=left;verticalAlign=middle;resizable=1;points=[];autosize=0;strokeColor=#b85450;fillColor=#f8cecc;movable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;collapsible=0;container=0;overflow=visible;fixedWidth=0;whiteSpace=wrap;" parent="l2wsSnraBKrME0LePlul-50" vertex="1">
+          <mxGeometry x="29.62" y="40" width="549" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="MB90wAZ0_Ex1n7Y58E06-0" value="When the hand tool is active, this is the container that is dragged to move the entire assembly." style="text;align=left;verticalAlign=middle;resizable=1;points=[];autosize=0;strokeColor=#b85450;fillColor=#f8cecc;movable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;collapsible=0;container=0;overflow=visible;fixedWidth=0;whiteSpace=wrap;" parent="l2wsSnraBKrME0LePlul-49" vertex="1">
+          <mxGeometry x="59.99" y="39" width="520" height="31" as="geometry" />
+        </mxCell>
+        <mxCell id="l2wsSnraBKrME0LePlul-84" value="HRule" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" parent="l2wsSnraBKrME0LePlul-45" vertex="1">
+          <mxGeometry x="7.5" y="27" width="990" height="21" as="geometry" />
+        </mxCell>
+        <mxCell id="l2wsSnraBKrME0LePlul-85" value="V&lt;div&gt;Rule&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;direction=west;" parent="l2wsSnraBKrME0LePlul-45" vertex="1">
+          <mxGeometry x="7.5" y="53" width="27" height="651" as="geometry" />
+        </mxCell>
+        <mxCell id="l2wsSnraBKrME0LePlul-57" value="&lt;span style=&quot;font-weight: 400;&quot;&gt;\app\forms\windows\Elements.js Form&lt;/span&gt;" style="swimlane;whiteSpace=wrap;html=1;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
+          <mxGeometry x="610" y="1640" width="236" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="l2wsSnraBKrME0LePlul-58" value="List of available components&#xa;Designed to select the components you want to add to the stage to create the layout&#xa;" style="text;align=left;verticalAlign=middle;resizable=1;points=[];autosize=0;strokeColor=#b85450;fillColor=#f8cecc;movable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;collapsible=0;container=0;overflow=visible;fixedWidth=0;whiteSpace=wrap;" parent="l2wsSnraBKrME0LePlul-57" vertex="1">
+          <mxGeometry x="5" y="30" width="181" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="l2wsSnraBKrME0LePlul-59" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.25;entryY=0;entryDx=0;entryDy=0;" parent="WIyWlLk6GJQsqaUBKTNV-1" source="l2wsSnraBKrME0LePlul-36" target="l2wsSnraBKrME0LePlul-57" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="l2wsSnraBKrME0LePlul-61" value="&lt;span style=&quot;font-weight: 400;&quot;&gt;\app\forms\windows\Tools.js Form&lt;/span&gt;" style="swimlane;whiteSpace=wrap;html=1;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
+          <mxGeometry x="890" y="1580" width="220" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="l2wsSnraBKrME0LePlul-62" value="List of available tools&#xa;Designed to select the tool to use" style="text;align=left;verticalAlign=middle;resizable=1;points=[];autosize=0;strokeColor=#b85450;fillColor=#f8cecc;movable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;collapsible=0;container=0;overflow=visible;fixedWidth=0;whiteSpace=wrap;" parent="l2wsSnraBKrME0LePlul-61" vertex="1">
+          <mxGeometry x="5" y="30" width="195" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="l2wsSnraBKrME0LePlul-64" value="&lt;span style=&quot;font-weight: 400;&quot;&gt;\app\forms\windows\SetLayout.js Form&lt;/span&gt;" style="swimlane;whiteSpace=wrap;html=1;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
+          <mxGeometry x="1125" y="1530" width="230" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="l2wsSnraBKrME0LePlul-65" value="(Provisional) Allows you to paste a layout and it is automatically generated on the stage" style="text;align=left;verticalAlign=middle;resizable=1;points=[];autosize=0;strokeColor=#b85450;fillColor=#f8cecc;movable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;collapsible=0;container=0;overflow=visible;fixedWidth=0;whiteSpace=wrap;" parent="l2wsSnraBKrME0LePlul-64" vertex="1">
+          <mxGeometry x="5" y="30" width="215" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="l2wsSnraBKrME0LePlul-67" value="&lt;span style=&quot;font-weight: 400;&quot;&gt;\app\forms\windows\GetLayout.js Form&lt;/span&gt;" style="swimlane;whiteSpace=wrap;html=1;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
+          <mxGeometry x="980" y="1400" width="230" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="l2wsSnraBKrME0LePlul-68" value="(Provisional) Allows you to retrieve the layout designed in the scenario so that it can be inserted into a Form" style="text;align=left;verticalAlign=middle;resizable=1;points=[];autosize=0;strokeColor=#b85450;fillColor=#f8cecc;movable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;collapsible=0;container=0;overflow=visible;fixedWidth=0;whiteSpace=wrap;" parent="l2wsSnraBKrME0LePlul-67" vertex="1">
+          <mxGeometry x="5" y="30" width="215" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="l2wsSnraBKrME0LePlul-70" value="&lt;span style=&quot;font-weight: 400;&quot;&gt;\app\forms\windows\Actions.js Form&lt;/span&gt;" style="swimlane;whiteSpace=wrap;html=1;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
+          <mxGeometry x="930" y="1290" width="230" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="l2wsSnraBKrME0LePlul-71" value="Code actions screen, ready for future use" style="text;align=left;verticalAlign=middle;resizable=1;points=[];autosize=0;strokeColor=#b85450;fillColor=#f8cecc;movable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;collapsible=0;container=0;overflow=visible;fixedWidth=0;whiteSpace=wrap;" parent="l2wsSnraBKrME0LePlul-70" vertex="1">
+          <mxGeometry x="5" y="30" width="215" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="l2wsSnraBKrME0LePlul-73" value="&lt;span style=&quot;font-weight: 400;&quot;&gt;\app\forms\windows\PorpertyInspector.js Form&lt;/span&gt;" style="swimlane;whiteSpace=wrap;html=1;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
+          <mxGeometry x="1120" y="1169" width="320" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="l2wsSnraBKrME0LePlul-74" value="Communicates with the EmulatedStage, responsible for displaying the properties of the selected component" style="text;align=left;verticalAlign=middle;resizable=1;points=[];autosize=0;strokeColor=#b85450;fillColor=#f8cecc;movable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;collapsible=0;container=0;overflow=visible;fixedWidth=0;whiteSpace=wrap;" parent="l2wsSnraBKrME0LePlul-73" vertex="1">
+          <mxGeometry x="5" y="30" width="295" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="l2wsSnraBKrME0LePlul-78" value="Not yet implemented" style="text;align=left;verticalAlign=middle;resizable=1;points=[];autosize=0;strokeColor=#b85450;fillColor=#f8cecc;movable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;collapsible=0;container=0;overflow=visible;fixedWidth=0;whiteSpace=wrap;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
+          <mxGeometry x="10" y="1250" width="130" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="l2wsSnraBKrME0LePlul-79" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.254;entryY=0.131;entryDx=0;entryDy=0;entryPerimeter=0;" parent="WIyWlLk6GJQsqaUBKTNV-1" source="l2wsSnraBKrME0LePlul-76" target="l2wsSnraBKrME0LePlul-78" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="l2wsSnraBKrME0LePlul-80" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.48;entryY=0.076;entryDx=0;entryDy=0;entryPerimeter=0;" parent="WIyWlLk6GJQsqaUBKTNV-1" source="l2wsSnraBKrME0LePlul-77" target="l2wsSnraBKrME0LePlul-78" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="l2wsSnraBKrME0LePlul-88" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.082;entryY=0.204;entryDx=0;entryDy=0;entryPerimeter=0;" parent="WIyWlLk6GJQsqaUBKTNV-1" source="l2wsSnraBKrME0LePlul-83" target="l2wsSnraBKrME0LePlul-84" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="l2wsSnraBKrME0LePlul-89" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="WIyWlLk6GJQsqaUBKTNV-1" source="l2wsSnraBKrME0LePlul-83" target="l2wsSnraBKrME0LePlul-85" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="l2wsSnraBKrME0LePlul-83" value="Add and enabled or disabled Rules in StageEditorSPT.js" style="text;align=left;verticalAlign=middle;resizable=1;points=[];autosize=0;strokeColor=#d6b656;fillColor=#fff2cc;movable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;collapsible=0;container=0;overflow=visible;fixedWidth=0;whiteSpace=wrap;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
+          <mxGeometry x="120" y="1390" width="140" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="l2wsSnraBKrME0LePlul-87" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="WIyWlLk6GJQsqaUBKTNV-1" source="l2wsSnraBKrME0LePlul-82" target="l2wsSnraBKrME0LePlul-83" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="l2wsSnraBKrME0LePlul-94" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="WIyWlLk6GJQsqaUBKTNV-1" source="l2wsSnraBKrME0LePlul-90" target="l2wsSnraBKrME0LePlul-78" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="265" y="1220" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="265" y="1165" />
+              <mxPoint x="266" y="1165" />
+              <mxPoint x="266" y="1220" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="l2wsSnraBKrME0LePlul-97" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="WIyWlLk6GJQsqaUBKTNV-1" source="l2wsSnraBKrME0LePlul-40" target="l2wsSnraBKrME0LePlul-70" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="l2wsSnraBKrME0LePlul-98" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.001;entryY=0.184;entryDx=0;entryDy=0;entryPerimeter=0;" parent="WIyWlLk6GJQsqaUBKTNV-1" source="l2wsSnraBKrME0LePlul-39" target="l2wsSnraBKrME0LePlul-67" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="900" y="1230" />
+              <mxPoint x="900" y="1418" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="l2wsSnraBKrME0LePlul-99" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=-0.001;entryY=0.201;entryDx=0;entryDy=0;entryPerimeter=0;" parent="WIyWlLk6GJQsqaUBKTNV-1" source="l2wsSnraBKrME0LePlul-38" target="l2wsSnraBKrME0LePlul-64" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="l2wsSnraBKrME0LePlul-100" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0;entryDx=0;entryDy=0;" parent="WIyWlLk6GJQsqaUBKTNV-1" source="l2wsSnraBKrME0LePlul-41" target="l2wsSnraBKrME0LePlul-73" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1720" y="940" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="l2wsSnraBKrME0LePlul-103" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1.011;entryY=0.378;entryDx=0;entryDy=0;entryPerimeter=0;" parent="WIyWlLk6GJQsqaUBKTNV-1" source="l2wsSnraBKrME0LePlul-61" target="l2wsSnraBKrME0LePlul-37" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="l2wsSnraBKrME0LePlul-104" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="WIyWlLk6GJQsqaUBKTNV-1" source="l2wsSnraBKrME0LePlul-35" target="l2wsSnraBKrME0LePlul-42" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="l2wsSnraBKrME0LePlul-105" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="WIyWlLk6GJQsqaUBKTNV-1" source="l2wsSnraBKrME0LePlul-91" target="l2wsSnraBKrME0LePlul-78" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="340" y="1210" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="l2wsSnraBKrME0LePlul-106" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="WIyWlLk6GJQsqaUBKTNV-1" source="l2wsSnraBKrME0LePlul-92" target="l2wsSnraBKrME0LePlul-78" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="410" y="1180" />
+              <mxPoint x="85" y="1180" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="l2wsSnraBKrME0LePlul-82" value="Rules" style="text;align=left;verticalAlign=middle;resizable=1;points=[];autosize=0;strokeColor=#9673a6;fillColor=#e1d5e7;movable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;collapsible=0;container=0;overflow=visible;fixedWidth=0;whiteSpace=wrap;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
+          <mxGeometry x="170" y="1139" width="40" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="l2wsSnraBKrME0LePlul-110" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.436;entryY=0.039;entryDx=0;entryDy=0;entryPerimeter=0;" parent="WIyWlLk6GJQsqaUBKTNV-1" source="l2wsSnraBKrME0LePlul-81" target="l2wsSnraBKrME0LePlul-82" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="l2wsSnraBKrME0LePlul-35" value="StageEditor" style="text;align=left;verticalAlign=middle;resizable=1;points=[];autosize=0;strokeColor=#9673a6;fillColor=#e1d5e7;movable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;collapsible=0;container=0;overflow=visible;fixedWidth=0;whiteSpace=wrap;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
+          <mxGeometry x="480" y="1340" width="81" height="31" as="geometry" />
+        </mxCell>
+        <mxCell id="l2wsSnraBKrME0LePlul-36" value="Elements/Components" style="text;align=left;verticalAlign=middle;resizable=1;points=[];autosize=0;strokeColor=#9673a6;fillColor=#e1d5e7;movable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;collapsible=0;container=0;overflow=visible;fixedWidth=0;whiteSpace=wrap;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
+          <mxGeometry x="460" y="1305.5" width="130" height="31" as="geometry" />
+        </mxCell>
+        <mxCell id="l2wsSnraBKrME0LePlul-37" value="Tools" style="text;align=left;verticalAlign=middle;resizable=1;points=[];autosize=0;strokeColor=#9673a6;fillColor=#e1d5e7;movable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;collapsible=0;container=0;overflow=visible;fixedWidth=0;whiteSpace=wrap;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
+          <mxGeometry x="480" y="1274.5" width="81" height="31" as="geometry" />
+        </mxCell>
+        <mxCell id="l2wsSnraBKrME0LePlul-38" value="SetLayout" style="text;align=left;verticalAlign=middle;resizable=1;points=[];autosize=0;strokeColor=#9673a6;fillColor=#e1d5e7;movable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;collapsible=0;container=0;overflow=visible;fixedWidth=0;whiteSpace=wrap;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
+          <mxGeometry x="480" y="1246" width="81" height="28.5" as="geometry" />
+        </mxCell>
+        <mxCell id="l2wsSnraBKrME0LePlul-40" value="Actions" style="text;align=left;verticalAlign=middle;resizable=1;points=[];autosize=0;strokeColor=#9673a6;fillColor=#e1d5e7;movable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;collapsible=0;container=0;overflow=visible;fixedWidth=0;whiteSpace=wrap;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
+          <mxGeometry x="480" y="1182" width="81" height="32" as="geometry" />
+        </mxCell>
+        <mxCell id="l2wsSnraBKrME0LePlul-41" value="PropertyInspector" style="text;align=left;verticalAlign=middle;resizable=1;points=[];autosize=0;strokeColor=#9673a6;fillColor=#e1d5e7;movable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;collapsible=0;container=0;overflow=visible;fixedWidth=0;whiteSpace=wrap;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
+          <mxGeometry x="470" y="1150" width="110" height="32" as="geometry" />
+        </mxCell>
+        <mxCell id="l2wsSnraBKrME0LePlul-39" value="GetLayout" style="text;align=left;verticalAlign=middle;resizable=1;points=[];autosize=0;strokeColor=#9673a6;fillColor=#e1d5e7;movable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;collapsible=0;container=0;overflow=visible;fixedWidth=0;whiteSpace=wrap;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
+          <mxGeometry x="480" y="1214" width="81" height="32" as="geometry" />
+        </mxCell>
+        <mxCell id="l2wsSnraBKrME0LePlul-113" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.477;entryY=-0.016;entryDx=0;entryDy=0;entryPerimeter=0;" parent="WIyWlLk6GJQsqaUBKTNV-1" source="l2wsSnraBKrME0LePlul-107" target="l2wsSnraBKrME0LePlul-41" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
