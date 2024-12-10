@@ -21,7 +21,7 @@ class Login extends Form {
 		super() ;
 		/*inherit prop*/ this.formBorderStyle   = "none";//Hide title bar
 		/*inherit prop*/ this.formStartPosition = "CenterScreen";
-		/*inherit prop*/ this.borderRadius      = "50px";
+		/*inherit prop*/ this.borderStyle       = "50px";
         /*inherit meth*/ this.setLayouts(this.#_formH,this.#_formV);
 	}
 	

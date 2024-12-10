@@ -64,7 +64,7 @@ class Elements /*Alias of Components*/ extends Form {
         component.editorModeEnabled = true;
         component.mouseEnabled = false;
         component.mouseChildren = false;
-       this.#_owner.stageEditor.add(component);
+       this.#_owner.simpleLayout.add(component);
     }
 
     /*private function*/ #Clean(e/*:Event*/)/*:void*/{

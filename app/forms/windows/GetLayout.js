@@ -47,6 +47,7 @@ class GetLayout extends Form {
         /*inherit prop*/ this.draggableBox = true;
         /*inherit prop*/ this.headerHeight = 22;
         this.#_toolHand_btn.label          = 'Get';
+        this.#_text_txa.textField.preventPaste = false;
 	}
 
     /**-----------------------------------------------------------------------------------------------------------------------------------
@@ -103,7 +104,7 @@ class GetLayout extends Form {
     *
     */
     /*private function*/ #OnHandClick(e/*:Event*/)/*:void*/{
-       this.generateAuto(this.#_owner.stageEditor.stageCanvas);
+       this.generateAuto(this.#_owner.simpleLayout.virtualStage);
     }
     
     /*
@@ -149,194 +150,12 @@ class GetLayout extends Form {
     }
     
 
-    /*private function*/ #Generate(childrens/*:Array<DisplayObject>*/=null,objectContainer/*:Object*/=null,stageW/*:Number*/=-1,stageH/*:Number*/=-1)/*:String*/{
-        //Si el array llega vacío recorremos todos los objetos DisplayObject del objeto objectContainer pasado por parámetro
-        if(childrens==null){
-
-            childrens                  = [];
-            const nc /*:uint*/ = objectContainer.numChildren - 1;
-
-            for(let i/*:int*/ = nc; i>=0; i--) {
-                
-                //trace('getQualifiedClassName: '+getQualifiedClassName(childrens[n])+' getQualifiedSuperclassName: '+ getQualifiedSuperclassName(childrens[n]) +' typeof: '+typeof(childrens[n]));
-
-                
-                let obj      /*:Object*/ = objectContainer.getChildAt(i);
-                let instance /*:String*/ = obj.name.substr(0,8); //Cuando un componente no tiene nombre se asigna como nombre "instance_1"
-                let __id     /*:String*/ = instance.substr(0,4);
-            
-                // if(instance =="instance" || __id =="__id"){
-                //     if(obj=="[object NumericStepper]" ||
-                //        obj=="[object Image]" ||
-                //        obj=="[object Sprite]" ||
-                //        obj=="[object TextInput]" ||
-                //        obj=="[object TextField]"||
-                //        obj=="[object TextArea"||
-                //        obj=="[object TextAreaHtml"||
-                //        obj=="[object Label]"||
-                //        obj=="[object Button]"||
-                //        obj=="[object RadioButton]"||
-                //        obj=="[object CheckBox]"||
-                //        obj=="[object SimpleButton]"||
-                //        obj=="[object MovieClip]"||
-                //        obj=="[object List]"||
-                //        obj=="[object Slider]"||
-                //        obj=="[object DataGrid]"||
-                //        obj=="[object ColorPicker]"||
-                //        obj=="[object DatePicker]"||
-                //        obj=="[object TimePicker]"||
-                //        obj=="[object ProgressBar]"||
-                //      getQualifiedSuperclassName(obj)=="flash.display::MovieClip"
-                //     ){
-                //     instance=''; //dejamos pasar el componente con nombre instanciaxx
-                //     __id='';
-                //     }
-                    
-                // }
-                    
-                 if( obj instanceof DisplayObject && obj.name !="" && instance !="instance" && __id !="__id") {
-                     childrens.push(obj);
-                 }
-                
-                
-            }
-        }
-        
-        
-        /*
-        Invertimos el array para que al ser añadidos desde javascript se 
-        añadan en orden de apilamiento, el ultimo es el primero.
-        */
-        childrens.reverse();
-
-      
-        const release /*:Array*/ = []; 
-        const buffer       /*:Array*/ = [];
-
-        /*
-        It doesn't return the correct size in certain situations (I don't know why but it seems to happen when the stage has specific lower dimensions)
-        Added as parameters stageW and stageH to assign the stage size manually and fixed to avoid the issue when it arises
-        */
-        if(objectContainer=="[object MainTimeline]"){
-            buffer.push('["stage_stg","",0,0,'+(stageW == -1 ? stage.stageWidth:stageW)+','+(stageH == -1 ? stage.stageHeight:stageH)+',-1]');		
+    /*private function*/ #Generate(childrens/*:Array<DisplayObject>*/=null,objectContainer/*:Object*/=null)/*:String*/{
+        if(this.#_text_txa.text==''){
+            this.#_text_txa.text = G.FU.getLayout(objectContainer,childrens);
         }else{
-            buffer.push('["stage_stg","",0,0,'+(stageW == -1 ? objectContainer.width:stageW)+','+(stageH == -1 ? objectContainer.height:stageH)+',-1]');		
+            this.#_text_txa.text = this.#_text_txa.text +'],['+ G_FU.getLayout(objectContainer,childrens);
         }
-           
-        const ol /*:uint*/ =  childrens.length;
-
-        for(let n/*:int*/=0; n<ol;n++){
-
-            let child     /*:DisplayObject*/ = childrens[n];
-            let name      /*:String*/        = child.name.startsWith('_') ? child.name.substring(1) : child.name; //If it starts with _ it is removed, then added again
-            let className /*:String*/        = child.className;
-            //let instance2 /*:String*/        = name.substr(0,8);
-            //let __id2     /*:String*/        = instance2.substr(0,4);
-            let ext       /*:String*/        = '';
-            let value     /*:**/;
-           
-
-                  if(className=="NumericStepper"){value = child.value;                 ext = '_nms';
-            }else if(className=="Image"         ){value = "null";                      ext = '_img'; 
-            }else if(className=="Sprite"        ){value = '""';                        ext = '_spt';
-            }else if(className=="TextInput"     ){value = this.#IsHtmlText(child.text); ext = '_txi';  
-            }else if(className=="TextField"     ){value = this.#BackTick(child.text);   ext = '_txf';
-            }else if(className=="TextArea"      ){value = this.#BackTick(child.text);   ext = '_txa';
-            }else if(className=="TextAreaHtml"  ){value = this.#BackTick(child.t.text); ext = '_txh';
-            }else if(className=="HtmlEditor"    ){value = "null";                      ext = '_hed';
-            }else if(className=="Label"         ){value = '"'+child.text+'"';          ext = '_lbl';
-            }else if(className=="Button"        ){value = '"'+child.label+'"';         ext = '_btn';
-            }else if(className=="RadioButton"   ){value = '"'+child.label+'"';         ext = '_rdb';
-            }else if(className=="CheckBox"      ){value = '"'+child.label+'"';         ext = '_chk';
-            }else if(className=="SimpleButton"  ){value = '""';                        ext = '_sbt';            
-            }else if(className=="MovieClip"     ){value = '""';                        ext = '_mvc';      
-            }else if(className=="List"          ){value = '""';                        ext = '_lst'; 
-            }else if(className=="Slider"        ){value = '""';                        ext = '_sld';    
-            }else if(className=="DataGrid"      ){value = "null";                      ext = '_dtg'; 
-            }else if(className=="ColorPicker"   ){value = "null";                      ext = '_clp'; 
-            }else if(className=="DatePicker"    ){value = "null";                      ext = '_dtp'; 
-            }else if(className=="TimePicker"    ){value = "null";                      ext = '_tmp'; 
-            }else if(className=="ProgressBar"   ){value = '""';                        ext = '_pgb';       
-            }else if(className=="ComboBox"      ){value = "null";                      ext = '_cmb';
-            }else{                                value = '""';                        ext = '_mvc';}   
-            
-          
-            /*
-            We add the underscore _ again and also
-            We check if the instance name already contains the component extension, if it does not, we concatenate it
-            */
-            name = '_'+ (ext==name.slice(name.lastIndexOf("_")) ? name : name+ext);
-            
-          
-
-            //Output props
-            let _x  /*:Number*/ = Math.floor(child.x);      // x
-            let _y  /*:Number*/ = Math.floor(child.y);      // y
-            let _w  /*:Number*/ = Math.floor(child.width);  // width
-            let _h  /*:Number*/ = Math.floor(child.height); // height
-            let _i  /*:Number*/ = child.tabIndex;           // tabIndex
-            let _e  /*:int*/    = 1;                        // enabled #ffffff
-            let _s  /*:int*/    = 0;                        // selected
-            let _v  /*:int*/    = int(child.visible);       // visible
-            let _r  /*:Number*/ = child.rotation;           // rotation
-            let _c  /*:uint*/   = 0;                        // color
-            let _t  /*:String*/ = JSON.stringify('');       // string of properties and values ​​for the target TextFormat object
-
-            let tfo /*:Object*/ = null;                     // object with properties and values ​​that will be converted to a string inside _t
-            
-            if(className !== "TextField"){_e = int(childrens[n].enabled);}
-            if(className == "CheckBox"){_s = int(childrens[n].selected);}
-            
-            if((className == "SimpleButton" || className == "MovieClip" || className instanceof MovieClip || 
-                className == "Sprite"       || className instanceof Sprite) && child.backgroundColor !==''){
-                _c  = child.backgroundColor;			
-            }else{
-                //El acceso al formato de TextField es diferente
-                if(child instanceof TextField){   
-                    tfo   = {};    
-                    tfo.f = child.defaultTextFormat.font;
-                    tfo.s = child.defaultTextFormat.size;
-                    tfo.c = child.defaultTextFormat.color;
-                    if(child.defaultTextFormat.bold){tfo.b = child.defaultTextFormat.bold;}
-                }else{
-                    //Para el resto de objetos recuperamos el textFormat con getStyle, si el resultado es null aplicamos null
-                    //ColorPicker no dispone de getStyle
-                    if(child.getStyle){
-                        const tf /*:TextFormat*/ = child.getStyle("textFormat");
-                        //ComboBox devuelve undefined
-                        if(tf !== undefined ){ //en as3 se compara con null, js undefined
-                        
-                        
-                            tfo                      = {}; 
-                            tfo.f                    = tf.font;
-                            tfo.s                    = tf.size;
-                            tfo.c                    = tf.color;
-                            if(tf.bold){tfo.b = tf.bold;}
-                            
-                        }else if(className == "Label" && child.transform.colorTransform.color !==0){
-                            tfo = {}; 
-                            tfo.c =child.transform.colorTransform.color;
-                        }
-                    }
-                }
-            }				
-           
-            if(tfo!==null && (tfo.f !=='Arial' || tfo.s !== 11 || tfo.c !== undefined || tfo.b !== undefined)){_t = JSON.stringify(tfo);}
-            buffer.push('["'+name+'",'+value+','+_x+','+_y+','+_w+','+_h+','+_i+','+_t+','+_c+','+_e+','+_s+','+_v+','+_r+']');
-            release.push('this.'+name+'=null;');
-        }
-
-        if(this.#_nullList){
-            this.#_text_txa.text = buffer.join(",") +" "+release.join(" ");
-        }else{
-            if(this.#_text_txa.text==''){
-                this.#_text_txa.text = buffer.join(",");
-            }else{
-                this.#_text_txa.text = this.#_text_txa.text +'],['+ buffer.join(",");
-            }
-            
-        }
-        return '';
     }
 }
 /*

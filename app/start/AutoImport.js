@@ -172,17 +172,18 @@ class AutoImport {
             <script src ='dependencies/third-parties/security/md5.js'               ></script>
             <script src ='dependencies/third-parties/security/utf8_encode.js'       ></script>
             <link   rel ='stylesheet' href='dependencies/third-parties/monaco-editor/min/vs/editor/editor.main.css'>
-            <script src ='dependencies/third-parties/monaco-editor/min/vs/loader.js'></script>
-            <script src ='`+appPath+`/core/events/EditorEvent.js'                   ></script>
-            <script src ='`+appPath+`/start/ProxySeal.js'                           ></script>
-            <script src ='`+appPath+`/start/Index.js'                               ></script>
-            <script src ='`+appPath+`/start/AppStart.js'                            ></script>
-            <script src ='`+appPath+`/core/net/ServerRPC.js'                        ></script>
-            <script src ='`+appPath+`/core/TextFader.js'                            ></script>
-            <script src ='`+appPath+`/core/stage/StageEditorSPT.js'                 ></script>
-            <script src ='`+appPath+`/core/stage/Rule.js'                           ></script>
-            <script src ='`+appPath+`/core/stage/Grid.js'                           ></script>
-            <script src ='`+appPath+`/core/stage/StageEditor.js'                    ></script>
+            <script src ='dependencies/third-parties/monaco-editor/min/vs/loader.js'         ></script>
+            <script src ='`+appPath+`/core/events/EditorEvent.js'                            ></script>
+            <script src ='`+appPath+`/forms/windows/contextMenuClasses/ContextMenuManager.js'></script>
+            <script src ='`+appPath+`/start/ProxySeal.js'                                    ></script>
+            <script src ='`+appPath+`/start/Index.js'                                        ></script>
+            <script src ='`+appPath+`/start/AppStart.js'                                     ></script>
+            <script src ='`+appPath+`/core/net/ServerRPC.js'                                 ></script>
+            <script src ='`+appPath+`/core/TextFader.js'                                     ></script>
+            <script src ='`+appPath+`/core/stage/StageWrap.js'                               ></script>
+            <script src ='`+appPath+`/core/stage/Rule.js'                                    ></script>
+            <script src ='`+appPath+`/core/stage/Grid.js'                                    ></script>
+            <script src ='`+appPath+`/forms/windows/SimpleLayout.js'                         ></script>
             `);
 	}
 }

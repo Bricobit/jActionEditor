@@ -1,19 +1,15 @@
-/*
-PropertyInspector: Based on Free (MPL) {jAction Lib} && {jAction FrameWork}
+/* 
+HistoryManager: Based on Free (MPL) {jAction Lib} && {jAction FrameWork}
 Author: Javier Vicente Medina - giskard2010@hotmail.com
 May contain mixed comments in English and Spanish, sorry. 
 For production minify this class to remove comments with the jActionMinifyAndMergeManual.bat script.
 
 @license
-This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. If a copy of the MPL
+This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. If a copy of the MPL 
 was not distributed with this file, You can obtain one at https://mozilla.org/MPL/2.0/.
-Unless required by applicable law or agreed to in writing, software distributed under the License is
+Unless required by applicable law or agreed to in writing, software distributed under the License is 
 distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and limitations under the License.
-
-You can freely use jActionEditor within MPL limitations. The default images that are
-used by the jActionEditor they are copyrighted but can be used freely, as long as they are
-used together to the jActionEditor.
+See the License for the specific language governing permissions and limitations under the License. 
 
 Package:      jActionEditor/app/forms/windows/PropertyInspector
 Class:        public class GetLayout
@@ -46,18 +42,36 @@ class PropertyInspector extends Form {
 		/*inherit prop*/ this.anchor       = 'top | bottom';
 	}
 
-	/**-----------------------------------------------------------------------------------------------------------------------------------
-	*
-	* Second constructor, it is called automatically by FormLoader right after it has been loaded
-	*
-	*----------------------------------------------------------------------------------------------------------------------------------*/
+	/**
+	 * -----------------------------------------------------------------------------------------------------------------------------------
+	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *                   * * * * * * * * * * * * * * * * * * * * * * * * * * * *  
+	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * PUBLIC PROPERTIES * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *                   * * * * * * * * * * * * * * * * * * * * * * * * * * * *  
+	 * -----------------------------------------------------------------------------------------------------------------------------------
+	 */
+
+	//...
+
+	/**
+	 * -----------------------------------------------------------------------------------------------------------------------------------
+	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *                   * * * * * * * * * * * * * * * * * * * * * * * * * * * *  
+	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *   PUBLIC METHODS  * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *                   * * * * * * * * * * * * * * * * * * * * * * * * * * * *  
+	 * -----------------------------------------------------------------------------------------------------------------------------------
+	 */
+
+	/**
+	 * -----------------------------------------------------------------------------------------------------------------------------------
+	 * Second constructor, it is called automatically by FormLoader right after it has been loaded
+	 * -----------------------------------------------------------------------------------------------------------------------------------
+	 */
 
 	/*public function*/ PropertyInspector(params/*:Array*/=null)/*:void*/{
 		this.#_owner = params[0];
-		this.#_owner.stageEditor.onSelectedItems = this.onSelectedItems.bind(this);
-		//this.#_owner.stageEditor.onMoveSelectedItems = this.onMoveSelectedItems.bind(this);
+		this.#_owner.simpleLayout.onSelectedItems = this.onSelectedItems.bind(this);
+		//this.#_owner.simpleLayout.onMoveSelectedItems = this.onMoveSelectedItems.bind(this);
 		this.#_PREPARED  = G.FU.lst([[this                    , 'formClose'                    , this.#B(this.#Clean)                ],
-									 [this.#_owner.stageEditor, EditorEvent.EDITOR_ITEMS_CHANGE, this.#B(this.#OnChangeSelectedItems)]]);
+									 [this.#_owner.simpleLayout, EditorEvent.EDITOR_ITEMS_CHANGE, this.#B(this.#OnChangeSelectedItems)]]);
 
 		/*
 		The full list of properties supported at the moment
@@ -74,6 +88,7 @@ class PropertyInspector extends Form {
 		const p /*:Object*/ = {
 			className               :['className'               ,Label      ,null        ,null                   ],
 			name                    :['name'                    ,TextInput  ,Event.CHANGE,this.#B(this.#OnChange)],
+			aliasName               :['aliasName'               ,TextInput  ,Event.CHANGE,this.#B(this.#OnChange)],
 			x                       :['x'                       ,TextInput  ,Event.CHANGE,this.#B(this.#OnChange)],
 			y                       :['y'                       ,TextInput  ,Event.CHANGE,this.#B(this.#OnChange)],
 			width                   :['width'                   ,TextInput  ,Event.CHANGE,this.#B(this.#OnChange)],
@@ -132,7 +147,7 @@ class PropertyInspector extends Form {
 			fontColor               :['fontColor'                   ,ColorPicker,Event.CHANGE,this.#B(this.#OnChange)]};
 
 		//Assignment of the common and specific properties supported by the different components that can be selected in the stage
-		this.#_params.cmn = [p.className,p.name, p.x, p.y, p.width, p.height];
+		this.#_params.cmn = [p.className,p.name,p.aliasName, p.x, p.y, p.width, p.height];
 		this.#_params.txa = [...this.#_params.cmn, p.condenseWhite, p.editable, p.enabled, p.horizontalScrollPolicy, p.htmlText, p.maxChars, p.restrict, p.text, p.verticalScrollPolicy, p.visible, p.wordWrap,p.font, p.size, p.bold, p.fontColor];
 		this.#_params.txi = [...this.#_params.cmn, p.displayAsPassword, p.editable, p.enabled, p.maxChars, p.restrict, p.text, p.visible,p.font, p.size, p.bold, p.fontColor];
 		this.#_params.stg = [p.className,p.width, p.height, p.color];
@@ -152,45 +167,28 @@ class PropertyInspector extends Form {
 		this.#_params.mvc = this.#_params.cmn;
 
 		//When starting, we select the stage itself by default to display its dimensions and background color in the properties.
-		this.onSelectedItems(this.#_owner.stageEditor.stageCanvas);
+		this.onSelectedItems(this.#_owner.simpleLayout.virtualStage);
 	}
 
-	/**-----------------------------------------------------------------------------------------------------------------------------------
-	*
-	* * * * * * * * * * * * * * * * * * * * * * * * * * * * * *                   * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-	* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * PUBLIC PROPERTIES * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-	* * * * * * * * * * * * * * * * * * * * * * * * * * * * * *                   * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-	*
-	*----------------------------------------------------------------------------------------------------------------------------------*/
-
-	//...
-
-	/**-----------------------------------------------------------------------------------------------------------------------------------
-	*
-	* * * * * * * * * * * * * * * * * * * * * * * * * * * * * *                   * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-	* * * * * * * * * * * * * * * * * * * * * * * * * * * * * *  PUBLIC METHODS   * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-	* * * * * * * * * * * * * * * * * * * * * * * * * * * * * *                   * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-	*
-	*----------------------------------------------------------------------------------------------------------------------------------*/
-
-	/**-----------------------------------------------------------------------------------------------------------------------------------
-	* [en]
-	* When selecting an item from the stage this function is executed and receives the selected item, then determines what type of 
-	* components will be created in the property inspector in order to display the values ​​of the properties of the selected item.
-	*
-	* It also determines whether components should be removed from the inspector and created again depending on whether the previous item
-	* is of the same class or the same item so as not to have to unnecessarily recreate components in the property inspector
-	* when the selected items share the same inspector properties.
-	*
-	* [es]
-	* Al seleccionar un item del escenario esta funcion se ejecuta y recibe el item seleccionado, a continuación determina que tipo de 
-	* componentes se crearan en el inspector de propiedades para poder visualizar los valores de las propiedades del item seleccionado.
-	*
-	* También determina si deben eliminarse los componentes del inspector y crearlos de nuevo dependiendo de si el item anterior
-	* es de la misma clase o el mismo item para no tener que recrear innecesariamente componentes en el inspector de propiedades
-	* cuando los items que se seleccionan comparten las mismas propiedades del inspector.
-	*
-	*----------------------------------------------------------------------------------------------------------------------------------*/
+	/**
+	 * -----------------------------------------------------------------------------------------------------------------------------------
+	 * [en]
+	 * When selecting an item from the stage this function is executed and receives the selected item, then determines what type of 
+	 * components will be created in the property inspector in order to display the values ​​of the properties of the selected item.
+	 *
+	 * It also determines whether components should be removed from the inspector and created again depending on whether the previous item
+	 * is of the same class or the same item so as not to have to unnecessarily recreate components in the property inspector
+	 * when the selected items share the same inspector properties.
+	 *
+	 * [es]
+	 * Al seleccionar un item del escenario esta funcion se ejecuta y recibe el item seleccionado, a continuación determina que tipo de 
+	 * componentes se crearan en el inspector de propiedades para poder visualizar los valores de las propiedades del item seleccionado.
+	 *
+	 * También determina si deben eliminarse los componentes del inspector y crearlos de nuevo dependiendo de si el item anterior
+	 * es de la misma clase o el mismo item para no tener que recrear innecesariamente componentes en el inspector de propiedades
+	 * cuando los items que se seleccionan comparten las mismas propiedades del inspector.
+	 * -----------------------------------------------------------------------------------------------------------------------------------
+	 */
 
 	/*public function*/ onSelectedItems(item/*:UIComponent*/)/*:void*/{
 		let params /*:Array*/ = null;
@@ -224,19 +222,19 @@ class PropertyInspector extends Form {
 		this.#_selectedItem = item;
 	}
 
-	/**-----------------------------------------------------------------------------------------------------------------------------------
-	*
-	* * * * * * * * * * * * * * * * * * * * * * * * * * * * * *                   * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-	* * * * * * * * * * * * * * * * * * * * * * * * * * * * * *  PRIVATE METHODS  * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-	* * * * * * * * * * * * * * * * * * * * * * * * * * * * * *   Pascal Case     * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-	*
-	*----------------------------------------------------------------------------------------------------------------------------------*/
+	/**
+	 * -----------------------------------------------------------------------------------------------------------------------------------
+	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *                   * * * * * * * * * * * * * * * * * * * * * * * * * * * *  
+	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *   PUBLIC METHODS  * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *    Pascal Case    * * * * * * * * * * * * * * * * * * * * * * * * * * * *  
+	 * -----------------------------------------------------------------------------------------------------------------------------------
+	 */
 
-	/**-----------------------------------------------------------------------------------------------------------------------------------
-	*
-	*	#OnChangeSelectedItems
-	*
-	*----------------------------------------------------------------------------------------------------------------------------------*/
+	/**
+	 * -----------------------------------------------------------------------------------------------------------------------------------
+	 *	#OnChangeSelectedItems
+	 * -----------------------------------------------------------------------------------------------------------------------------------
+	 */
 
 	/*private function*/ #OnChangeSelectedItems(e/*:EditorEvent*/)/*:void*/{
 
@@ -246,7 +244,8 @@ class PropertyInspector extends Form {
 		inspComY.text = e.itemsChange[0].y;
 	}
 
-	/**-----------------------------------------------------------------------------------------------------------------------------------
+	/**
+	 * -----------------------------------------------------------------------------------------------------------------------------------
 	 * [en]
 	 * Adds the components indicated in the array to the property inspector to be able to view the property values
 	 * of the selected items
@@ -254,8 +253,8 @@ class PropertyInspector extends Form {
 	 * [es]
 	 * Añade al inspector de propiedades los componentes indicados en el array para poder visualizar los valores de las propiedades
 	 * de los items seleccionados
-	 *
-	 *----------------------------------------------------------------------------------------------------------------------------------*/
+	 * -----------------------------------------------------------------------------------------------------------------------------------
+	 */
 
 	/*public function*/ #AddInspectionComponents(params/*:Array*/=null)/*:void*/{
 		const pLen /*:uint*/  = params.length;
@@ -308,19 +307,19 @@ class PropertyInspector extends Form {
 	}
 
 
-	/**-----------------------------------------------------------------------------------------------------------------------------------
-	*
-	* [en]
-	* Reflects the values ​​of the selected item's properties in their respective fields in the Property Inspector
-	*
-	* [es]
-	* Refleja los valores de las propiedades del item seleccionado en sus respectivos campos del inspector de propiedades
-	*
-	*
-	* @param {DisplayObject} stageCom Reference to the instance of the component currently selected on the stage
-	* @param {Array} props Array with the supported properties to be inspected for the selected component
-	*
-	*----------------------------------------------------------------------------------------------------------------------------------*/
+	/**
+	 * -----------------------------------------------------------------------------------------------------------------------------------
+	 * [en]
+	 * Reflects the values ​​of the selected item's properties in their respective fields in the Property Inspector
+	 *
+	 * [es]
+	 * Refleja los valores de las propiedades del item seleccionado en sus respectivos campos del inspector de propiedades
+	 *
+	 *
+	 * @param {DisplayObject} stageCom Reference to the instance of the component currently selected on the stage
+	 * @param {Array} props Array with the supported properties to be inspected for the selected component
+	 * -----------------------------------------------------------------------------------------------------------------------------------
+	 */
 
 	/*private function*/ #ReflectProps(stageCom/*:DisplayObject*/,props/*:Array*/)/*:void*/{
 		const pl /*:int*/ = props.length;
@@ -369,7 +368,7 @@ class PropertyInspector extends Form {
 						}
 						
 					}else{
-						trace('stageCom.name: '+ stageCom.name+' prop: '+ prop+' value: '+ stageCom[prop]);
+						//trace('stageCom.name: '+ stageCom.name+' prop: '+ prop+' value: '+ stageCom[prop]);
 						inspCom.text = stageCom[prop] == null ? '':stageCom[prop];
 					}
 					
@@ -407,11 +406,11 @@ class PropertyInspector extends Form {
 		}
 	}
 
-	/**-----------------------------------------------------------------------------------------------------------------------------------
-	* 
-	*	Elimina todas las etiquetas y componentes del inspector de propiedades
-	* 
-	*----------------------------------------------------------------------------------------------------------------------------------*/
+	/**
+	 * -----------------------------------------------------------------------------------------------------------------------------------
+	 *	Elimina todas las etiquetas y componentes del inspector de propiedades
+	 * -----------------------------------------------------------------------------------------------------------------------------------
+	 */
 
 	/*private function*/ #RemoveAll()/*:void*/{
 		for (const key in this.#_INSP) {
@@ -427,11 +426,11 @@ class PropertyInspector extends Form {
 		this.#_INSP = {};
 	}
 
-	/**-----------------------------------------------------------------------------------------------------------------------------------
-	* 
-	*	#OnChange
-	* 
-	*----------------------------------------------------------------------------------------------------------------------------------*/
+	/**
+	 * -----------------------------------------------------------------------------------------------------------------------------------
+	 *	#OnChange
+	 * -----------------------------------------------------------------------------------------------------------------------------------
+	 */
 
 	/*private function*/ #OnChange(e/*:Event*/)/*:void*/{
 		
@@ -440,6 +439,7 @@ class PropertyInspector extends Form {
 		let property      = e.currentTarget.dynamicProperty;
 				  if(property == 'className'               ){stageCom[property]=itemTriggered.text;
 			}else if(property == 'name'                    ){stageCom[property]=itemTriggered.text;
+			}else if(property == 'aliasName'               ){stageCom[property]=itemTriggered.text;
 			}else if(property == 'x'                       ){stageCom[property]=int(itemTriggered.text);
 			}else if(property == 'y'                       ){stageCom[property]=int(itemTriggered.text);
 			}else if(property == 'width'                   ){stageCom[property]=int(itemTriggered.text);

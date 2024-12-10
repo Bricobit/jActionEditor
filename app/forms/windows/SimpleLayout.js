@@ -1,23 +1,26 @@
 /*
-Sample: Based on Free (MPL) {jAction Lib} && {jAction FrameWork}
+SimpleLayout: Based on Free (MPL) {jAction Lib} && {jAction FrameWork}
 Author: Javier Vicente Medina - giskard2010@hotmail.com
+May contain mixed comments in English and Spanish, sorry. 
+For production minify this class to remove comments with the jActionMinifyAndMergeManual.bat script.
 
 @license
 This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. If a copy of the MPL 
 was not distributed with this file, You can obtain one at https://mozilla.org/MPL/2.0/.
 Unless required by applicable law or agreed to in writing, software distributed under the License is 
 distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and limitations under the License.
+See the License for the specific language governing permissions and limitations under the License. 
 
-You can freely use jActionLib and jActionFramework within MPL limitations. The default images that are 
-used by the library and the framework they are copyrighted but can be used freely, as long as they are 
-used together to the library and the framework. The images and example codes that are not part of the 
-library or the framework are copyrighted and their use is not allowed outside the learning objective, 
-visual sample and library development testing of the collaborators.
+Package:      jActionEditor/app/forms/windows/SimpleLayout.js
+Class:        public class SimpleLayout
+Inheritance:  SimpleLayout > Form > BaseForm > Sprite > DisplayObjectContainer > InteractiveObject > DisplayObject > EventDispatcher >  _Object
+Version:
+0.0.2 - Last update 2024-11-06 -> 
+0.0.1 - Last update xxxx-xx-xx -> First version
 */
-class StageEditor extends Form {
+class SimpleLayout extends Form {
 
-    /*private var*/ #_stageEditor /*:StageEditor*/ = null;
+    /*private var*/ #_stageWrap /*:SimpleLayout*/ = null;
 
 	/*public function*/ constructor(){
         super();     
@@ -29,14 +32,24 @@ class StageEditor extends Form {
         /*inherit prop*/ this.draggableBox      = true;
 		/*inherit prop*/ this.minimizeBox       = true;
         /*inherit prop*/ this.headerHeight      = 22;
-        this.#_stageEditor  = new StageEditorSPT(1024,768);
+        this.#_stageWrap  = new StageWrap(1024,768);
         this.addTypeEvent(EditorEvent.EDITOR_ITEMS_CHANGE);
 		this.addTypeEvent(EditorEvent.EDITOR_ITEMS_SELECT);
 	}
 
-	/*public function*/ StageEditor(params/*:Array*/=null)/*:void*/{
-        this.addControl(this.#_stageEditor);
+	/*public function*/ SimpleLayout(params/*:Array*/=null)/*:void*/{
+        this.addControl(this.#_stageWrap);
     }
+
+
+    /*public function*/ get stageWrap()/*:Function*/{
+        return this.#_stageWrap;
+    }
+
+    /*public function*/ set selectedItems(item/*:DisplayObject*/)/*:void*/{
+		this.#_stageWrap.selectedItems = item;
+	}
+	/*public function*/ get selectedItems()/*:DisplayObject*/{return this.#_stageWrap.selectedItems;}
 
      /**-----------------------------------------------------------------------------------------------------------------------------------
      * 
@@ -45,18 +58,18 @@ class StageEditor extends Form {
      *----------------------------------------------------------------------------------------------------------------------------------*/
 
     /*public function*/ set onSelectedItems(callback/*:Function*/)/*:Number*/{
-        this.#_stageEditor.onSelectedItems = callback;
+        this.#_stageWrap.onSelectedItems = callback;
     }
     /*public function*/ get onSelectedItems()/*:Function*/{
-        return this.#_stageEditor.onSelectedItems;
+        return this.#_stageWrap.onSelectedItems;
     }
 
     /*public function*/ set onMoveSelectedItems(callback/*:Function*/)/*:Number*/{
-        this.#_stageEditor.onMoveSelectedItems = callback;
+        this.#_stageWrap.onMoveSelectedItems = callback;
 
     }
     /*public function*/ get onMoveSelectedItems()/*:Function*/{
-        return this.#_stageEditor.onMoveSelectedItems;
+        return this.#_stageWrap.onMoveSelectedItems;
     }
     /**-----------------------------------------------------------------------------------------------------------------------------------
      * 
@@ -65,24 +78,32 @@ class StageEditor extends Form {
      *----------------------------------------------------------------------------------------------------------------------------------*/
 
     /*public function*/ get selectedItems()/*:Number*/{
-        return this.#_stageEditor.selectedItems;
+        return this.#_stageWrap.selectedItems;
     }
 
      /**-----------------------------------------------------------------------------------------------------------------------------------
      * 
-     * add
+     * add(value:DisplayObject):void
      * 
      *----------------------------------------------------------------------------------------------------------------------------------*/
 
-    /*public function*/ add(value)/*:Number*/{return this.#_stageEditor.add(value);}
+    /*public function*/ add(value/*:DisplayObject*/)/*:void*/{return this.#_stageWrap.add(value);}
+
+     /**-----------------------------------------------------------------------------------------------------------------------------------
+     * 
+     * remove(value:DisplayObject):void
+     * 
+     *----------------------------------------------------------------------------------------------------------------------------------*/
+
+    /*public function*/ remove(value/*:DisplayObject*/)/*:void*/{return this.#_stageWrap.remove(value);}
 
     /**-----------------------------------------------------------------------------------------------------------------------------------
      * 
-     * stageCanvas
+     * virtualStage
      * 
      *----------------------------------------------------------------------------------------------------------------------------------*/
 
-    /*public function*/ get stageCanvas()/*:Number*/{return this.#_stageEditor.stageCanvas;}
+    /*public function*/ get virtualStage()/*:Number*/{return this.#_stageWrap.virtualStage;}
 
     /**-----------------------------------------------------------------------------------------------------------------------------------
      * 
@@ -91,18 +112,16 @@ class StageEditor extends Form {
      *----------------------------------------------------------------------------------------------------------------------------------*/
 
     /*public function*/ set toolHand(value/*:Number*/)/*:void*/{
-        this.#_stageEditor.toolHand = value; 
+        this.#_stageWrap.toolHand = value; 
     }
-    /*public function*/ get toolHand()/*:Number*/{return this.#_stageEditor.toolHand;}
+    /*public function*/ get toolHand()/*:Number*/{return this.#_stageWrap.toolHand;}
 
      /**-----------------------------------------------------------------------------------------------------------------------------------
      * 
-     * rules
+     * rules : Boolean
      * 
      *----------------------------------------------------------------------------------------------------------------------------------*/
 
-    /*public function*/ set rules(value/*:Number*/)/*:void*/{
-        this.#_stageEditor.rules = value; 
-    }
-    /*public function*/ get rules()/*:Number*/{return this.#_stageEditor.rules;}
+    /*public function*/ set rules(value/*:Boolean*/)/*:void*/{this.#_stageWrap.rules = value;}
+    /*public function*/ get rules()/*:Boolean*/{return this.#_stageWrap.rules;}
 }

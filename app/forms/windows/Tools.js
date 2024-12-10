@@ -38,6 +38,6 @@ class Tools extends Form {
     }
 
     /*private function*/ #OnHandClick(e/*:Event*/)/*:void*/{
-       this.#_owner.stageEditor.toolHand = !this.#_owner.stageEditor.toolHand;
+       this.#_owner.simpleLayout.toolHand = !this.#_owner.simpleLayout.toolHand;
     }
 }

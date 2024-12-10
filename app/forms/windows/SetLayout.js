@@ -29,6 +29,7 @@ class SetLayout extends Form {
         /*inherit prop*/ this.draggableBox = true;
         /*inherit prop*/ this.headerHeight = 22;
         this.#_toolHand_btn.label          = 'Set';
+        this.#_text_txa.textField.preventPaste = false;
 	}
 
 	/*public function*/ SetLayout(params/*:Array*/=null)/*:void*/{
@@ -43,6 +44,6 @@ class SetLayout extends Form {
     }
 
     /*private function*/ #OnHandClick(e/*:Event*/)/*:void*/{
-       FormUtils.formCreate(this.#_owner.stageEditor.stageCanvas,JSON.parse(this.#_text_txa.text));
+       FormUtils.formCreate(this.#_owner.simpleLayout.virtualStage,JSON.parse(this.#_text_txa.text));
     }
 }

@@ -1,4 +1,4 @@
-/*
+/* 
 MainMenu: Based on Free (MPL) {jAction Lib} && {jAction FrameWork}
 Author: Javier Vicente Medina - giskard2010@hotmail.com
 May contain mixed comments in English and Spanish, sorry. 
@@ -9,13 +9,7 @@ This Source Code Form is subject to the terms of the Mozilla Public License, v. 
 was not distributed with this file, You can obtain one at https://mozilla.org/MPL/2.0/.
 Unless required by applicable law or agreed to in writing, software distributed under the License is 
 distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and limitations under the License.
-
-You can freely use jActionLib and jActionFramework within MPL limitations. The default images that are 
-used by the library and the framework they are copyrighted but can be used freely, as long as they are 
-used together to the library and the framework. The images and example codes that are not part of the 
-library or the framework are copyrighted and their use is not allowed outside the learning objective, 
-visual sample and library development testing of the collaborators.
+See the License for the specific language governing permissions and limitations under the License. 
   
 Package:      jActionEditor/app/forms/menu/MainMenu
 Class:        public class MainMenu
@@ -31,17 +25,19 @@ things work, others don't. There are still many things to implement and determin
 
 class MainMenu extends Form {
 	
-	/*private var*/ #_BINDINGS     /*:Array*/         = [];
-	/*private var*/ #_MMU          /*:MenuBar*/       = new MenuBar("MASTER","MainMenu");
-	/*private var*/ #_FIL          /*:MenuBar*/       = new MenuBar("SLAVE" ,"File");
-	/*private var*/ #_VIE          /*:MenuBar*/       = new MenuBar("SLAVE" ,"View");
-	/*private var*/ #_WIN          /*:MenuBar*/       = new MenuBar("SLAVE" ,"Windows");
-	/*private var*/ #_leftBox_frm  /*:Form*/          = new Form('BoxSide1');
-	/*private var*/ #_CTX_MENU     /*:String*/        = 'ContextMenu';
-	/*private var*/ #_windowRefs   /*:Object<Forms>*/ = {};
-	/*private var*/ #_windowIndex  /*:int*/           = 0;
-	/*private var*/ #_defWorkSpace /*:Array<Object>*/ = [
-		{path:"app/forms/windows/StageEditor.js"       , target:this.controls              , f:'StageEditor',x:-1  , y:10 },
+	/*private var*/ #_BINDINGS     /*:Array*/              = [];
+	/*private var*/ #_MMU          /*:MenuBar*/            = new MenuBar("MASTER","MainMenu");
+	/*private var*/ #_FIL_OPT      /*:MenuBar*/            = new MenuBar("SLAVE" ,"FileOpt");
+	/*private var*/ #_FIL          /*:MenuBar*/            = new MenuBar("SLAVE" ,"File");
+	/*private var*/ #_VIE          /*:MenuBar*/            = new MenuBar("SLAVE" ,"View");
+	/*private var*/ #_WIN          /*:MenuBar*/            = new MenuBar("SLAVE" ,"Windows");
+	/*private var*/ #_leftBox_frm  /*:Form*/               = new Form('BoxSide1');
+	///*private var*/ #_CTX_MENU     /*:String*/             = 'ContextMenu';
+	/*private var*/ #_windowRefs   /*:Object<Forms>*/      = {};
+	/*private var*/ #_windowIndex  /*:int*/                = 0;
+	/*private var*/ #_ctxMM        /*:ContextMenuManager*/ = new ContextMenuManager([this]);
+	/*private var*/ #_defWorkSpace /*:Array<Object>*/      = [
+		{path:"app/forms/windows/SimpleLayout.js"       , target:this.controls              , f:'SimpleLayout',x:-1  , y:10 },
 		{path:"app/forms/windows/Elements.js"          , target:this.#_leftBox_frm.controls, f:'Elements'   ,x:0   , y:0  },
 		{path:"app/forms/windows/Tools.js"             , target:this.#_leftBox_frm.controls, f:'Tools'      ,x:175 , y:0  },
 		{path:"app/forms/windows/SetLayout.js"         , target:this.controls              , f:'SetLayout'  ,x:300 , y:10 },
@@ -67,6 +63,11 @@ class MainMenu extends Form {
 	*-----------------------------------------------------------------------------------------------------------------------------------*/
 
 	/*public function*/ MainMenu(params/*:Array*/=null)/*:void*/{
+
+		this.#_FIL_OPT.setConfig("V","L",true,false,"L",false,10,3,0,false);
+		this.#_FIL_OPT.setButton("Simple Layout", "slt", this.#B(this.#OnEvt), '', null, {path:''});
+		this.#_FIL_OPT.setButton("Form Layout"  , "flt", this.#B(this.#OnEvt), '', null, {path:''});
+		
 	
 		this.#_WIN.setConfig("V","L",true,false,"L",false,10,3,0,false);
 		this.#_WIN.setButton("Editor"    , "edi", this.#B(this.#OnEvt) , '', null, this.#_defWorkSpace[0]);
@@ -78,9 +79,9 @@ class MainMenu extends Form {
 		this.#_WIN.setButton("Properties", "pro", this.#B(this.#OnEvt) , '', null, this.#_defWorkSpace[6]);
 		
 		this.#_FIL.setConfig("V","L",true,false,"L",false,10,3,0,false);
-		this.#_FIL.setButton("New"    , "new", this.#B(this.#OnEvt), '', null, {path:''});
-		this.#_FIL.setButton("Open"   , "ope", this.#B(this.#OnEvt), '', null, {path:''});
-		this.#_FIL.setButton("Save"   , "sav", this.#B(this.#OnEvt), '', null, {path:''});
+		this.#_FIL.setButton("New"    , "new", null                , '', this.#_FIL_OPT, {path:''});
+		this.#_FIL.setButton("Open"   , "ope", this.#B(this.#OnEvt), '', null          , {path:''});
+		this.#_FIL.setButton("Save"   , "sav", this.#B(this.#OnEvt), '', null          , {path:''});
 
 		this.#_VIE.setConfig("V","L",true,false,"L",false,10,3,0,false);
 		this.#_VIE.setButton("Rules"    , "rul", this.#B(this.#OnEvt) , '', null, {path:''});
@@ -107,7 +108,7 @@ class MainMenu extends Form {
 	*
 	*-----------------------------------------------------------------------------------------------------------------------------------*/
 
-	/*public function*/ get stageEditor()/*:void*/ {return this.#_windowRefs.StageEditor;}
+	/*public function*/ get simpleLayout()/*:void*/ {return this.#_windowRefs.SimpleLayout;}
 	/*public function*/ get tools()/*:void*/ {return this.#_windowRefs.Tools;}
 
 	/**-----------------------------------------------------------------------------------------------------------------------------------
@@ -144,8 +145,8 @@ class MainMenu extends Form {
 		this.#_leftBox_frm.closeBox = false;
 		this.#_leftBox_frm.anchorsMargins = {bottom:-30};
 		this.#_leftBox_frm.anchor = 'top | bottom';
-		stage.addEventListener('contextmenu', this.#OnContextMenu.bind(this));//This event is not intercepted by the EventDispatcher class
-		stage.addEventListener(MouseEvent.MOUSE_DOWN, this.#OnStageMouseDown.bind(this));
+		//stage.addEventListener('contextmenu', this.#OnContextMenu.bind(this));//This event is not intercepted by the EventDispatcher class
+		//stage.addEventListener(MouseEvent.MOUSE_DOWN, this.#OnStageMouseDown.bind(this));
 	}
 
 	/**-----------------------------------------------------------------------------------------------------------------------------------
@@ -154,9 +155,9 @@ class MainMenu extends Form {
 	*
 	*-----------------------------------------------------------------------------------------------------------------------------------*/
 
-	/*private function*/ #OnContextMenu(e/*:Event*/)/*:void*/{
-		e.preventDefault();
-	}
+	// /*private function*/ #OnContextMenu(e/*:Event*/)/*:void*/{
+	// 	e.preventDefault();
+	// }
 
 	/**-----------------------------------------------------------------------------------------------------------------------------------
 	 *
@@ -164,20 +165,20 @@ class MainMenu extends Form {
 	 *
 	 *-----------------------------------------------------------------------------------------------------------------------------------*/
 
-	/*private function*/ #OnStageMouseDown(e/*:Event*/)/*:void*/{
-		if(e.nativeEvent.button==2){
-			if(!this.#_windowRefs[this.#_CTX_MENU]){	
-				G.FLoader.load(this.controls,'app/forms/windows/ContextMenu.js',this.#OnLoadCtxMenu.bind(this),
-				this.#OnCloseCtxMenu.bind(this),[this]);
-			}else{
-				this.#_windowRefs[this.#_CTX_MENU].moveToMousePointer();
-			}
-		}else{
-			if(this.#_windowRefs[this.#_CTX_MENU]){
-				this.#_windowRefs[this.#_CTX_MENU].checkClickOut();
-			}
-		}
-	}	
+	// /*private function*/ #OnStageMouseDown(e/*:Event*/)/*:void*/{
+	// 	if(e.nativeEvent.button==2){
+	// 		if(!this.#_windowRefs[this.#_CTX_MENU]){	
+	// 			G.FLoader.load(this.controls,'app/forms/windows/ContextMenu.js',this.#OnLoadCtxMenu.bind(this),
+	// 			this.#OnCloseCtxMenu.bind(this),[this]);
+	// 		}else{
+	// 			this.#_windowRefs[this.#_CTX_MENU].moveToMousePointer();
+	// 		}
+	// 	}else{
+	// 		if(this.#_windowRefs[this.#_CTX_MENU]){
+	// 			this.#_windowRefs[this.#_CTX_MENU].checkClickOut();
+	// 		}
+	// 	}
+	// }	
 
 	/**-----------------------------------------------------------------------------------------------------------------------------------
 	*
@@ -185,9 +186,9 @@ class MainMenu extends Form {
 	*
 	*-----------------------------------------------------------------------------------------------------------------------------------*/
 
-	/*private function*/ #OnLoadCtxMenu()/*:void*/ {
-		this.#_windowRefs[this.#_CTX_MENU] = G.FLoader.content;
-	}
+	// /*private function*/ #OnLoadCtxMenu()/*:void*/ {
+	// 	this.#_windowRefs[this.#_CTX_MENU] = G.FLoader.content;
+	// }
 	
 	/**-----------------------------------------------------------------------------------------------------------------------------------
 	*
@@ -195,9 +196,9 @@ class MainMenu extends Form {
 	*
 	*-----------------------------------------------------------------------------------------------------------------------------------*/
 
-	/*private function*/ #OnCloseCtxMenu()/*:void*/ {
-		delete this.#_windowRefs[this.#_CTX_MENU];
-	}
+	// /*private function*/ #OnCloseCtxMenu()/*:void*/ {
+	// 	delete this.#_windowRefs[this.#_CTX_MENU];
+	// }
 
 	/**-----------------------------------------------------------------------------------------------------------------------------------
 	*
@@ -214,7 +215,7 @@ class MainMenu extends Form {
 			G.FLoader.load(data.target,data.path,null,null,params,data.x,data.y);
 		}else{
 			if(e.currentTarget.name=='rul'){
-				this.stageEditor.rules = !this.stageEditor.rules;
+				this.simpleLayout.rules = !this.simpleLayout.rules;
 			}
 		}
 	}

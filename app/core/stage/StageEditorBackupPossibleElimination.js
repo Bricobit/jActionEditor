@@ -11,12 +11,12 @@ Unless required by applicable law or agreed to in writing, software distributed 
 distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and limitations under the License. 
 
-Package:      samples/libs/samples/StageEditor 
-Class:	      public static class StageEditor
+Package:      samples/libs/samples/SimpleLayout 
+Class:	      public static class SimpleLayout
 Version:
 0.0.1 - Last update 2024-05-08 -> First version
 */
-class StageEditor extends Sprite{
+class SimpleLayout extends Sprite{
 
     /*private var*/ #_startDragPoint       /*:Point*/    = null;
     /*private var*/ #_dragging             /*:Boolean*/  = false;

@@ -18,7 +18,7 @@ visual sample and library development testing of the collaborators.
 class StageEditorTest extends Form {
 
    
-    /*private var*/  #_stageEditor      /*:Rules*/     = new StageEditor(1100,768);
+    /*private var*/  #_simpleLayout      /*:Rules*/     = new SimpleLayout(1100,768);
 
 	/*public function*/ constructor(){
         super();     
@@ -36,6 +36,6 @@ class StageEditorTest extends Form {
 	}
 
 	/*public function*/ StageEditorTest(params/*:Array*/=null)/*:void*/{
-        this.addControl(this.#_stageEditor);
+        this.addControl(this.#_simpleLayout);
     }
 }
